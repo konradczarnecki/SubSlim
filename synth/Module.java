@@ -6,4 +6,5 @@ package synth;
 public interface Module {
 
     public void sendBuffer(double[] buffer);
+    public void setOutput(int moduleCode);
 }

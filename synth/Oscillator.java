@@ -1,5 +1,10 @@
 package synth;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+
 /**
  * Created by konra on 06.02.2017.
  */
@@ -8,7 +13,7 @@ public class Oscillator implements Module {
     WaveShape wave;
     Synth synth;
     boolean hold;
-
+    int outputModuleCode;
 
     public Oscillator(WaveShape wave, Synth synth){
 
@@ -19,6 +24,18 @@ public class Oscillator implements Module {
     }
 
     public void start(int frequency){
+
+//        AudioFormat format = new AudioFormat(Synth.sampleRate, Synth.bitDepth, 1, true, true);
+//
+//        SourceDataLine line = null;
+//        try {
+//            line = AudioSystem.getSourceDataLine(format);
+//            line.open(format, 2*Synth.bufferSize);
+//        } catch (LineUnavailableException e) {
+//            e.printStackTrace();
+//        }
+//
+//        line.start();
 
         wave.setFrequency(frequency);
 
@@ -36,15 +53,26 @@ public class Oscillator implements Module {
                         buffer[i] = wave.getSample(sampleNo + i);
                     }
 
-                    synth.passBuffer(buffer);
+                    synth.passBuffer(buffer, outputModuleCode);
+                    sampleNo += Synth.bufferSize;
                 }
 
             }
         });
+
+        oscillatorLoop.start();
+    }
+
+    public void stop(){
+        hold = false;
     }
 
     public void sendBuffer(double[] buffer){
 
+    }
+
+    public void setOutput(int moduleCode){
+        outputModuleCode = moduleCode;
     }
 
 
