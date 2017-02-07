@@ -13,21 +13,48 @@ public class Synth {
 
     Module[] modules;
 
-    public Synth() throws LineUnavailableException{
+    Oscillator osc0, osc2;
+    Amp amp1;
+    SynthMixer mixer;
 
-       modules = new Module[12];
+    public Synth(){
 
-       modules[0] = new Oscillator(WaveShape.SINE, this);
-       modules[1] = new Oscillator(WaveShape.SAWTOOTH, this);
-       modules[2] = new Amp();
+        modules = new Module[12];
 
-       modules[1].setOutput(2);
-        ((Oscillator) modules[1]).start(440);
-
+        setWiring();
     }
 
     public void passBuffer (double[] buffer, int moduleCode){
 
         modules[moduleCode].sendBuffer(buffer);
+    }
+
+    private void setWiring(){
+
+
+
+        osc0 = new Oscillator(WaveShape.SINE, this);
+        amp1 = new Amp();
+        osc2 = new Oscillator(WaveShape.SINE, this);
+        mixer = new SynthMixer(this);
+
+
+
+        modules[0] = osc0;
+        modules[1] = amp1;
+        modules[2] = osc2;
+        modules[3] = mixer;
+
+        osc0.setOutput(3);
+        osc2.setOutput(3);
+        mixer.setOutput(1);
+    }
+
+    public void play(){
+
+
+        osc0.start(400);
+        osc2.start(1000);
+
     }
 }

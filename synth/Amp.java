@@ -10,14 +10,19 @@ import java.nio.ByteBuffer;
 public class Amp implements Module {
 
     SourceDataLine line;
+    Envelope env;
 
-    public Amp() throws LineUnavailableException {
+    public Amp()  {
 
         AudioFormat format = new AudioFormat(Synth.sampleRate, Synth.bitDepth, 1, true, true);
 
+        try {
+            line = AudioSystem.getSourceDataLine(format);
+            line.open(format);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
 
-        line = AudioSystem.getSourceDataLine(format);
-        line.open(format, 2*Synth.bufferSize);
         line.start();
     }
 
@@ -38,7 +43,7 @@ public class Amp implements Module {
         byte[] outputBuffer = new byte[2*Synth.bufferSize];
         short shortValue;
 
-        for(int i = 1; i < Synth.bufferSize; i++){
+        for(int i = 0; i < Synth.bufferSize; i++){
 
             ByteBuffer sample = ByteBuffer.allocate(2);
             shortValue = (short) (buffer[i] * Short.MAX_VALUE);
@@ -46,8 +51,10 @@ public class Amp implements Module {
 
             byte[] sampleBytes = sample.array();
 
-            outputBuffer[2*i-1] = sampleBytes[0];
-            outputBuffer[2*i] = sampleBytes[1];
+           // line.write(sampleBytes,0,2);
+
+            outputBuffer[2*i] = sampleBytes[0];
+            outputBuffer[2*i+1] = sampleBytes[1];
         }
 
         line.write(outputBuffer, 0, 2*Synth.bufferSize);

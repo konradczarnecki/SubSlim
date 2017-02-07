@@ -25,17 +25,6 @@ public class Oscillator implements Module {
 
     public void start(int frequency){
 
-//        AudioFormat format = new AudioFormat(Synth.sampleRate, Synth.bitDepth, 1, true, true);
-//
-//        SourceDataLine line = null;
-//        try {
-//            line = AudioSystem.getSourceDataLine(format);
-//            line.open(format, 2*Synth.bufferSize);
-//        } catch (LineUnavailableException e) {
-//            e.printStackTrace();
-//        }
-//
-//        line.start();
 
         wave.setFrequency(frequency);
 
@@ -53,7 +42,7 @@ public class Oscillator implements Module {
                         buffer[i] = wave.getSample(sampleNo + i);
                     }
 
-                    synth.passBuffer(buffer, outputModuleCode);
+                    synth.passBuffer(buffer,outputModuleCode);
                     sampleNo += Synth.bufferSize;
                 }
 
@@ -73,6 +62,10 @@ public class Oscillator implements Module {
 
     public void setOutput(int moduleCode){
         outputModuleCode = moduleCode;
+    }
+
+    public void setWave(WaveShape wave){
+        this.wave = wave;
     }
 
 
