@@ -1,4 +1,6 @@
-package synth;
+package mixer_test;
+
+import synth.Synth;
 
 /**
  * Created by konra on 06.02.2017.
@@ -11,7 +13,7 @@ public enum WaveShape {
 
         @Override
         public double getSample(int sampleNumber){
-            return Math.sin(2* Math.PI * sampleNumber * ((double) frequency / Synth.sampleRate));
+            return Math.sin(2* Math.PI * sampleNumber * ((double) frequency / synth.Synth.sampleRate));
         }
 
         @Override
@@ -27,7 +29,7 @@ public enum WaveShape {
 
         @Override
         public double getSample(int sampleNumber){
-            return - (2/Math.PI) * Math.atan( 1 / (Math.tan( sampleNumber*Math.PI / (Synth.sampleRate / frequency ))));
+            return - (2/Math.PI) * Math.atan( 1 / (Math.tan( sampleNumber*Math.PI / (synth.Synth.sampleRate / frequency ))));
         }
 
         @Override

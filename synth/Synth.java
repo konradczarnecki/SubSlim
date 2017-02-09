@@ -1,5 +1,9 @@
 package synth;
 
+import synth.waves.SawtoothWave;
+import synth.waves.SineWave;
+import synth.waves.SquareWave;
+
 import javax.sound.sampled.LineUnavailableException;
 
 /**
@@ -13,7 +17,7 @@ public class Synth {
 
     Module[] modules;
 
-    Oscillator osc0, osc2;
+    Oscillator osc0, osc2, osc3;
     Amp amp1;
     SynthMixer mixer;
 
@@ -31,12 +35,13 @@ public class Synth {
 
     private void setWiring(){
 
+        mixer = new SynthMixer(this, 3);
 
 
-        osc0 = new Oscillator(WaveShape.SINE, this);
+        osc0 = new Oscillator(new SawtoothWave(), this, mixer);
         amp1 = new Amp();
-        osc2 = new Oscillator(WaveShape.SINE, this);
-        mixer = new SynthMixer(this);
+        osc2 = new Oscillator(new SawtoothWave(), this, mixer);
+        osc3 = new Oscillator(new SawtoothWave(), this, mixer);
 
 
 
@@ -47,14 +52,17 @@ public class Synth {
 
         osc0.setOutput(3);
         osc2.setOutput(3);
+        osc3.setOutput(3);
         mixer.setOutput(1);
     }
 
+
     public void play(){
 
+        osc2.start(440);
+        osc0.start(587.33);
+        osc3.start(800);
 
-        osc0.start(400);
-        osc2.start(1000);
 
     }
 }

@@ -1,30 +1,20 @@
-package synth;
+package mixer_test;
 
-import synth.waves.*;
+public class Oscillator  {
 
-/**
- * Created by konra on 06.02.2017.
- */
-public class Oscillator implements Module {
-
-    Wave wave;
-    Synth synth;
+    WaveShape wave;
     boolean hold;
-    int outputModuleCode;
     SynthMixer mixer;
 
-
-
-    public Oscillator(Wave wave, Synth synth, SynthMixer mixer){
+    public Oscillator(WaveShape wave, SynthMixer mixer){
 
         this.wave = wave;
-        this.synth = synth;
         this.mixer = mixer;
         hold = true;
 
     }
 
-    public void start(double frequency){
+    public void start(int frequency){
 
 
         wave.setFrequency(frequency);
@@ -43,8 +33,7 @@ public class Oscillator implements Module {
                         buffer[i] = wave.getSample(sampleNo + i);
                     }
 
-                    synth.passBuffer(buffer,outputModuleCode);
-                   // mixer.sendBuffer(buffer);
+                    mixer.sendBuffer(buffer);
                     sampleNo += Synth.bufferSize;
                 }
 
@@ -57,18 +46,5 @@ public class Oscillator implements Module {
     public void stop(){
         hold = false;
     }
-
-    public void sendBuffer(double[] buffer){
-
-    }
-
-    public void setOutput(int moduleCode){
-        outputModuleCode = moduleCode;
-    }
-
-    public void setWave(Wave wave){
-        this.wave = wave;
-    }
-
 
 }

@@ -2,46 +2,51 @@ package synth;
 
 import synth.Module;
 
+import java.util.ArrayList;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 public class SynthMixer implements Module {
 
     Synth synth;
-    double[] buffer1, buffer2;
     int outModuleCode;
+    ArrayList<double[]> buffers;
+    int numberOfChannels;
+    CyclicBarrier barrier;
+    Object lock;
 
-    public SynthMixer(Synth synth){
+    public SynthMixer(Synth synth, int numberOfChannels){
 
-        buffer1 = null;
-        buffer2 = null;
+        buffers = new ArrayList<>();
+        this.synth = synth;
+        this.numberOfChannels = numberOfChannels;
+        lock = new Object();
+        barrier = new CyclicBarrier(numberOfChannels, new Runnable(){
+            @Override
+            public void run() {
+                mixAndPass();
+                buffers.clear();
+            }
+        });
     }
 
     @Override
     public synchronized void sendBuffer(double[] buffer) {
 
 
-            if (buffer1 == null) {
+        buffers.add(buffer);
 
-                buffer1 = new double[Synth.bufferSize];
-
-                for (int i = 0; i < Synth.bufferSize; i++) {
-                    buffer1[i] = buffer[i];
-                }
-
-                try {
-                    wait();
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                buffer2 = buffer;
-
-                mixAndPass();
-
-                buffer1 = null;
-                buffer2 = null;
-
-                notifyAll();
+        if(buffers.size() == numberOfChannels){
+            mixAndPass();
+            buffers.clear();
+            notifyAll();
+        } else {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+        }
 
     }
 
@@ -56,7 +61,16 @@ public class SynthMixer implements Module {
 
         for(int i = 0; i < Synth.bufferSize; i++){
 
-            outBuffer[i] = (buffer1[i] + buffer2[i])/2;
+            double sum = 0;
+
+             for(double[] b: buffers) {
+
+                 sum += b[i];
+             }
+
+             sum /= buffers.size();
+
+             outBuffer[i] = sum;
         }
 
         synth.passBuffer(outBuffer, outModuleCode);
