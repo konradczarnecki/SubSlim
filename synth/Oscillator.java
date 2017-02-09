@@ -27,6 +27,8 @@ public class Oscillator implements Module {
 
         wave.setFrequency(frequency);
 
+        hold = true;
+
         Thread oscillatorLoop = new Thread(new Runnable(){
 
             public void run(){

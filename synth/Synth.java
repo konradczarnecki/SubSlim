@@ -35,7 +35,7 @@ public class Synth {
 
     private void setWiring(){
 
-        mixer = new SynthMixer(this, 2);
+        mixer = new SynthMixer(this, 1);
         osc0 = new Oscillator(new SawtoothWave(), this);
         amp1 = new Amp();
         osc2 = new Oscillator(new SawtoothWave(), this);
@@ -68,16 +68,16 @@ public class Synth {
 
         int l = notesOrder.indexOf(noteCode.substring(0,1));
         int k = Integer.parseInt(noteCode.substring(1,2)) - 4;
-        int n = 12 * k + l;
+        double n = 12 * k + l;
 
-        double frequency = f0 * Math.pow( (Math.pow(2,1/12)), n);
+        double frequency = f0 * Math.pow( (Math.pow(2d,1/12d)), n);
 
 
         osc0.stop();
-        osc2.stop();
+      //  osc2.stop();
 
         osc0.start(frequency);
-        osc2.start(frequency*2);
+       // osc2.start(frequency* Math.pow());
 
 
     }
