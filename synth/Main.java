@@ -17,6 +17,8 @@ public class Main extends Application {
 
         Synth synth = new Synth();
         synth.playNote("A2");
+        Thread.sleep(3000);
+        synth.stopNote();
     }
 
 

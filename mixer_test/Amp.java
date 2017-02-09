@@ -67,7 +67,7 @@ public class Amp implements Module {
         line.write(outputBuffer, 0, 2* Synth.bufferSize);
     }
 
-    public void setOutput(int moduleCode){
+    public void setOutput(Module module){
 
     }
 }

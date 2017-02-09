@@ -8,18 +8,14 @@ import synth.waves.*;
 public class Oscillator implements Module {
 
     Wave wave;
-    Synth synth;
     boolean hold;
-    int outputModuleCode;
+    Module out;
 
+    long sampleCoutner;
 
-
-
-    public Oscillator(Wave wave, Synth synth){
+    public Oscillator(Wave wave){
 
         this.wave = wave;
-        this.synth = synth;
-
 
     }
 
@@ -28,6 +24,8 @@ public class Oscillator implements Module {
         wave.setFrequency(frequency);
 
         hold = true;
+
+        sampleCoutner = 0;
 
         Thread oscillatorLoop = new Thread(new Runnable(){
 
@@ -41,9 +39,11 @@ public class Oscillator implements Module {
                     for(int i = 0; i < Synth.bufferSize; i++){
 
                         buffer[i] = wave.getSample(sampleNo + i);
+
+                        sampleCoutner++;
                     }
 
-                    synth.passBuffer(buffer,outputModuleCode);
+                    out.sendBuffer(buffer);
                     sampleNo += Synth.bufferSize;
                 }
 
@@ -57,12 +57,29 @@ public class Oscillator implements Module {
         hold = false;
     }
 
+    public void stopIn(int samplesBeforeStop){
+
+        while(sampleCoutner < sampleCoutner+samplesBeforeStop){
+
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(sampleCoutner > samplesBeforeStop+sampleCoutner) notify();
+        }
+
+        hold = false;
+
+    }
+
     public void sendBuffer(double[] buffer){
 
     }
 
-    public void setOutput(int moduleCode){
-        outputModuleCode = moduleCode;
+    public void setOutput(Module module){
+        out = module;
     }
 
     public void setWave(Wave wave){

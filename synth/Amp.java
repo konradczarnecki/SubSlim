@@ -11,6 +11,7 @@ public class Amp implements Module {
 
     SourceDataLine line;
     Envelope env;
+    boolean stopped;
 
     public Amp()  {
 
@@ -34,6 +35,38 @@ public class Amp implements Module {
 
     private void applyEnvelope(double[] buffer){
 
+        if(!stopped) {
+
+            for(int i = 0; i < Synth.bufferSize; i++) buffer[i] *= env.nextADSFactor();
+
+        } else {
+
+            for(int i = 0; i < Synth.bufferSize; i++){
+
+                try{ buffer[i] *= env.nextRFactor(); }
+
+                catch (ArrayIndexOutOfBoundsException e) {
+
+                    for(int j = i; j < Synth.bufferSize; j++){
+                        buffer[j] = 0;
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    public void startEnvelope() {
+
+        env = new Envelope(100, 2000, 0.2, 200);
+        stopped = false;
+    }
+
+    public int stopEnvelope(){
+        stopped = true;
+
+        return env.numberOfReleaseSamples();
     }
 
     private void amplifyAndWrite(double[] buffer){
@@ -60,7 +93,7 @@ public class Amp implements Module {
         line.write(outputBuffer, 0, 2*Synth.bufferSize);
     }
 
-    public void setOutput(int moduleCode){
+    public void setOutput(Module module){
 
     }
 }

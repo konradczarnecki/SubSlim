@@ -1,22 +1,18 @@
 package synth;
 
-import synth.Module;
 
 import java.util.ArrayList;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
+
 
 public class SynthMixer implements Module {
 
-    Synth synth;
-    int outModuleCode;
+    Module out;
     ArrayList<double[]> buffers;
     int numberOfChannels;
 
-    public SynthMixer(Synth synth, int numberOfChannels){
+    public SynthMixer(int numberOfChannels){
 
         buffers = new ArrayList<>();
-        this.synth = synth;
         this.numberOfChannels = numberOfChannels;
 
     }
@@ -37,15 +33,17 @@ public class SynthMixer implements Module {
         } else {
 
             try {
+
                 wait();
+
             } catch (InterruptedException e) { }
         }
 
     }
 
     @Override
-    public void setOutput(int moduleCode) {
-        outModuleCode = moduleCode;
+    public void setOutput(Module module) {
+        out = module;
     }
 
     private void mixAndPass(){
@@ -66,6 +64,6 @@ public class SynthMixer implements Module {
              outBuffer[i] = sum;
         }
 
-        synth.passBuffer(outBuffer, outModuleCode);
+        out.sendBuffer(outBuffer);
     }
 }

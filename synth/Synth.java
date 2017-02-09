@@ -15,47 +15,34 @@ public class Synth {
     public static final int bitDepth = 16;
     public static final int bufferSize = 512;
 
-    Module[] modules;
 
-    Oscillator osc0, osc2;
-    Amp amp1;
+    Oscillator osc1, osc2;
+    Amp amp;
     SynthMixer mixer;
 
     public Synth(){
 
-        modules = new Module[12];
-
         setWiring();
-    }
-
-    public void passBuffer (double[] buffer, int moduleCode){
-
-        modules[moduleCode].sendBuffer(buffer);
     }
 
     private void setWiring(){
 
-        mixer = new SynthMixer(this, 1);
-        osc0 = new Oscillator(new SawtoothWave(), this);
-        amp1 = new Amp();
-        osc2 = new Oscillator(new SawtoothWave(), this);
+        osc1 = new Oscillator(new SawtoothWave());
+        osc2 = new Oscillator(new SawtoothWave());
+        mixer = new SynthMixer(1);
+        amp = new Amp();
 
 
-        modules[0] = osc0;
-        modules[1] = amp1;
-        modules[2] = osc2;
-        modules[3] = mixer;
-
-        osc0.setOutput(3);
-        osc2.setOutput(3);
-        mixer.setOutput(1);
+        osc1.setOutput(mixer);
+        osc2.setOutput(mixer);
+        mixer.setOutput(amp);
     }
 
 
     public void testPlay(){
 
-        osc2.start(440);
-        osc0.start(587.33);
+        osc1.start(440);
+        osc2.start(587.33);
 
     }
 
@@ -73,12 +60,17 @@ public class Synth {
         double frequency = f0 * Math.pow( (Math.pow(2d,1/12d)), n);
 
 
-        osc0.stop();
+        osc1.stop();
       //  osc2.stop();
 
-        osc0.start(frequency);
+        amp.startEnvelope();
+        osc1.start(frequency);
        // osc2.start(frequency* Math.pow());
 
+    }
 
+    public void stopNote(){
+
+        osc1.stopIn(amp.stopEnvelope());
     }
 }
