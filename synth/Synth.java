@@ -1,10 +1,6 @@
 package synth;
 
-import synth.waves.SawtoothWave;
-import synth.waves.SineWave;
-import synth.waves.SquareWave;
-
-import javax.sound.sampled.LineUnavailableException;
+import synth.waves.*;
 
 /**
  * Created by konra on 06.02.2017.
@@ -19,6 +15,7 @@ public class Synth {
     Oscillator osc1, osc2;
     Amp amp;
     SynthMixer mixer;
+    Filter filter;
 
     public Synth(){
 
@@ -31,11 +28,13 @@ public class Synth {
         osc2 = new Oscillator(new SawtoothWave());
         mixer = new SynthMixer(1);
         amp = new Amp();
-
+        filter = new Filter();
 
         osc1.setOutput(mixer);
         osc2.setOutput(mixer);
         mixer.setOutput(amp);
+        //filter.setOutput(amp);
+
     }
 
 
@@ -61,11 +60,11 @@ public class Synth {
 
 
         osc1.stop();
-      //  osc2.stop();
+        osc2.stop();
 
         amp.startEnvelope();
         osc1.start(frequency);
-       // osc2.start(frequency* Math.pow());
+        osc2.start(frequency);
 
     }
 

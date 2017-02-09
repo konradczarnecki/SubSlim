@@ -29,8 +29,20 @@ public class Amp implements Module {
 
     public void sendBuffer(double[] buffer){
 
-        applyEnvelope(buffer);
+        //applyEnvelope(buffer);
         amplifyAndWrite(buffer);
+    }
+
+    public void startEnvelope() {
+
+        env = new Envelope(20, 1000, 0, 200);
+        stopped = false;
+    }
+
+    public int stopEnvelope(){
+
+        stopped = true;
+        return env.releaseTime();
     }
 
     private void applyEnvelope(double[] buffer){
@@ -57,20 +69,8 @@ public class Amp implements Module {
         }
     }
 
-    public void startEnvelope() {
-
-        env = new Envelope(100, 2000, 0.2, 200);
-        stopped = false;
-    }
-
-    public int stopEnvelope(){
-        stopped = true;
-
-        return env.numberOfReleaseSamples();
-    }
 
     private void amplifyAndWrite(double[] buffer){
-
 
 
         byte[] outputBuffer = new byte[2*Synth.bufferSize];

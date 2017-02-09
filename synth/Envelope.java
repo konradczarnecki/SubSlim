@@ -5,23 +5,20 @@ package synth;
  */
 public class Envelope {
 
-    private double attack; // ms
-    private double decay; // ms
-    private double sustain; // 0-1
-    private double release; // ms
-
     private double[] preSustainFactors;
     private double[] releaseFactors;
+    private double sustain;
+    private double release;
 
-    int adsCounter = 0;
-    int rCounter = 0;
+    int adsCounter;
+    int rCounter;
 
     public Envelope(double attack, double decay, double sustain, double release){
 
-        this.attack = attack;
-        this.decay = decay;
         this.sustain = sustain;
         this.release = release;
+        adsCounter = 0;
+        rCounter = 0;
 
         int attackInSamples = (int)  ((attack/1000)* (double) Synth.sampleRate);
         int decayInSamples = (int) ((decay/1000)* (double) Synth.sampleRate);
@@ -48,10 +45,6 @@ public class Envelope {
         }
     }
 
-    public Envelope(){
-
-    }
-
     public double nextADSFactor(){
 
         if(adsCounter < preSustainFactors.length) return preSustainFactors[adsCounter++];
@@ -64,8 +57,8 @@ public class Envelope {
 
     }
 
-    public int numberOfReleaseSamples(){
-        return releaseFactors.length;
+    public int releaseTime(){
+        return (int) release;
     }
 
 }

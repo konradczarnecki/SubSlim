@@ -16,9 +16,9 @@ public class Main extends Application {
         primaryStage.show();
 
         Synth synth = new Synth();
-        synth.playNote("A2");
-        Thread.sleep(3000);
-        synth.stopNote();
+        synth.playNote("A3");
+       // Thread.sleep(2000);
+       // synth.stopNote();
     }
 
 

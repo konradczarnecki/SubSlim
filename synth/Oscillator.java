@@ -2,6 +2,9 @@ package synth;
 
 import synth.waves.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by konra on 06.02.2017.
  */
@@ -11,12 +14,9 @@ public class Oscillator implements Module {
     boolean hold;
     Module out;
 
-    long sampleCoutner;
-
     public Oscillator(Wave wave){
 
         this.wave = wave;
-
     }
 
     public void start(double frequency){
@@ -24,8 +24,6 @@ public class Oscillator implements Module {
         wave.setFrequency(frequency);
 
         hold = true;
-
-        sampleCoutner = 0;
 
         Thread oscillatorLoop = new Thread(new Runnable(){
 
@@ -40,7 +38,6 @@ public class Oscillator implements Module {
 
                         buffer[i] = wave.getSample(sampleNo + i);
 
-                        sampleCoutner++;
                     }
 
                     out.sendBuffer(buffer);
@@ -57,20 +54,15 @@ public class Oscillator implements Module {
         hold = false;
     }
 
-    public void stopIn(int samplesBeforeStop){
+    public synchronized void stopIn(int releaseTime){
 
-        while(sampleCoutner < sampleCoutner+samplesBeforeStop){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask(){
 
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            public void run(){
+                hold = false;
             }
-
-            if(sampleCoutner > samplesBeforeStop+sampleCoutner) notify();
-        }
-
-        hold = false;
+        }, releaseTime);
 
     }
 
