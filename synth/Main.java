@@ -16,7 +16,7 @@ public class Main extends Application {
         primaryStage.show();
 
         Synth synth = new Synth();
-        synth.play();
+        synth.testPlay();
     }
 
 

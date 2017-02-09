@@ -11,21 +11,19 @@ public class Oscillator implements Module {
     Synth synth;
     boolean hold;
     int outputModuleCode;
-    SynthMixer mixer;
 
 
 
-    public Oscillator(Wave wave, Synth synth, SynthMixer mixer){
+
+    public Oscillator(Wave wave, Synth synth){
 
         this.wave = wave;
         this.synth = synth;
-        this.mixer = mixer;
-        hold = true;
+
 
     }
 
     public void start(double frequency){
-
 
         wave.setFrequency(frequency);
 
@@ -44,7 +42,6 @@ public class Oscillator implements Module {
                     }
 
                     synth.passBuffer(buffer,outputModuleCode);
-                   // mixer.sendBuffer(buffer);
                     sampleNo += Synth.bufferSize;
                 }
 

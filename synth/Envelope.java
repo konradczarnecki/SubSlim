@@ -22,8 +22,8 @@ public class Envelope {
 
     }
 
-    public double[] getFactorArray(){
-        return new double[5];
+    public double getFactor(){
+        return 5;
     }
 
 }

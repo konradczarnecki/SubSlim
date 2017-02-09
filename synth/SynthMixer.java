@@ -12,40 +12,33 @@ public class SynthMixer implements Module {
     int outModuleCode;
     ArrayList<double[]> buffers;
     int numberOfChannels;
-    CyclicBarrier barrier;
-    Object lock;
 
     public SynthMixer(Synth synth, int numberOfChannels){
 
         buffers = new ArrayList<>();
         this.synth = synth;
         this.numberOfChannels = numberOfChannels;
-        lock = new Object();
-        barrier = new CyclicBarrier(numberOfChannels, new Runnable(){
-            @Override
-            public void run() {
-                mixAndPass();
-                buffers.clear();
-            }
-        });
+
     }
 
     @Override
     public synchronized void sendBuffer(double[] buffer) {
 
-
         buffers.add(buffer);
 
         if(buffers.size() == numberOfChannels){
+
             mixAndPass();
+
             buffers.clear();
+
             notifyAll();
+
         } else {
+
             try {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException e) { }
         }
 
     }

@@ -11,7 +11,7 @@ public class SawtoothWave extends Wave {
 
         double fourierExpansion = 1 / 2;
 
-        for(int k = 1; k <= 30; k++) {
+        for(int k = 1; k <= 50; k++) {
 
             fourierExpansion -= (1 / Math.PI) * Math.pow(-1, k) *
                     (Math.sin(2 * Math.PI * k * (frequency/ Synth.sampleRate) * sampleNo)) / k;

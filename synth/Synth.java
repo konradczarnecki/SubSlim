@@ -17,7 +17,7 @@ public class Synth {
 
     Module[] modules;
 
-    Oscillator osc0, osc2, osc3;
+    Oscillator osc0, osc2;
     Amp amp1;
     SynthMixer mixer;
 
@@ -35,14 +35,10 @@ public class Synth {
 
     private void setWiring(){
 
-        mixer = new SynthMixer(this, 3);
-
-
-        osc0 = new Oscillator(new SawtoothWave(), this, mixer);
+        mixer = new SynthMixer(this, 2);
+        osc0 = new Oscillator(new SawtoothWave(), this);
         amp1 = new Amp();
-        osc2 = new Oscillator(new SawtoothWave(), this, mixer);
-        osc3 = new Oscillator(new SawtoothWave(), this, mixer);
-
+        osc2 = new Oscillator(new SawtoothWave(), this);
 
 
         modules[0] = osc0;
@@ -52,16 +48,36 @@ public class Synth {
 
         osc0.setOutput(3);
         osc2.setOutput(3);
-        osc3.setOutput(3);
         mixer.setOutput(1);
     }
 
 
-    public void play(){
+    public void testPlay(){
 
         osc2.start(440);
         osc0.start(587.33);
-        osc3.start(800);
+
+    }
+
+    public void playNote(String noteCode){
+
+        // C4 - 261.63 Hz, Uppercase - whole tone, Lowercase - half tone eg. A - A, A# - a, D# - d, Gb - f
+
+        String notesOrder = "CcDdEFfGgAaH";
+        double f0 = 261.63;
+
+        int l = notesOrder.indexOf(noteCode.substring(0,1));
+        int k = Integer.parseInt(noteCode.substring(1,2)) - 4;
+        int n = 12 * k + l;
+
+        double frequency = f0 * Math.pow( (Math.pow(2,1/12)), n);
+
+
+        osc0.stop();
+        osc2.stop();
+
+        osc0.start(frequency);
+        osc2.start(frequency*2);
 
 
     }
