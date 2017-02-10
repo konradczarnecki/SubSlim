@@ -15,10 +15,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
 
-        Synth synth = new Synth();
-        synth.playNote("A3");
-       // Thread.sleep(2000);
-       // synth.stopNote();
+
+
     }
 
 

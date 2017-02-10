@@ -26,14 +26,14 @@ public class Synth {
 
         osc1 = new Oscillator(new SawtoothWave());
         osc2 = new Oscillator(new SawtoothWave());
-        mixer = new SynthMixer(1);
+        mixer = new SynthMixer(2);
         amp = new Amp();
         filter = new Filter();
 
         osc1.setOutput(mixer);
         osc2.setOutput(mixer);
-        mixer.setOutput(amp);
-        //filter.setOutput(amp);
+        mixer.setOutput(filter);
+        filter.setOutput(amp);
 
     }
 
@@ -47,10 +47,10 @@ public class Synth {
 
     public void playNote(String noteCode){
 
-        // C4 - 261.63 Hz, Uppercase - whole tone, Lowercase - half tone eg. A - A, A# - a, D# - d, Gb - f
 
-        String notesOrder = "CcDdEFfGgAaH";
-        double f0 = 261.63;
+
+        String notesOrder = "CcDdEFfGgAaH"; //Uppercase - whole tone, Lowercase - half tone eg. A - A, A# - a, D# - d, Gb - f
+        double f0 = 261.63; // C4 261.63 Hz - base frequency
 
         int l = notesOrder.indexOf(noteCode.substring(0,1));
         int k = Integer.parseInt(noteCode.substring(1,2)) - 4;
@@ -62,14 +62,19 @@ public class Synth {
         osc1.stop();
         osc2.stop();
 
+        double fifth = Math.pow( Math.pow(2d, 1/12d), 5d);
+
         amp.startEnvelope();
+        filter.startEnvelope();
         osc1.start(frequency);
-        osc2.start(frequency);
+        osc2.start(frequency * fifth);
 
     }
 
     public void stopNote(){
 
+        filter.stopEnvelope();
         osc1.stopIn(amp.stopEnvelope());
+
     }
 }

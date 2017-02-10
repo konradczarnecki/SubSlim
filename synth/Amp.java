@@ -29,13 +29,13 @@ public class Amp implements Module {
 
     public void sendBuffer(double[] buffer){
 
-        //applyEnvelope(buffer);
+        applyEnvelope(buffer);
         amplifyAndWrite(buffer);
     }
 
     public void startEnvelope() {
 
-        env = new Envelope(20, 1000, 0, 200);
+        env = new Envelope(20, 5000, 0, 1000);
         stopped = false;
     }
 
@@ -55,7 +55,7 @@ public class Amp implements Module {
 
             for(int i = 0; i < Synth.bufferSize; i++){
 
-                try{ buffer[i] *= env.nextRFactor(); }
+                try{ buffer[i] *= env.nextReleaseFactor(); }
 
                 catch (ArrayIndexOutOfBoundsException e) {
 

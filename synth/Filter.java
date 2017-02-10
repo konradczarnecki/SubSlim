@@ -8,49 +8,95 @@ public class Filter implements Module {
     Module out;
     double reminder;
     double resonance;
-    double a;
+    double cutoff;
     double envelopeAmount;
+    Envelope env;
+    boolean stopped;
+
+    double y1, y2,y3, y4, oldx, oldy1, oldy2, oldy3;
 
     public Filter() {
 
-        double cutoff = 2000;
-
-        double rc = 1 / (2 * Math.PI * cutoff);
-
-        a = (1 / (double) Synth.sampleRate) / ((1 / (double) Synth.sampleRate) + rc);
-
+        y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
+        cutoff = 1000;
+        resonance = 1;
+        envelopeAmount = 0.7;
         reminder = 0;
-        envelopeAmount = 0;
     }
 
     @Override
     public void sendBuffer(double[] buffer) {
 
-        double[] outBuffer;
-
-        outBuffer = processBuffer(buffer);
-
-        out.sendBuffer(outBuffer);
-
+        processBuffer(buffer);
     }
+
+    public void startEnvelope(){
+        env = new Envelope(50,1000,0.2,500);
+        stopped = false;
+    }
+
+    public int stopEnvelope(){
+
+        stopped = true;
+        return env.releaseTime();
+    }
+
 
     @Override
     public void setOutput(Module module) {
         out = module;
     }
 
-    private double[] processBuffer(double[] buffer){
+
+    private void processBuffer(double[] buffer){
 
         double[] outBuffer = new double[Synth.bufferSize];
 
-        outBuffer[0] = a * buffer[0] + (1d-a) * reminder;
 
-        for(int i = 1; i < Synth.bufferSize; i++){
-            outBuffer[i] = a * buffer[i] + (1d-a) * outBuffer[i-1];
+
+        y4 = reminder;
+        double x;
+
+        for(int i = 0; i < Synth.bufferSize; i++){
+
+            double cutoff = this.cutoff;
+
+            if(!stopped){
+                cutoff = (cutoff/3) + envelopeAmount * cutoff * env.nextADSFactor();
+            } else {
+
+                try {
+                    cutoff =(cutoff/2) + envelopeAmount * cutoff * env.nextReleaseFactor();
+                } catch (ArrayIndexOutOfBoundsException e){
+                    cutoff = 0;
+                }
+            }
+
+            double f = 2 * cutoff / Synth.sampleRate;
+            double k = 3.6*f - 1.6*f*f -1;
+            double p = (k+1) * 0.5;
+            double scale = Math.pow(Math.E, (1-p) * 1.386249);
+            double r = resonance * scale;
+
+            x = buffer[i] - r * y4;
+
+            y1 = x*p +oldx*p -k*y1;
+            y2 = y1*p + oldy1*p - k*y2;
+            y3 = y2*p + oldy2*p - k*y3;
+            y4 = y3*p + oldy3*p - k*y4;
+
+            y4 = y4 - (y4*y4*y4)/6;
+
+            outBuffer[i] = y4;
+
+            oldx = x;
+            oldy1 = y1;
+            oldy2 = y2;
+            oldy3 = y3;
         }
 
         reminder = outBuffer[Synth.bufferSize-1];
 
-        return outBuffer;
+        out.sendBuffer(outBuffer);
     }
 }

@@ -51,7 +51,7 @@ public class Envelope {
         else return sustain;
     }
 
-    public double nextRFactor() throws ArrayIndexOutOfBoundsException{
+    public double nextReleaseFactor() throws ArrayIndexOutOfBoundsException{
 
         return releaseFactors[rCounter++];
 
