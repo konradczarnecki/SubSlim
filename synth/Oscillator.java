@@ -13,15 +13,17 @@ public class Oscillator implements Module {
     Wave wave;
     boolean hold;
     Module out;
+    int octave;
 
     public Oscillator(Wave wave){
 
         this.wave = wave;
+        octave = 0;
     }
 
     public synchronized void start(double frequency){
 
-        wave.setFrequency(frequency);
+        wave.setFrequency(frequency*Math.pow(2d,octave));
 
         hold = true;
 
@@ -77,6 +79,10 @@ public class Oscillator implements Module {
     public void setWave(Wave wave){
 
         this.wave = wave;
+    }
+
+    public void setOctave(int octave){
+        this.octave = octave;
     }
 
 

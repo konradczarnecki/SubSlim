@@ -29,9 +29,8 @@ public class Amp implements Module {
         line.start();
 
         attack = 50;
-        decay = 300;
-        sustain = 0.2;
-        release = 300;
+        decay = 50;
+
     }
 
     public void sendBuffer(double[] buffer){
@@ -42,40 +41,17 @@ public class Amp implements Module {
 
     public void startEnvelope() {
 
-        env = new Envelope(attack,decay,sustain,release);
-        stopped = false;
+        env = new Envelope(attack,decay);
     }
 
-    public int stopEnvelope(){
-
-        stopped = true;
-        if(env != null)
-        return env.releaseTime();
-        else return -1;
-    }
 
     private void applyEnvelope(double[] buffer){
 
-        if(!stopped) {
-
-            for(int i = 0; i < Synth.bufferSize; i++) buffer[i] *= env.nextADSFactor();
-
-        } else {
 
             for(int i = 0; i < Synth.bufferSize; i++){
 
-                try{ buffer[i] *= env.nextReleaseFactor(); }
-
-                catch (ArrayIndexOutOfBoundsException e) {
-
-                    for(int j = i; j < Synth.bufferSize; j++){
-                        buffer[j] = 0;
-                    }
-                }
-
+                    buffer[i] *= env.nextFactor();
             }
-
-        }
     }
 
 
@@ -93,7 +69,7 @@ public class Amp implements Module {
 
             byte[] sampleBytes = sample.array();
 
-           // line.write(sampleBytes,0,2);
+
 
             outputBuffer[2*i] = sampleBytes[0];
             outputBuffer[2*i+1] = sampleBytes[1];
@@ -114,11 +90,4 @@ public class Amp implements Module {
         this.decay = decay;
     }
 
-    public void setSustain(double sustain){
-        this.sustain = sustain;
-    }
-
-    public void setRelease(double release){
-        this.release = release;
-    }
 }

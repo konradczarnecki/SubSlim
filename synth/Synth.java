@@ -21,6 +21,10 @@ public class Synth {
     Filter filter;
     Sequencer sequencer;
 
+    double chordTranspose;
+    int osc1Octave, osc2Octave;
+    double detune;
+
     public Synth(){
 
         osc1Wave = new SawtoothWave();
@@ -32,6 +36,8 @@ public class Synth {
         amp = new Amp();
         filter = new Filter();
         sequencer = new Sequencer(this);
+        chordTranspose = 0;
+        detune = 1;
 
         setWiring();
     }
@@ -68,10 +74,7 @@ public class Synth {
 
 
 
-        double fifth = Math.pow( Math.pow(2d, 1/12d), 5d);
-
-        amp.stopEnvelope();
-        filter.stopEnvelope();
+        double chord = Math.pow( Math.pow(2d, 1/12d), chordTranspose);
 
         osc1.stop();
         osc2.stop();
@@ -79,32 +82,18 @@ public class Synth {
         amp.startEnvelope();
         filter.startEnvelope();
 
-        osc1 = new Oscillator(new SawtoothWave());
-        osc2 = new Oscillator(new SawtoothWave());
+        osc1 = new Oscillator(Wave.getWave(osc1Wave));
+        osc2 = new Oscillator(Wave.getWave(osc2Wave));
+
+        osc1.setOctave(osc1Octave);
+        osc2.setOctave(osc2Octave);
 
         osc1.setOutput(mixer);
         osc2.setOutput(mixer);
 
-        osc1.start(frequency);
-        osc2.start(frequency * fifth);
+        osc1.start(frequency*chord);
+        osc2.start(frequency*detune);
 
     }
 
-    public void stopNote(){
-
-        filter.stopEnvelope();
-
-        int delay = amp.stopEnvelope();
-        if(delay != -1) {
-            osc1.stopIn(delay);
-            osc2.stopIn(delay);
-        } else {
-            osc1.stop();
-            osc2.stop();
-        }
-
-
-
-
-    }
 }

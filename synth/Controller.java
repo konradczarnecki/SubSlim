@@ -3,6 +3,7 @@ package synth;
 import com.sun.deploy.panel.RadioPropertyGroup;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import synth.waves.*;
@@ -97,7 +98,7 @@ public class Controller {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
 
-                synth.osc1.setWave((Wave) osc2Wave.getSelectedToggle().getUserData());
+                synth.osc1Wave = (Wave) osc1Wave.getSelectedToggle().getUserData();
             }
         });
 
@@ -105,7 +106,7 @@ public class Controller {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
 
-                synth.osc2.setWave((Wave) osc2Wave.getSelectedToggle().getUserData());
+                synth.osc2Wave = (Wave) osc2Wave.getSelectedToggle().getUserData();
             }
         });
 
@@ -139,31 +140,63 @@ public class Controller {
 
         filterDecay.valueProperty().addListener((observable, oldValue, newValue) -> {
             synth.filter.setDecay((double) newValue);
+            filterDecay.setMax((60000/(2*synth.sequencer.getBPM())) - filterAttack.valueProperty().doubleValue());
         });
 
-        filterSustain.valueProperty().addListener((observable, oldValue, newValue) -> {
-            synth.filter.setSustain((double) newValue);
-        });
-
-        filterRelease.valueProperty().addListener((observable, oldValue, newValue) -> {
-            synth.filter.setRelease((double) newValue);
-        });
 
         attack.valueProperty().addListener((observable, oldValue, newValue) -> {
             synth.amp.setAttack((double) newValue);
+            decay.setMax((60000/(2*synth.sequencer.getBPM())) - attack.valueProperty().doubleValue());
         });
 
         decay.valueProperty().addListener((observable, oldValue, newValue) -> {
             synth.amp.setDecay((double) newValue);
         });
 
-        sustain.valueProperty().addListener((observable, oldValue, newValue) -> {
-            synth.amp.setSustain((double) newValue);
+        bpm.textProperty().addListener((observable, oldValue, newValue) -> {
+            synth.sequencer.setBPM(Integer.parseInt(newValue));
+            attack.setMax(60000/(2*synth.sequencer.getBPM()));
+            decay.setMax((60000/(2*synth.sequencer.getBPM())) - attack.valueProperty().doubleValue());
+            filterAttack.setMax(60000/(2*synth.sequencer.getBPM()));
+            filterDecay.setMax((60000/(2*synth.sequencer.getBPM())) - filterAttack.valueProperty().doubleValue());
         });
 
-        release.valueProperty().addListener((observable, oldValue, newValue) -> {
-            synth.amp.setRelease((double) newValue);
+        attack.setMax(60000/(2*synth.sequencer.getBPM()));
+        decay.setMax((60000/(2*synth.sequencer.getBPM())) - attack.valueProperty().doubleValue());
+        filterAttack.setMax(60000/(2*synth.sequencer.getBPM()));
+        filterDecay.setMax((60000/(2*synth.sequencer.getBPM())) - filterAttack.valueProperty().doubleValue());
+        decay.setMin(30);
+        attack.setMin(30);
+
+        osc1Octave.setItems(FXCollections.observableArrayList("-2", "-1", "0", "1", "2"));
+        osc1Octave.getSelectionModel().select(2);
+
+        osc1Octave.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            synth.osc1Octave = newValue.intValue()-2;
         });
+
+        osc2Octave.setItems(FXCollections.observableArrayList("-2", "-1", "0", "1", "2"));
+        osc2Octave.getSelectionModel().select(2);
+
+        osc2Octave.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            synth.osc2Octave = newValue.intValue()-2;
+        });
+
+        osc1Chord.setItems(FXCollections.observableArrayList("0", "2", "5", "7"));
+        int[] values = {0 ,2 ,5 ,7};
+
+        osc1Chord.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            synth.chordTranspose = values[newValue.intValue()];
+        });
+
+        osc2Detune.setMax(1.05);
+        osc2Detune.setMin(0.95);
+        osc2Detune.setValue(1);
+        osc2Detune.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.detune = osc2Detune.getValue();
+        });
+
+
 
 
     }
@@ -171,66 +204,66 @@ public class Controller {
     private void initSequencerSteps(){
 
         step1.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(0,Integer.parseInt(newValue));
         });
         step2.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(1,Integer.parseInt(newValue));
         });
         step3.textProperty().addListener((observable, oldValue, newValue) -> {
             synth.sequencer.setStep(2,Integer.parseInt(newValue));
         });
         step4.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(3,Integer.parseInt(newValue));
         });
         step5.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(4,Integer.parseInt(newValue));
         });
         step6.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(5,Integer.parseInt(newValue));
         });
         step7.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(6,Integer.parseInt(newValue));
         });
         step8.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(7,Integer.parseInt(newValue));
         });
         step9.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(8,Integer.parseInt(newValue));
         });
         step10.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(9,Integer.parseInt(newValue));
         });
         step11.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(10,Integer.parseInt(newValue));
         });
         step12.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(11,Integer.parseInt(newValue));
         });
         step13.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(12,Integer.parseInt(newValue));
         });
         step14.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(13,Integer.parseInt(newValue));
         });
         step15.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(14,Integer.parseInt(newValue));
         });
         step16.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.matches("\\d+"))
+            if(newValue.matches("-?\\d+"))
                 synth.sequencer.setStep(15,Integer.parseInt(newValue));
         });
     }

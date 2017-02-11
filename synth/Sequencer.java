@@ -13,7 +13,6 @@ public class Sequencer {
     private int currentStep;
     private String baseNote;
     private int tempo;
-    private double gate;
     private Synth synth;
     String notesOrder;
     boolean isPlaying;
@@ -35,7 +34,7 @@ public class Sequencer {
 
     public void play(){
 
-        double interval = 60000/(4*tempo);
+        double interval = 60000/(2*tempo);
 
         isPlaying = true;
 
@@ -88,6 +87,14 @@ public class Sequencer {
 
     public boolean isPlaying(){
         return isPlaying;
+    }
+
+    public double getBPM(){
+        return tempo;
+    }
+
+    public void setBPM(int bpm){
+        tempo = bpm;
     }
 
 }

@@ -37,16 +37,7 @@ public class Filter implements Module {
     }
 
     public void startEnvelope(){
-        env = new Envelope(attack,decay,sustain,release);
-        stopped = false;
-    }
-
-    public int stopEnvelope(){
-
-        stopped = true;
-        if(env != null)
-        return env.releaseTime();
-        else return -1;
+        env = new Envelope(attack,decay);
     }
 
 
@@ -69,16 +60,9 @@ public class Filter implements Module {
 
             double cutoff = this.cutoff;
 
-            if(!stopped){
-                cutoff = cutoff * (1-envelopeAmount) + envelopeAmount * cutoff * env.nextADSFactor();
-            } else {
 
-                try {
-                    cutoff =cutoff * (1-envelopeAmount) + envelopeAmount * cutoff * env.nextReleaseFactor();
-                } catch (ArrayIndexOutOfBoundsException e){
-                    cutoff = 0;
-                }
-            }
+            cutoff = cutoff * (1 - envelopeAmount) + envelopeAmount * cutoff * env.nextFactor();
+
 
             double f = 2 * cutoff / Synth.sampleRate;
             double k = 3.6*f - 1.6*f*f -1;
@@ -116,13 +100,6 @@ public class Filter implements Module {
         this.decay = decay;
     }
 
-    public void setSustain(double sustain){
-        this.sustain = sustain;
-    }
-
-    public void setRelease(double release){
-        this.release = release;
-    }
 
     public void setCutoff(double cutoff){
         this.cutoff = cutoff;

@@ -5,60 +5,44 @@ package synth;
  */
 public class Envelope {
 
-    private double[] preSustainFactors;
-    private double[] releaseFactors;
-    private double sustain;
-    private double release;
+    private double[] factors;
 
     int adsCounter;
     int rCounter;
 
-    public Envelope(double attack, double decay, double sustain, double release){
+    public Envelope(double attack, double decay){
 
-        this.sustain = sustain;
-        this.release = release;
         adsCounter = 0;
         rCounter = 0;
 
         int attackInSamples = (int)  ((attack/1000)* (double) Synth.sampleRate);
         int decayInSamples = (int) ((decay/1000)* (double) Synth.sampleRate);
-        int releaseInSamples = (int) ((release/1000)* (double) Synth.sampleRate);
 
-        preSustainFactors = new double[attackInSamples + decayInSamples];
-        releaseFactors = new double[releaseInSamples];
+
+        factors = new double[attackInSamples + decayInSamples];
+
 
         double attackIncrement = 1d / attackInSamples;
-        double decayIncrement = (1d-sustain) / decayInSamples;
-        double releaseIncrement = sustain / releaseInSamples;
+        double decayIncrement = (1d) / decayInSamples;
+
 
 
         for(int i = 0; i < attackInSamples; i++){
-            preSustainFactors[i] = i * attackIncrement;
+            factors[i] = i * attackIncrement;
         }
 
         for(int i = attackInSamples; i < attackInSamples + decayInSamples; i++){
-            preSustainFactors[i] = 1 - (i - attackInSamples) * decayIncrement;
+            factors[i] = 1 - (i - attackInSamples) * decayIncrement;
         }
 
-        for(int i = 0; i < releaseInSamples; i++){
-            releaseFactors[i] = sustain - i * releaseIncrement;
-        }
     }
 
-    public double nextADSFactor(){
+    public double nextFactor(){
 
-        if(adsCounter < preSustainFactors.length) return preSustainFactors[adsCounter++];
-        else return sustain;
-    }
+        if(adsCounter < factors.length)
+            return factors[adsCounter++];
+        else return 0;
 
-    public double nextReleaseFactor() throws ArrayIndexOutOfBoundsException{
-
-        return releaseFactors[rCounter++];
-
-    }
-
-    public int releaseTime(){
-        return (int) release;
     }
 
 }

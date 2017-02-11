@@ -14,4 +14,10 @@ public abstract class Wave {
         this.frequency = frequency;
     }
 
+    public static Wave getWave(Wave type){
+        if(type instanceof SawtoothWave) return new SawtoothWave();
+        else if (type instanceof SineWave) return new SineWave();
+        else return new SquareWave();
+    }
+
 }
