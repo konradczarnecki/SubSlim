@@ -31,14 +31,16 @@ public class Filter implements Module {
     }
 
     public void startEnvelope(){
-        env = new Envelope(50,1000,0.2,500);
+        env = new Envelope(20,2000,0.2,2000);
         stopped = false;
     }
 
     public int stopEnvelope(){
 
         stopped = true;
+        if(env != null)
         return env.releaseTime();
+        else return -1;
     }
 
 

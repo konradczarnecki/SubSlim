@@ -19,7 +19,7 @@ public class Oscillator implements Module {
         this.wave = wave;
     }
 
-    public void start(double frequency){
+    public synchronized void start(double frequency){
 
         wave.setFrequency(frequency);
 
@@ -75,6 +75,7 @@ public class Oscillator implements Module {
     }
 
     public void setWave(Wave wave){
+
         this.wave = wave;
     }
 

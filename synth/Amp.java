@@ -19,7 +19,7 @@ public class Amp implements Module {
 
         try {
             line = AudioSystem.getSourceDataLine(format);
-            line.open(format);
+            line.open(format, Synth.bufferSize*4);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -35,14 +35,16 @@ public class Amp implements Module {
 
     public void startEnvelope() {
 
-        env = new Envelope(20, 5000, 0, 1000);
+        env = new Envelope(20, 2000, 0.2, 2000);
         stopped = false;
     }
 
     public int stopEnvelope(){
 
         stopped = true;
+        if(env != null)
         return env.releaseTime();
+        else return -1;
     }
 
     private void applyEnvelope(double[] buffer){
