@@ -35,7 +35,7 @@ public class Amp implements Module {
 
     public void startEnvelope() {
 
-        env = new Envelope(20, 2000, 0.2, 2000);
+        env = new Envelope(50, 2000, 0.1, 200);
         stopped = false;
     }
 

@@ -19,7 +19,7 @@ public class Filter implements Module {
 
         y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
         cutoff = 1000;
-        resonance = 1;
+        resonance = 0.6;
         envelopeAmount = 0.7;
         reminder = 0;
     }
@@ -31,7 +31,7 @@ public class Filter implements Module {
     }
 
     public void startEnvelope(){
-        env = new Envelope(20,2000,0.2,2000);
+        env = new Envelope(50,2000,0.2,200);
         stopped = false;
     }
 

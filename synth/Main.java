@@ -21,10 +21,6 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-
-
-
-
         synth = new Synth();
         controller = loader.getController();
         controller.setSynth(synth);

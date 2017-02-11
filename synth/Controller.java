@@ -37,7 +37,8 @@ public class Controller {
     @FXML Slider release;
     @FXML Slider sustain;
 
-    @FXML ChoiceBox baseNote;
+    @FXML ChoiceBox baseNoteLetter;
+    @FXML ChoiceBox baseNoteNumber;
     @FXML TextField bpm;
     @FXML TextField steps;
 
@@ -109,8 +110,79 @@ public class Controller {
         });
 
         playButton.setOnAction(event -> {
-            synth.stopNote();
-            synth.playNote("A3");
+
+            if(synth.sequencer.isPlaying()) synth.sequencer.stop();
+            else synth.sequencer.play();
+        });
+
+        initSequencerSteps();
+
+    }
+
+    private void initSequencerSteps(){
+
+        step1.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(0,Integer.parseInt(newValue));
+        });
+        step2.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(1,Integer.parseInt(newValue));
+        });
+        step3.textProperty().addListener((observable, oldValue, newValue) -> {
+            synth.sequencer.setStep(2,Integer.parseInt(newValue));
+        });
+        step4.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(3,Integer.parseInt(newValue));
+        });
+        step5.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(4,Integer.parseInt(newValue));
+        });
+        step6.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(5,Integer.parseInt(newValue));
+        });
+        step7.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(6,Integer.parseInt(newValue));
+        });
+        step8.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(7,Integer.parseInt(newValue));
+        });
+        step9.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(8,Integer.parseInt(newValue));
+        });
+        step10.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(9,Integer.parseInt(newValue));
+        });
+        step11.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(10,Integer.parseInt(newValue));
+        });
+        step12.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(11,Integer.parseInt(newValue));
+        });
+        step13.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(12,Integer.parseInt(newValue));
+        });
+        step14.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(13,Integer.parseInt(newValue));
+        });
+        step15.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(14,Integer.parseInt(newValue));
+        });
+        step16.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.matches("\\d+"))
+                synth.sequencer.setStep(15,Integer.parseInt(newValue));
         });
     }
 
