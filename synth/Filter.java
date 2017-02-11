@@ -13,6 +13,8 @@ public class Filter implements Module {
     Envelope env;
     boolean stopped;
 
+    double attack, decay, sustain, release;
+
     double y1, y2,y3, y4, oldx, oldy1, oldy2, oldy3;
 
     public Filter() {
@@ -20,8 +22,12 @@ public class Filter implements Module {
         y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
         cutoff = 1000;
         resonance = 0.6;
-        envelopeAmount = 0.7;
+        envelopeAmount = 0;
         reminder = 0;
+        attack = 50;
+        decay = 200;
+        sustain = 0.2;
+        release = 200;
     }
 
     @Override
@@ -31,7 +37,7 @@ public class Filter implements Module {
     }
 
     public void startEnvelope(){
-        env = new Envelope(50,2000,0.2,200);
+        env = new Envelope(attack,decay,sustain,release);
         stopped = false;
     }
 
@@ -64,11 +70,11 @@ public class Filter implements Module {
             double cutoff = this.cutoff;
 
             if(!stopped){
-                cutoff = (cutoff/3) + envelopeAmount * cutoff * env.nextADSFactor();
+                cutoff = cutoff * (1-envelopeAmount) + envelopeAmount * cutoff * env.nextADSFactor();
             } else {
 
                 try {
-                    cutoff =(cutoff/2) + envelopeAmount * cutoff * env.nextReleaseFactor();
+                    cutoff =cutoff * (1-envelopeAmount) + envelopeAmount * cutoff * env.nextReleaseFactor();
                 } catch (ArrayIndexOutOfBoundsException e){
                     cutoff = 0;
                 }
@@ -100,5 +106,33 @@ public class Filter implements Module {
         reminder = outBuffer[Synth.bufferSize-1];
 
         out.sendBuffer(outBuffer);
+    }
+
+    public void setAttack(double attack){
+        this.attack = attack;
+    }
+
+    public void setDecay(double decay){
+        this.decay = decay;
+    }
+
+    public void setSustain(double sustain){
+        this.sustain = sustain;
+    }
+
+    public void setRelease(double release){
+        this.release = release;
+    }
+
+    public void setCutoff(double cutoff){
+        this.cutoff = cutoff;
+    }
+
+    public void setResonance(double resonance){
+        this.resonance = resonance;
+    }
+
+    public void setEnvelopeAmount(double env){
+        this.envelopeAmount = env;
     }
 }

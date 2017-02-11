@@ -35,7 +35,7 @@ public class Sequencer {
 
     public void play(){
 
-        double interval = 60000/tempo;
+        double interval = 60000/(4*tempo);
 
         isPlaying = true;
 
@@ -69,7 +69,7 @@ public class Sequencer {
                 String noteToPlay = notesOrder.substring(noteNumber,noteNumber+1) + octave;
 
 
-                synth.playNote(noteToPlay,(int) interval/3);
+                synth.playNote(noteToPlay);
 
                 currentStep ++;
                 if(currentStep == 16) currentStep = 0;

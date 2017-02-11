@@ -36,18 +36,18 @@
       <ChoiceBox fx:id="osc2Octave" layoutX="149.0" layoutY="199.0" prefWidth="150.0" />
       <Slider fx:id="osc2Detune" layoutX="144.0" layoutY="274.0" max="1.0" min="-1.0" minWidth="160.0" />
       <Label layoutX="149.0" layoutY="247.0" text="Detune" />
-      <Slider fx:id="cutoff" layoutX="341.0" layoutY="84.0" max="18000.0" />
+      <Slider fx:id="cutoff" layoutX="341.0" layoutY="84.0" max="12000.0" />
       <Slider fx:id="resonance" layoutX="341.0" layoutY="133.0" max="1.0" />
       <Slider fx:id="filterEnvelope" layoutX="341.0" layoutY="184.0" max="1.0" min="-1.0" />
       <Label layoutX="341.0" layoutY="56.0" text="Cutoff" />
       <Label layoutX="341.0" layoutY="109.0" text="Resonance" />
       <Label layoutX="338.0" layoutY="158.0" text="Env amount" />
-      <Slider fx:id="attack" layoutX="354.0" layoutY="244.0" />
-      <Slider fx:id="decay" layoutX="354.0" layoutY="278.0" />
-      <Slider fx:id="filterAttack" layoutX="510.0" layoutY="70.0" orientation="VERTICAL" />
-      <Slider fx:id="filterDecay" layoutX="541.0" layoutY="70.0" orientation="VERTICAL" />
-      <Slider fx:id="filterSustain" layoutX="571.0" layoutY="70.0" orientation="VERTICAL" />
-      <Slider fx:id="filterRelease" layoutX="603.0" layoutY="70.0" orientation="VERTICAL" />
+      <Slider fx:id="attack" layoutX="354.0" layoutY="244.0" max="500.0" min="10.0" />
+      <Slider fx:id="decay" layoutX="354.0" layoutY="278.0" max="500.0" />
+      <Slider fx:id="filterAttack" layoutX="510.0" layoutY="70.0" max="500.0" min="10.0" orientation="VERTICAL" />
+      <Slider fx:id="filterDecay" layoutX="541.0" layoutY="70.0" max="500.0" min="10.0" orientation="VERTICAL" />
+      <Slider fx:id="filterSustain" layoutX="571.0" layoutY="70.0" max="1.0" orientation="VERTICAL" />
+      <Slider fx:id="filterRelease" layoutX="603.0" layoutY="70.0" max="500.0" orientation="VERTICAL" />
       <Label layoutX="514.0" layoutY="54.0" text="A" />
       <Label layoutX="545.0" layoutY="54.0" text="D" />
       <Label layoutX="576.0" layoutY="54.0" prefHeight="21.0" prefWidth="0.0" text="S" />
@@ -56,8 +56,8 @@
       <Label layoutX="333.0" layoutY="277.0" text="D" />
       <Label layoutX="499.0" layoutY="242.0" text="S" />
       <Label layoutX="499.0" layoutY="278.0" text="R" />
-      <Slider fx:id="sustain" layoutX="521.0" layoutY="244.0" />
-      <Slider fx:id="release" layoutX="520.0" layoutY="279.0" />
+      <Slider fx:id="sustain" layoutX="521.0" layoutY="244.0" max="1.0" />
+      <Slider fx:id="release" layoutX="520.0" layoutY="279.0" max="500.0" />
       <Slider fx:id="mixer" layoutX="154.0" layoutY="160.0" max="1.0" min="-1.0" />
       <Label layoutX="104.0" layoutY="159.0" text="Mixer" />
       <Label layoutX="34.0" layoutY="336.0" text="Sequencer" />

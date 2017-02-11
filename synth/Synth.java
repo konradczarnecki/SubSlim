@@ -53,7 +53,7 @@ public class Synth {
 
     }
 
-    public void playNote(String noteCode, int holdTime){
+    public void playNote(String noteCode){
 
 
 
@@ -70,11 +70,11 @@ public class Synth {
 
         double fifth = Math.pow( Math.pow(2d, 1/12d), 5d);
 
-        osc1.stop();
-        osc2.stop();
-
         amp.stopEnvelope();
         filter.stopEnvelope();
+
+        osc1.stop();
+        osc2.stop();
 
         amp.startEnvelope();
         filter.startEnvelope();
@@ -88,13 +88,6 @@ public class Synth {
         osc1.start(frequency);
         osc2.start(frequency * fifth);
 
-        Timer tm =  new Timer();
-        tm.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                stopNote();
-            }
-        },holdTime);
     }
 
     public void stopNote(){

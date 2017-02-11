@@ -13,6 +13,8 @@ public class Amp implements Module {
     Envelope env;
     boolean stopped;
 
+    double attack, decay, sustain, release;
+
     public Amp()  {
 
         AudioFormat format = new AudioFormat(Synth.sampleRate, Synth.bitDepth, 1, true, true);
@@ -25,6 +27,11 @@ public class Amp implements Module {
         }
 
         line.start();
+
+        attack = 50;
+        decay = 300;
+        sustain = 0.2;
+        release = 300;
     }
 
     public void sendBuffer(double[] buffer){
@@ -35,7 +42,7 @@ public class Amp implements Module {
 
     public void startEnvelope() {
 
-        env = new Envelope(50, 2000, 0.1, 200);
+        env = new Envelope(attack,decay,sustain,release);
         stopped = false;
     }
 
@@ -97,5 +104,21 @@ public class Amp implements Module {
 
     public void setOutput(Module module){
 
+    }
+
+    public void setAttack(double attack){
+        this.attack = attack;
+    }
+
+    public void setDecay(double decay){
+        this.decay = decay;
+    }
+
+    public void setSustain(double sustain){
+        this.sustain = sustain;
+    }
+
+    public void setRelease(double release){
+        this.release = release;
     }
 }

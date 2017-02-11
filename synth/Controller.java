@@ -111,11 +111,60 @@ public class Controller {
 
         playButton.setOnAction(event -> {
 
-            if(synth.sequencer.isPlaying()) synth.sequencer.stop();
+            if(synth.sequencer.isPlaying()){
+                synth.sequencer.stop();
+                synth.osc1.stop();
+                synth.osc2.stop();
+            }
             else synth.sequencer.play();
         });
 
         initSequencerSteps();
+
+        cutoff.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setCutoff((double)newValue);
+        });
+
+        resonance.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setResonance((double) newValue);
+        });
+
+        filterEnvelope.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setEnvelopeAmount((double) newValue);
+        });
+
+        filterAttack.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setAttack((double) newValue);
+        });
+
+        filterDecay.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setDecay((double) newValue);
+        });
+
+        filterSustain.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setSustain((double) newValue);
+        });
+
+        filterRelease.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.filter.setRelease((double) newValue);
+        });
+
+        attack.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.amp.setAttack((double) newValue);
+        });
+
+        decay.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.amp.setDecay((double) newValue);
+        });
+
+        sustain.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.amp.setSustain((double) newValue);
+        });
+
+        release.valueProperty().addListener((observable, oldValue, newValue) -> {
+            synth.amp.setRelease((double) newValue);
+        });
+
 
     }
 
