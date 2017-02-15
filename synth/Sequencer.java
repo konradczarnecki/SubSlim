@@ -12,9 +12,8 @@ public class Sequencer {
     private int[] steps;
     private int currentStep;
     private String baseNote;
-    private int tempo;
+    private int bpm;
     private Synth synth;
-    String notesOrder;
     boolean isPlaying;
     Timer tm;
 
@@ -22,10 +21,9 @@ public class Sequencer {
         steps = new int[16];
         Arrays.fill(steps, 0);
         this.synth = synth;
-        notesOrder = "CcDdEFfGgAaH";
         currentStep = 0;
         baseNote = "A4";
-        tempo = 120;
+        bpm = 120;
     }
 
     public void setStep(int stepNo, int value){
@@ -34,7 +32,9 @@ public class Sequencer {
 
     public void play(){
 
-        double interval = 60000/(2*tempo);
+        double interval = 60000/(2* bpm);
+
+        String notesOrder = "CcDdEFfGgAaH";
 
         isPlaying = true;
 
@@ -90,11 +90,11 @@ public class Sequencer {
     }
 
     public double getBPM(){
-        return tempo;
+        return bpm;
     }
 
     public void setBPM(int bpm){
-        tempo = bpm;
+        this.bpm = bpm;
     }
 
 }

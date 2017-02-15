@@ -56,29 +56,12 @@ public class Oscillator implements Module {
         hold = false;
     }
 
-    public synchronized void stopIn(int releaseTime){
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask(){
-
-            public void run(){
-                hold = false;
-            }
-        }, releaseTime);
-
-    }
-
     public void sendBuffer(double[] buffer){
 
     }
 
     public void setOutput(Module module){
         out = module;
-    }
-
-    public void setWave(Wave wave){
-
-        this.wave = wave;
     }
 
     public void setOctave(int octave){

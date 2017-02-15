@@ -36,8 +36,11 @@ public class Synth {
         amp = new Amp();
         filter = new Filter();
         sequencer = new Sequencer(this);
+
         chordTranspose = 0;
         detune = 1;
+        osc1Octave = 0;
+        osc2Octave = 0;
 
         setWiring();
     }
@@ -52,16 +55,7 @@ public class Synth {
     }
 
 
-    public void testPlay(){
-
-        osc1.start(440);
-        osc2.start(587.33);
-
-    }
-
     public void playNote(String noteCode){
-
-
 
         String notesOrder = "CcDdEFfGgAaH"; //Uppercase - whole tone, Lowercase - half tone eg. A - A, A# - a, D# - d, Gb - f
         double f0 = 261.63; // C4 261.63 Hz - base frequency
@@ -71,8 +65,6 @@ public class Synth {
         double n = 12 * k + l;
 
         double frequency = f0 * Math.pow( (Math.pow(2d,1/12d)), n);
-
-
 
         double chord = Math.pow( Math.pow(2d, 1/12d), chordTranspose);
 

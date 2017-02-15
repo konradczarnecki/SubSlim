@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="synth.FxController">
+   <children>
+      <Label layoutX="33.0" layoutY="30.0" text="OSC1" />
+      <Label layoutX="33.0" layoutY="205.0" text="OSC2" />
+      <Label layoutX="347.0" layoutY="29.0" text="VCF" />
+      <Label layoutX="520.0" layoutY="29.0" text="Filter Env" />
+      <Label layoutX="596.0" layoutY="29.0" text="Amp Env" />
+      <VBox layoutX="33.0" layoutY="60.0" spacing="5.0">
+         <children>
+            <RadioButton fx:id="osc1Sawtooth" mnemonicParsing="false" text="Sawtooth" />
+            <RadioButton fx:id="osc1Square" mnemonicParsing="false" text="Square" />
+            <RadioButton fx:id="osc1Sine" mnemonicParsing="false" text="Sine" />
+         </children>
+      </VBox>
+      <VBox layoutX="33.0" layoutY="232.0" spacing="5.0">
+         <children>
+            <RadioButton fx:id="osc2Sawtooth" mnemonicParsing="false" text="Sawtooth" />
+            <RadioButton fx:id="osc2Square" mnemonicParsing="false" text="Square" />
+            <RadioButton fx:id="osc2Sine" mnemonicParsing="false" text="Sine" />
+         </children>
+      </VBox>
+      <ChoiceBox fx:id="osc1Octave" layoutX="149.0" layoutY="60.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="osc1Chord" layoutX="149.0" layoutY="108.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="osc2Octave" layoutX="149.0" layoutY="221.0" prefWidth="150.0" />
+      <Slider fx:id="osc2Detune" layoutX="144.0" layoutY="296.0" max="1.0" min="-1.0" minWidth="160.0" />
+      <Label layoutX="149.0" layoutY="269.0" text="Detune" />
+      <Slider fx:id="cutoff" layoutX="347.0" layoutY="87.0" max="12000.0" />
+      <Slider fx:id="resonance" layoutX="347.0" layoutY="136.0" max="1.0" />
+      <Slider fx:id="filterEnvelope" layoutX="347.0" layoutY="187.0" max="1.0" min="-1.0" />
+      <Label layoutX="347.0" layoutY="59.0" text="Cutoff" />
+      <Label layoutX="347.0" layoutY="112.0" text="Resonance" />
+      <Label layoutX="344.0" layoutY="161.0" text="Env amount" />
+      <Slider fx:id="lfoRate" layoutX="345.0" layoutY="267.0" max="500.0" min="10.0" />
+      <Slider fx:id="lfoDepth" layoutX="347.0" layoutY="323.0" max="500.0" />
+      <Slider fx:id="filterAttack" layoutX="521.0" layoutY="70.0" max="500.0" min="10.0" orientation="VERTICAL" />
+      <Slider fx:id="filterDecay" layoutX="557.0" layoutY="70.0" max="500.0" min="10.0" orientation="VERTICAL" />
+      <Slider fx:id="attack" layoutX="597.0" layoutY="70.0" max="1.0" orientation="VERTICAL" />
+      <Slider fx:id="decay" layoutX="636.0" layoutY="70.0" max="500.0" orientation="VERTICAL" />
+      <Label layoutX="525.0" layoutY="54.0" text="A" />
+      <Label layoutX="561.0" layoutY="54.0" text="D" />
+      <Label layoutX="602.0" layoutY="54.0" prefHeight="21.0" prefWidth="0.0" text="A" />
+      <Label layoutX="641.0" layoutY="54.0" text="D" />
+      <Slider fx:id="mixer" layoutX="153.0" layoutY="173.0" max="1.0" min="-1.0" />
+      <Label layoutX="103.0" layoutY="172.0" text="Mixer" />
+      <Label layoutX="31.0" layoutY="358.0" text="Sequencer" />
+      <ChoiceBox fx:id="baseNoteLetter" layoutX="116.0" layoutY="418.0" maxWidth="60.0" prefWidth="150.0" />
+      <HBox layoutX="120.0" layoutY="349.0" prefHeight="60.0" prefWidth="540.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step1" text="0" />
+                  <Label text="1" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step2" text="0" />
+                  <Label text="2" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step3" text="0" />
+                  <Label text="3" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step4" text="0" />
+                  <Label text="4" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step5" text="0" />
+                  <Label text="5" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step6" text="0" />
+                  <Label text="6" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step7" text="0" />
+                  <Label text="7" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step8" text="0" />
+                  <Label text="8" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step9" text="0" />
+                  <Label text="9" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step10" text="0" />
+                  <Label text="10" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step11" text="0" />
+                  <Label text="11" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step12" text="0" />
+                  <Label text="12" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step13" text="0" />
+                  <Label text="13" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step14" text="0" />
+                  <Label text="14" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step15" text="0" />
+                  <Label text="15" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="step16" text="0" />
+                  <Label text="16" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label layoutX="32.0" layoutY="423.0" text="Base Note" />
+      <Label layoutX="251.0" layoutY="423.0" text="BPM" />
+      <TextField fx:id="bpm" layoutX="291.0" layoutY="418.0" maxWidth="60.0" text="120" />
+      <Label layoutX="362.0" layoutY="423.0" text="Steps" />
+      <TextField fx:id="steps" layoutX="408.0" layoutY="418.0" maxWidth="60.0" text="16" />
+      <Button fx:id="playButton" layoutX="577.0" layoutY="416.0" mnemonicParsing="false" text="Play / Stop" />
+      <ChoiceBox fx:id="baseNoteNumber" layoutX="176.0" layoutY="418.0" maxWidth="60.0" prefWidth="150.0" />
+      <Label layoutX="347.0" layoutY="215.0" text="LFO" />
+      <Label layoutX="346.0" layoutY="240.0" text="Rate" />
+      <ChoiceBox fx:id="beat" layoutX="481.0" layoutY="416.0" maxWidth="75.0" prefWidth="150.0" />
+      <Label layoutX="345.0" layoutY="295.0" text="Depth" />
+      <Label layoutX="509.0" layoutY="285.0" text="Target" />
+      <ChoiceBox fx:id="lfoTarget" layoutX="506.0" layoutY="308.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="filterAttackType" layoutX="489.0" layoutY="225.0" prefWidth="50.0" />
+      <ChoiceBox fx:id="filterDecayType" layoutX="540.0" layoutY="225.0" prefWidth="50.0" />
+      <ChoiceBox fx:id="attackType" layoutX="586.0" layoutY="225.0" prefWidth="50.0" />
+      <ChoiceBox fx:id="decayType" layoutX="637.0" layoutY="225.0" prefWidth="50.0" />
+   </children>
+</AnchorPane>

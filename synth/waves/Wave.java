@@ -7,7 +7,6 @@ public abstract class Wave {
 
     double frequency;
 
-
     public abstract double getSample(int sampleNo);
 
     public void setFrequency(double frequency){
@@ -17,7 +16,8 @@ public abstract class Wave {
     public static Wave getWave(Wave type){
         if(type instanceof SawtoothWave) return new SawtoothWave();
         else if (type instanceof SineWave) return new SineWave();
-        else return new SquareWave();
+        else if (type instanceof  SquareWave) return new SquareWave();
+        else throw new IllegalArgumentException();
     }
 
 }

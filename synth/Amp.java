@@ -11,25 +11,27 @@ public class Amp implements Module {
 
     SourceDataLine line;
     Envelope env;
-    boolean stopped;
 
-    double attack, decay, sustain, release;
+
+    double attack, decay;
 
     public Amp()  {
 
         AudioFormat format = new AudioFormat(Synth.sampleRate, Synth.bitDepth, 1, true, true);
 
         try {
+
             line = AudioSystem.getSourceDataLine(format);
             line.open(format, Synth.bufferSize*4);
+
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
 
         line.start();
 
-        attack = 50;
-        decay = 50;
+        attack = 100;
+        decay = 100;
 
     }
 

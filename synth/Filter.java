@@ -8,26 +8,24 @@ public class Filter implements Module {
     Module out;
     double reminder;
     double resonance;
-    double cutoff;
+    Double cutoff;
     double envelopeAmount;
     Envelope env;
-    boolean stopped;
 
-    double attack, decay, sustain, release;
+
+    double attack, decay;
 
     double y1, y2,y3, y4, oldx, oldy1, oldy2, oldy3;
 
     public Filter() {
 
         y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
-        cutoff = 1000;
+        cutoff = 1000d;
         resonance = 0.6;
         envelopeAmount = 0;
         reminder = 0;
         attack = 50;
         decay = 200;
-        sustain = 0.2;
-        release = 200;
     }
 
     @Override
@@ -50,7 +48,6 @@ public class Filter implements Module {
     private void processBuffer(double[] buffer){
 
         double[] outBuffer = new double[Synth.bufferSize];
-
 
 
         y4 = reminder;
@@ -111,5 +108,9 @@ public class Filter implements Module {
 
     public void setEnvelopeAmount(double env){
         this.envelopeAmount = env;
+    }
+
+    public Double cutoff(){
+        return cutoff;
     }
 }
