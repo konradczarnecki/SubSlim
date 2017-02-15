@@ -7,25 +7,27 @@ public class Filter implements Module {
 
     Module out;
     double reminder;
-    double resonance;
-    Double cutoff;
-    double envelopeAmount;
+    AdjustableValue<Double> resonance;
+    AdjustableValue<Double> cutoff;
+    AdjustableValue<Double> envelopeAmount;
     Envelope env;
 
 
-    double attack, decay;
+    AdjustableValue<Double> attack, decay;
 
     double y1, y2,y3, y4, oldx, oldy1, oldy2, oldy3;
 
     public Filter() {
 
+
+
         y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
-        cutoff = 1000d;
-        resonance = 0.6;
-        envelopeAmount = 0;
+        cutoff = new AdjustableValue<>(1000d);
+        resonance = new AdjustableValue<>(0d);
+        envelopeAmount = new AdjustableValue<>(0d);
         reminder = 0;
-        attack = 50;
-        decay = 200;
+        attack = new AdjustableValue<>(20d);
+        decay = new AdjustableValue<>(50d);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class Filter implements Module {
     }
 
     public void startEnvelope(){
-        env = new Envelope(attack,decay);
+        env = new Envelope(attack.getValue(),decay.getValue());
     }
 
 
@@ -55,17 +57,17 @@ public class Filter implements Module {
 
         for(int i = 0; i < Synth.bufferSize; i++){
 
-            double cutoff = this.cutoff;
+            double cutoff = this.cutoff.getValue();
 
 
-            cutoff = cutoff * (1 - envelopeAmount) + envelopeAmount * cutoff * env.nextFactor();
+            cutoff = cutoff * (1 - envelopeAmount.getValue()) + envelopeAmount.getValue() * cutoff * env.nextFactor();
 
 
             double f = 2 * cutoff / Synth.sampleRate;
             double k = 3.6*f - 1.6*f*f -1;
             double p = (k+1) * 0.5;
             double scale = Math.pow(Math.E, (1-p) * 1.386249);
-            double r = resonance * scale;
+            double r = resonance.getValue() * scale;
 
             x = buffer[i] - r * y4;
 
@@ -89,28 +91,24 @@ public class Filter implements Module {
         out.sendBuffer(outBuffer);
     }
 
-    public void setAttack(double attack){
-        this.attack = attack;
+    public AdjustableValue<Double> attack(){
+        return attack;
     }
 
-    public void setDecay(double decay){
-        this.decay = decay;
+    public AdjustableValue<Double> decay(){
+        return decay;
     }
 
-
-    public void setCutoff(double cutoff){
-        this.cutoff = cutoff;
-    }
-
-    public void setResonance(double resonance){
-        this.resonance = resonance;
-    }
-
-    public void setEnvelopeAmount(double env){
-        this.envelopeAmount = env;
-    }
-
-    public Double cutoff(){
+    public AdjustableValue<Double> cutoff(){
         return cutoff;
     }
+
+    public AdjustableValue<Double> resonance(){
+        return resonance;
+    }
+
+    public AdjustableValue<Double> envAmount(){
+        return envelopeAmount;
+    }
+
 }

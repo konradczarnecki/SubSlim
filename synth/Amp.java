@@ -13,7 +13,7 @@ public class Amp implements Module {
     Envelope env;
 
 
-    double attack, decay;
+    AdjustableValue<Double> attack, decay;
 
     public Amp()  {
 
@@ -30,8 +30,8 @@ public class Amp implements Module {
 
         line.start();
 
-        attack = 100;
-        decay = 100;
+        attack = new AdjustableValue<>(20d);
+        decay = new AdjustableValue<>(150d);
 
     }
 
@@ -43,7 +43,7 @@ public class Amp implements Module {
 
     public void startEnvelope() {
 
-        env = new Envelope(attack,decay);
+        env = new Envelope(attack.getValue(),decay.getValue());
     }
 
 
@@ -84,12 +84,12 @@ public class Amp implements Module {
 
     }
 
-    public void setAttack(double attack){
-        this.attack = attack;
+    public AdjustableValue<Double> attack(){
+        return attack;
     }
 
-    public void setDecay(double decay){
-        this.decay = decay;
+    public AdjustableValue<Double> decay(){
+        return decay;
     }
 
 }

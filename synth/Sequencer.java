@@ -22,7 +22,7 @@ public class Sequencer {
         Arrays.fill(steps, 0);
         this.synth = synth;
         currentStep = 0;
-        baseNote = "A4";
+        baseNote = "A3";
         bpm = 120;
     }
 

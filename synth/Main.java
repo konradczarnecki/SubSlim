@@ -41,20 +41,16 @@ public class Main extends Application {
 
         ImageView back = controller.getBack();
 
-        back.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        back.setOnMousePressed(event -> {
+
                 offsetX = primaryStage.getX() - event.getScreenX();
                 offsetY = primaryStage.getY() - event.getScreenY();
-            }
         });
 
-        back.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        back.setOnMouseDragged(event -> {
+
                 primaryStage.setX(event.getScreenX() + offsetX);
                 primaryStage.setY(event.getScreenY() + offsetY);
-            }
         });
 
         Synth synth = new Synth();
