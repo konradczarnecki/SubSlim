@@ -14,11 +14,13 @@ public class Oscillator implements Module {
     boolean hold;
     Module out;
     int octave;
+    double mix;
 
     public Oscillator(Wave wave){
 
         this.wave = wave;
         octave = 0;
+        mix = 1;
     }
 
     public synchronized void start(double frequency){
@@ -38,7 +40,7 @@ public class Oscillator implements Module {
 
                     for(int i = 0; i < Synth.bufferSize; i++){
 
-                        buffer[i] = wave.getSample(sampleNo + i);
+                        buffer[i] = wave.getSample(sampleNo + i)*mix;
 
                     }
 
@@ -56,9 +58,7 @@ public class Oscillator implements Module {
         hold = false;
     }
 
-    public void sendBuffer(double[] buffer){
-
-    }
+    public void sendBuffer(double[] buffer){}
 
     public void setOutput(Module module){
         out = module;
@@ -68,5 +68,6 @@ public class Oscillator implements Module {
         this.octave = octave;
     }
 
+    public void setMix(double mix){ this.mix = mix;}
 
 }

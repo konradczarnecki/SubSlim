@@ -26,6 +26,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("synth.fxml"));
 
         AnchorPane root = loader.load();
@@ -39,15 +40,15 @@ public class Main extends Application {
 
         controller = loader.getController();
 
-        ImageView back = controller.getBack();
+        ImageView background = controller.getBackground();
 
-        back.setOnMousePressed(event -> {
+        background.setOnMousePressed(event -> {
 
                 offsetX = primaryStage.getX() - event.getScreenX();
                 offsetY = primaryStage.getY() - event.getScreenY();
         });
 
-        back.setOnMouseDragged(event -> {
+        background.setOnMouseDragged(event -> {
 
                 primaryStage.setX(event.getScreenX() + offsetX);
                 primaryStage.setY(event.getScreenY() + offsetY);

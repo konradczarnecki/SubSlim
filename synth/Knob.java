@@ -1,6 +1,5 @@
 package synth;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.ImageView;
 
 /**
@@ -15,6 +14,7 @@ public class Knob {
     protected double angle;
     protected double currentCursorPosition;
     protected AdjustableValue<Double> target;
+    ImageView knobImage;
 
     public Knob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target){
 
@@ -23,7 +23,13 @@ public class Knob {
         defaultValue = def;
         currentValue = def;
         this.target = target;
+        this.knobImage = knobImage;
 
+        bindKnob();
+
+    }
+
+    private void bindKnob(){
         knobImage.setRotate(300*((defaultValue-minValue)/(maxValue-minValue))-150);
 
         knobImage.setOnMousePressed(event->{
@@ -39,7 +45,7 @@ public class Knob {
 
             else if (knobImage.getRotate() > -150)
 
-              knobImage.setRotate(knobImage.getRotate()-4);
+                knobImage.setRotate(knobImage.getRotate()-4);
 
             currentCursorPosition = event.getScreenY();
         });
@@ -51,8 +57,6 @@ public class Knob {
 
             target.setValue(currentValue);
         });
-
-
     }
 
 

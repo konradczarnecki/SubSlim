@@ -2,8 +2,6 @@ package synth;
 
 import synth.waves.*;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by konra on 06.02.2017.
@@ -42,6 +40,7 @@ public class Synth {
         detune = new AdjustableValue<>(1d);
         osc1Octave = new AdjustableValue<>(0);
         osc2Octave = new AdjustableValue<>(0);
+        mix = new AdjustableValue<>(1d);
 
         setWiring();
         sequencer.play();
@@ -81,6 +80,9 @@ public class Synth {
 
         osc1.setOctave(osc1Octave.getValue());
         osc2.setOctave(osc2Octave.getValue());
+
+        osc1.setMix(2-mix.getValue());
+        osc2.setMix(mix.getValue());
 
         osc1.setOutput(mixer);
         osc2.setOutput(mixer);

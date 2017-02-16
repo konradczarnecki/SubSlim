@@ -5,20 +5,20 @@ package synth;
  */
 public class Filter implements Module {
 
-    Module out;
-    double reminder;
-    AdjustableValue<Double> resonance;
-    AdjustableValue<Double> cutoff;
-    AdjustableValue<Double> envelopeAmount;
-    Envelope env;
+    private Module out;
+    private double reminder;
+    private AdjustableValue<Double> resonance;
+    private AdjustableValue<Double> cutoff;
+    private AdjustableValue<Double> envelopeAmount;
+    private Envelope env;
+    private Lfo lfo;
 
 
-    AdjustableValue<Double> attack, decay;
+    private AdjustableValue<Double> attack, decay;
 
-    double y1, y2,y3, y4, oldx, oldy1, oldy2, oldy3;
+    private double y1, y2,y3, y4, oldx, oldy1, oldy2, oldy3;
 
     public Filter() {
-
 
 
         y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
@@ -28,6 +28,8 @@ public class Filter implements Module {
         reminder = 0;
         attack = new AdjustableValue<>(20d);
         decay = new AdjustableValue<>(50d);
+
+        lfo = new Lfo(1,0);
     }
 
     @Override
@@ -36,14 +38,15 @@ public class Filter implements Module {
         processBuffer(buffer);
     }
 
-    public void startEnvelope(){
-        env = new Envelope(attack.getValue(),decay.getValue());
-    }
-
-
     @Override
     public void setOutput(Module module) {
         out = module;
+    }
+
+
+
+    public void startEnvelope(){
+        env = new Envelope(attack.getValue(),decay.getValue());
     }
 
 
@@ -61,7 +64,7 @@ public class Filter implements Module {
 
 
             cutoff = cutoff * (1 - envelopeAmount.getValue()) + envelopeAmount.getValue() * cutoff * env.nextFactor();
-
+            cutoff = cutoff * lfo.nextFactor();
 
             double f = 2 * cutoff / Synth.sampleRate;
             double k = 3.6*f - 1.6*f*f -1;
@@ -110,5 +113,9 @@ public class Filter implements Module {
     public AdjustableValue<Double> envAmount(){
         return envelopeAmount;
     }
+
+    public AdjustableValue<Double> lfoFrequency(){ return lfo.frequency();}
+
+    public AdjustableValue<Double> lfoDepth(){ return lfo.depth();}
 
 }

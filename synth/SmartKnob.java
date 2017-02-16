@@ -12,6 +12,7 @@ public class SmartKnob extends Knob {
     AdjustableValue<Double> max;
 
     public SmartKnob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target, SmartKnob slave){
+
         super(knobImage,min,max,def,target);
 
         this.max = new AdjustableValue<>(max);

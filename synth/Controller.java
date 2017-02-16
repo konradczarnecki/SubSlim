@@ -1,7 +1,6 @@
 package synth;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import synth.waves.*;
 
@@ -38,7 +37,6 @@ public class Controller {
     @FXML ImageView lfo2Rate;
     @FXML ImageView lfo2Depth;
 
-
     Synth synth;
 
 
@@ -47,6 +45,8 @@ public class Controller {
     }
 
     public void init(){
+
+        // Oscillators
 
         Wave[] osc1WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
         KnobSwitch<Wave> osc1WaveKnob = new KnobSwitch<>(osc1WaveValues,osc1Wave,synth.osc1Wave);
@@ -65,11 +65,10 @@ public class Controller {
 
         Knob detuneKnob = new Knob(osc2Detune,0.95,1.05,1,synth.detune);
 
-//        Knob osc2LfoKnob
-
-        Knob mixKnob = new Knob(mix,-1,1,0,synth.mix);
+        Knob mixKnob = new Knob(mix,0,2,1,synth.mix);
 
 
+        // Filter
 
         Knob cutoffKnob = new Knob(cutoff,0,12000,0,synth.filter.cutoff());
 
@@ -77,8 +76,12 @@ public class Controller {
 
         Knob filterEnvKnob = new Knob(filterEnv,0,1,0,synth.filter.envAmount());
 
-//        Knob filterLfo
+        Knob lfo1FrequencyKnob = new Knob(lfo1Rate,0.2,10,1,synth.filter.lfoFrequency());
 
+        Knob lfo1DepthKnob = new Knob(lfo1Depth, 0,1,0,synth.filter.lfoDepth());
+
+
+        // Envelopes
 
         SmartKnob decayKnob = new SmartKnob(decay,10,230, 50,  synth.amp.decay(), null);
         SmartKnob attackKnob = new SmartKnob(attack,10,230, 20,synth.amp.attack(),decayKnob);
@@ -88,7 +91,7 @@ public class Controller {
 
     }
 
-    public ImageView getBack(){
+    public ImageView getBackground(){
         return back;
     }
 

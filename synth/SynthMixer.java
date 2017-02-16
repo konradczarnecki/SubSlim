@@ -61,6 +61,7 @@ public class SynthMixer implements Module {
 
              sum /= buffers.size();
 
+
              outBuffer[i] = sum;
         }
 
