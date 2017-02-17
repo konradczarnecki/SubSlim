@@ -34,9 +34,14 @@ public class Controller {
 
     @FXML ImageView lfo1Rate;
     @FXML ImageView lfo1Depth;
-    @FXML ImageView lfo2Rate;
-    @FXML ImageView lfo2Depth;
 
+
+    @FXML ImageView echoTime1;
+    @FXML ImageView echoTime2;
+    @FXML ImageView echoDryWet;
+
+    @FXML ImageView reverbDecay;
+    @FXML ImageView reverbWet;
     Synth synth;
 
 
@@ -76,7 +81,7 @@ public class Controller {
 
         Knob filterEnvKnob = new Knob(filterEnv,0,1,0,synth.filter.envAmount());
 
-        Knob lfo1FrequencyKnob = new Knob(lfo1Rate,0.2,10,1,synth.filter.lfoFrequency());
+        Knob lfo1FrequencyKnob = new Knob(lfo1Rate,0.1,6,1,synth.filter.lfoFrequency());
 
         Knob lfo1DepthKnob = new Knob(lfo1Depth, 0,1,0,synth.filter.lfoDepth());
 
@@ -89,6 +94,47 @@ public class Controller {
         SmartKnob filterDecayKnob = new SmartKnob(filterDecay, 10,230,50,synth.filter.decay(),null);
         SmartKnob filterAttackKnob = new SmartKnob(filterAttack, 10, 230, 20, synth.filter.attack(), filterDecayKnob);
 
+        // Effects
+
+        Knob reverbDecayKnob = new Knob(reverbDecay,0.3,0.9,0.5, synth.amp.reverbDecay());
+
+        Knob  reverbWetKnob = new Knob(reverbWet, 0,1,0,synth.amp.reverbWet());
+
+        Knob delay1Knob = new Knob(echoTime1,20,500,150,new AdjustableValue<>(0d)){
+
+            protected void bindKnob(){
+
+                knobImage.setOnMouseReleased(event->{
+
+                    angle = knobImage.getRotate();
+
+                    currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
+
+                    synth.amp.setDelay1(currentValue);
+                });
+
+            }
+
+        };
+
+        Knob delay2Knob = new Knob(echoTime2,20,500,70,new AdjustableValue<>(0d)){
+
+            protected void bindKnob(){
+
+                knobImage.setOnMouseReleased(event->{
+
+                    angle = knobImage.getRotate();
+
+                    currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
+
+                    synth.amp.setDelay2(currentValue);
+                });
+
+            }
+
+        };
+
+        Knob delayWetKnob = new Knob(echoDryWet,0,0.5,0,synth.amp.delayWet());
     }
 
     public ImageView getBackground(){

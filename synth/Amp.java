@@ -11,9 +11,11 @@ public class Amp implements Module {
 
     SourceDataLine line;
     Envelope env;
-
+    Delay delay1, delay2;
+    Reverb reverb;
 
     AdjustableValue<Double> attack, decay;
+    AdjustableValue<Double> delayWet;
 
     public Amp()  {
 
@@ -33,11 +35,24 @@ public class Amp implements Module {
         attack = new AdjustableValue<>(20d);
         decay = new AdjustableValue<>(150d);
 
+        delayWet = new AdjustableValue<>(0d);
+
+
+        delay1 = new Delay(150,delayWet);
+        delay2 = new Delay(70, delayWet);
+
+        double[] verbModel = {23,31,57,91,63};
+        reverb = new Reverb(verbModel);
+
     }
 
     public void sendBuffer(double[] buffer){
 
         applyEnvelope(buffer);
+        buffer = delay1.processBuffer(buffer);
+        buffer = delay2.processBuffer(buffer);
+
+        buffer = reverb.processBuffer(buffer);
         amplifyAndWrite(buffer);
     }
 
@@ -90,6 +105,26 @@ public class Amp implements Module {
 
     public AdjustableValue<Double> decay(){
         return decay;
+    }
+
+    public void setDelay1(double time){
+        delay1 = new Delay(time, delayWet);
+    }
+
+    public void setDelay2(double time){
+        delay2 = new Delay(time, delayWet);
+    }
+
+    public AdjustableValue<Double> delayWet(){
+        return delayWet;
+    }
+
+    public AdjustableValue<Double> reverbDecay(){
+        return reverb.decay();
+    }
+
+    public AdjustableValue<Double> reverbWet(){
+        return reverb.wet();
     }
 
 }

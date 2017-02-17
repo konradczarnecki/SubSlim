@@ -25,11 +25,23 @@ public class Knob {
         this.target = target;
         this.knobImage = knobImage;
 
+        setMovement();
         bindKnob();
 
     }
 
-    private void bindKnob(){
+    protected void bindKnob(){
+
+        knobImage.rotateProperty().addListener((observable, oldValue, newValue) -> {
+            angle = newValue.doubleValue();
+
+            currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
+
+            target.setValue(currentValue);
+        });
+    }
+
+    protected void setMovement(){
         knobImage.setRotate(300*((defaultValue-minValue)/(maxValue-minValue))-150);
 
         knobImage.setOnMousePressed(event->{
@@ -48,14 +60,6 @@ public class Knob {
                 knobImage.setRotate(knobImage.getRotate()-4);
 
             currentCursorPosition = event.getScreenY();
-        });
-
-        knobImage.rotateProperty().addListener((observable, oldValue, newValue) -> {
-            angle = newValue.doubleValue();
-
-            currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
-
-            target.setValue(currentValue);
         });
     }
 

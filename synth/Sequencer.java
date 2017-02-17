@@ -9,7 +9,7 @@ import java.util.TimerTask;
  */
 public class Sequencer {
 
-    private int[] steps;
+    private int[] steps = {0,0,7,0,5,3,0,0,2,0,-5,-12,-7,0,-2,0};
     private int currentStep;
     private String baseNote;
     private AdjustableValue<Integer> bpm;
@@ -19,8 +19,8 @@ public class Sequencer {
     private Timer tm;
 
     public Sequencer(Synth synth){
-        steps = new int[16];
-        Arrays.fill(steps, 0);
+        //steps = new int[16];
+        //Arrays.fill(steps, 0);
         this.synth = synth;
         currentStep = 0;
         baseNote = "A3";

@@ -96,7 +96,7 @@
             <Image url="@knob.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="lfo2Rate" fitHeight="62.0" fitWidth="62.0" layoutX="809.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="reverbDecay" fitHeight="62.0" fitWidth="62.0" layoutX="809.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@knob.png" />
          </image>
@@ -106,7 +106,22 @@
             <Image url="@knob.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="lfo2Depth" fitHeight="62.0" fitWidth="62.0" layoutX="907.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="reverbWet" fitHeight="62.0" fitWidth="62.0" layoutX="907.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoTime1" fitHeight="62.0" fitWidth="62.0" layoutX="1014.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoTime2" fitHeight="62.0" fitWidth="62.0" layoutX="1107.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoDryWet" fitHeight="62.0" fitWidth="62.0" layoutX="1107.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@knob.png" />
          </image>
