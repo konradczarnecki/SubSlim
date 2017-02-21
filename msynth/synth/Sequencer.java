@@ -2,6 +2,7 @@ package msynth.synth;
 
 import msynth.AdjustableValue;
 
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,7 +11,8 @@ import java.util.TimerTask;
  */
 public class Sequencer {
 
-    private int[] steps = {0,0,7,0,5,3,0,0,2,0,-5,-12,-7,0,-2,0};
+    private int[] steps;
+    //private int[] steps = {0,0,7,0,5,3,0,0,2,0,-5,-12,-7,0,-2,0};
     //private int[] steps = {0,0,0,3,0,2,0,0,5,0,5,-12,7,12,0,3};
     private int currentStep;
     private String baseNote;
@@ -21,8 +23,8 @@ public class Sequencer {
     private Timer tm;
 
     public Sequencer(Synth synth){
-        //steps = new int[16];
-        //Arrays.fill(steps, 0);
+        steps = new int[16];
+        Arrays.fill(steps, 0);
         this.synth = synth;
         currentStep = 0;
         baseNote = "A3";
@@ -94,5 +96,9 @@ public class Sequencer {
     }
 
     public AdjustableValue<Integer> bpm(){ return bpm;}
+
+    public int[] steps(){
+        return steps;
+    }
 
 }

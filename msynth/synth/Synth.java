@@ -128,6 +128,8 @@ public class Synth {
         return amp;
     }
 
+    public Sequencer sequencer(){ return sequencer; }
+
 
 
 }
