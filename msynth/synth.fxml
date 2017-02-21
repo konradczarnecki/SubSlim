@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="740" maxWidth="1200" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1200" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="msynth.Controller">
+   <children>
+      <ImageView fx:id="back" fitHeight="740" fitWidth="1200" pickOnBounds="true" preserveRatio="true" smooth="true" x="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@synth_new2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="osc1Wave" fitHeight="62.0" fitWidth="62.0" layoutX="29.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="osc1Octave" fitHeight="62.0" fitWidth="62.0" layoutX="127.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="osc1Chord" fitHeight="62.0" fitWidth="62.0" layoutX="221.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mix" fitHeight="62.0" fitWidth="62.0" layoutX="336.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cutoff" fitHeight="62.0" fitWidth="62.0" layoutX="431.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="filterType" fitHeight="62.0" fitWidth="62.0" layoutX="531.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lfo1Rate" fitHeight="62.0" fitWidth="62.0" layoutX="623.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="osc2Wave" fitHeight="62.0" fitWidth="62.0" layoutX="25.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="osc2Octave" fitHeight="62.0" fitWidth="62.0" layoutX="125.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="osc2Detune" fitHeight="62.0" fitWidth="62.0" layoutX="225.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="resonance" fitHeight="62.0" fitWidth="62.0" layoutX="431.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="filterEnv" fitHeight="62.0" fitWidth="62.0" layoutX="531.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="filterAttack" fitHeight="62.0" fitWidth="62.0" layoutX="623.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lfo1Depth" fitHeight="62.0" fitWidth="62.0" layoutX="719.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="filterDecay" fitHeight="62.0" fitWidth="62.0" layoutX="719.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="attack" fitHeight="62.0" fitWidth="62.0" layoutX="820.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="decay" fitHeight="62.0" fitWidth="62.0" layoutX="820.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoTime1" fitHeight="62.0" fitWidth="62.0" layoutX="911.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoVerb" fitHeight="62.0" fitWidth="62.0" layoutX="914.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoTime2" fitHeight="62.0" fitWidth="62.0" layoutX="1007.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="out" fitHeight="62.0" fitWidth="62.0" layoutX="1111.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="echoDryWet" fitHeight="62.0" fitWidth="62.0" layoutX="1008.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@knob.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="step1" alignment="CENTER" layoutX="27.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step2" alignment="CENTER" layoutX="99.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step3" alignment="CENTER" layoutX="171.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step4" alignment="CENTER" layoutX="243.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step5" alignment="CENTER" layoutX="315.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step6" alignment="CENTER" layoutX="387.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step7" alignment="CENTER" layoutX="461.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step8" alignment="CENTER" layoutX="533.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step9" alignment="CENTER" layoutX="605.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step10" alignment="CENTER" layoutX="678.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step11" alignment="CENTER" layoutX="750.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step12" alignment="CENTER" layoutX="822.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step13" alignment="CENTER" layoutX="894.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step14" alignment="CENTER" layoutX="966.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step15" alignment="CENTER" layoutX="1039.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="step16" alignment="CENTER" layoutX="1111.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
