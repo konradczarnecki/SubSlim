@@ -24,7 +24,6 @@ public class Envelope {
         double decayIncrement = (1d) / decayInSamples;
 
 
-
         for(int i = 0; i < attackInSamples; i++){
             factors[i] = i * attackIncrement;
         }

@@ -16,7 +16,7 @@ public class Amp implements Module {
     Envelope env;
     Echo echo;
 
-    AdjustableValue<Double> attack, decay;
+    AdjustableValue<Double> attack, decay, outputLevel;
 
     public Amp()  {
 
@@ -35,6 +35,7 @@ public class Amp implements Module {
 
         attack = new AdjustableValue<>(20d);
         decay = new AdjustableValue<>(150d);
+        outputLevel = new AdjustableValue<>(1d);
 
         echo = new Echo();
 
@@ -72,7 +73,7 @@ public class Amp implements Module {
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){
 
             ByteBuffer sample = ByteBuffer.allocate(2);
-            shortValue = (short) (buffer[i] * Short.MAX_VALUE);
+            shortValue = (short) (buffer[i] * outputLevel.getValue() * Short.MAX_VALUE);
             sample.putShort(shortValue);
 
             byte[] sampleBytes = sample.array();
@@ -101,6 +102,8 @@ public class Amp implements Module {
     public Echo echo(){
         return echo;
     }
+
+    public AdjustableValue<Double> outputLevel(){ return outputLevel;}
 
 
 

@@ -44,7 +44,6 @@ public class Synth {
         mix = new AdjustableValue<>(1d);
 
         setWiring();
-        sequencer.play();
     }
 
     private void setWiring(){
@@ -57,16 +56,14 @@ public class Synth {
     }
 
 
-    public void playNote(String noteCode){
+    public void playNote(Note note){
 
-        String notesOrder = "CcDdEFfGgAaH"; //Uppercase - whole tone, Lowercase - half tone eg. A - A, A# - a, D# - d, Gb - f
-        double f0 = 261.63; // C4 261.63 Hz - base frequency
+        double baseFrequency = 261.63; // Hz
+        Note baseNote = new Note("C4");
 
-        int l = notesOrder.indexOf(noteCode.substring(0,1));
-        int k = Integer.parseInt(noteCode.substring(1,2)) - 4;
-        double n = 12 * k + l;
+        int change = note.difference(baseNote);
 
-        double frequency = f0 * Math.pow( (Math.pow(2d,1/12d)), n);
+        double frequency = baseFrequency * Math.pow( (Math.pow(2d,1/12d)), change);
 
         double chord = Math.pow( Math.pow(2d, 1/12d), chordTranspose.getValue());
 

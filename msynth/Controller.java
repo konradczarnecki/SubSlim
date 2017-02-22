@@ -3,6 +3,8 @@ package msynth;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
+import msynth.synth.Note;
 import msynth.synth.Synth;
 import msynth.synth.waves.*;
 
@@ -59,10 +61,33 @@ public class Controller {
     @FXML Label step15;
     @FXML Label step16;
 
+    @FXML ImageView led1;
+    @FXML ImageView led2;
+    @FXML ImageView led3;
+    @FXML ImageView led4;
+    @FXML ImageView led5;
+    @FXML ImageView led6;
+    @FXML ImageView led7;
+    @FXML ImageView led8;
+    @FXML ImageView led9;
+    @FXML ImageView led10;
+    @FXML ImageView led11;
+    @FXML ImageView led12;
+    @FXML ImageView led13;
+    @FXML ImageView led14;
+    @FXML ImageView led15;
+    @FXML ImageView led16;
+
+    @FXML Label bpm;
+    @FXML Label duration;
+    @FXML Label baseNote;
+    @FXML Label numberOfSteps;
+
+    @FXML Rectangle playButton;
+
     @FXML ImageView out;
 
     Synth synth;
-    Label[] steps;
 
 
     public void init(){
@@ -75,10 +100,15 @@ public class Controller {
 
         initEcho();
 
+        initSequencer();
+
         initSteps();
+
+        initLeds();
     }
 
     private void initEcho() {
+        
         Knob reverbDecayKnob = new Knob(echoVerb,0.3,0.9,0.5, synth.amp().echo().verbAmount());
 
         Knob delay1Knob = new Knob(echoTime1,20,500,150,null){
@@ -124,6 +154,8 @@ public class Controller {
 
         SmartKnob filterDecayKnob = new SmartKnob(filterDecay, 10,230,50,synth.filter().decay(),null);
         SmartKnob filterAttackKnob = new SmartKnob(filterAttack, 10, 230, 20, synth.filter().attack(), filterDecayKnob);
+
+        Knob outKnob = new Knob(out, 0,1,1,synth.amp().outputLevel());
     }
 
     private void initFilter() {
@@ -161,22 +193,86 @@ public class Controller {
 
     private void initSteps(){
 
-        SequencerField field1 = new SequencerField(step1,0,synth.sequencer().steps());
-        SequencerField field2 = new SequencerField(step2,1,synth.sequencer().steps());
-        SequencerField field3 = new SequencerField(step3,2,synth.sequencer().steps());
-        SequencerField field4 = new SequencerField(step4,3,synth.sequencer().steps());
-        SequencerField field5 = new SequencerField(step5,4,synth.sequencer().steps());
-        SequencerField field6 = new SequencerField(step6,5,synth.sequencer().steps());
-        SequencerField field7 = new SequencerField(step7,6,synth.sequencer().steps());
-        SequencerField field8 = new SequencerField(step8,7,synth.sequencer().steps());
-        SequencerField field9 = new SequencerField(step9,8,synth.sequencer().steps());
-        SequencerField field10 = new SequencerField(step10,9,synth.sequencer().steps());
-        SequencerField field11 = new SequencerField(step11,10,synth.sequencer().steps());
-        SequencerField field12 = new SequencerField(step12,11,synth.sequencer().steps());
-        SequencerField field13 = new SequencerField(step13,12,synth.sequencer().steps());
-        SequencerField field14 = new SequencerField(step14,13,synth.sequencer().steps());
-        SequencerField field15 = new SequencerField(step15,14,synth.sequencer().steps());
-        SequencerField field16 = new SequencerField(step16,15,synth.sequencer().steps());
+        SequencerStepLabel field1 = new SequencerStepLabel(step1,0,synth.sequencer().steps());
+        SequencerStepLabel field2 = new SequencerStepLabel(step2,1,synth.sequencer().steps());
+        SequencerStepLabel field3 = new SequencerStepLabel(step3,2,synth.sequencer().steps());
+        SequencerStepLabel field4 = new SequencerStepLabel(step4,3,synth.sequencer().steps());
+        SequencerStepLabel field5 = new SequencerStepLabel(step5,4,synth.sequencer().steps());
+        SequencerStepLabel field6 = new SequencerStepLabel(step6,5,synth.sequencer().steps());
+        SequencerStepLabel field7 = new SequencerStepLabel(step7,6,synth.sequencer().steps());
+        SequencerStepLabel field8 = new SequencerStepLabel(step8,7,synth.sequencer().steps());
+        SequencerStepLabel field9 = new SequencerStepLabel(step9,8,synth.sequencer().steps());
+        SequencerStepLabel field10 = new SequencerStepLabel(step10,9,synth.sequencer().steps());
+        SequencerStepLabel field11 = new SequencerStepLabel(step11,10,synth.sequencer().steps());
+        SequencerStepLabel field12 = new SequencerStepLabel(step12,11,synth.sequencer().steps());
+        SequencerStepLabel field13 = new SequencerStepLabel(step13,12,synth.sequencer().steps());
+        SequencerStepLabel field14 = new SequencerStepLabel(step14,13,synth.sequencer().steps());
+        SequencerStepLabel field15 = new SequencerStepLabel(step15,14,synth.sequencer().steps());
+        SequencerStepLabel field16 = new SequencerStepLabel(step16,15,synth.sequencer().steps());
+
+    }
+
+    private void initSequencer(){
+
+        bpm.setText("120");
+        SequencerField<Integer> bpmField = new SequencerField<Integer>(bpm, synth.sequencer().bpm()) {
+            @Override
+            void initValues() {
+
+                for(int i = 60; i <= 180; i++){
+                    values.add(i);
+                    valueStringRepresentations.put(i,Integer.toString(i));
+                }
+
+                currentIndex = values.indexOf(120);
+            }
+        };
+
+        duration.setText("1/2");
+        SequencerField<Double> durationField = new SequencerField<Double>(duration, synth.sequencer().noteLengthReciprocal()) {
+            @Override
+            void initValues() {
+
+                for(int i = 0; i < 4; i++){
+
+                    double durationReciprocal = Math.pow(2d,i);
+
+                    values.add(durationReciprocal);
+                    valueStringRepresentations.put(durationReciprocal, 1 + "/" + durationReciprocal);
+                }
+
+                currentIndex = values.indexOf(2);
+            }
+        };
+
+        baseNote.setText("C3");
+        SequencerField<Note> baseNoteField = new SequencerField<Note>(baseNote, synth.sequencer().baseNote()) {
+            @Override
+            void initValues() {
+
+
+                for(int octave = 2; octave <= 4; octave++){
+
+                    for(int noteHeight = 0; noteHeight < 12; noteHeight++){
+
+                        Note note = new Note(noteHeight,octave);
+                        values.add(note);
+                        valueStringRepresentations.put(note, synth.sequencer().noteRepresentations[noteHeight] + octave);
+                    }
+                }
+
+                currentIndex = values.indexOf(new Note("C3"));
+            }
+        };
+
+        playButton.setOnMouseClicked(event ->{
+
+            if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
+            else synth.sequencer().play();
+        });
+    }
+
+    private void initLeds(){
 
     }
 

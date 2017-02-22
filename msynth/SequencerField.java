@@ -2,20 +2,28 @@ package msynth;
 
 import javafx.scene.control.Label;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Created by konra on 21.02.2017.
+ * Created by konra on 22.02.2017.
  */
-public class SequencerField {
+public abstract class SequencerField <E> {
+
+    protected Map<E, String> valueStringRepresentations;
+    protected List<E> values;
+    protected int currentIndex;
+    protected double currentCursorScreenPosition;
 
 
-    double currentCursorScreenPosition;
-    int currentTransposeValue;
-    int stepNo;
+    public SequencerField(Label label, AdjustableValue<E> target){
 
+        values = new ArrayList<>();
+        valueStringRepresentations = new HashMap<>();
 
-    public SequencerField(Label label, int stepNo, int[] sequencerSteps) {
-
-        this.stepNo = stepNo;
+        initValues();
 
         label.setOnMousePressed(event -> {
             currentCursorScreenPosition = event.getScreenY();
@@ -23,20 +31,21 @@ public class SequencerField {
 
         label.setOnMouseDragged(event -> {
 
-            if (event.getScreenY() - currentCursorScreenPosition < -50 && currentTransposeValue < 12) {
-                currentTransposeValue++;
-                label.setText(Integer.toString(currentTransposeValue));
+            if (event.getScreenY() - currentCursorScreenPosition < -50 && currentIndex < values.size()-1) {
+                currentIndex++;
+                label.setText(valueStringRepresentations.get(values.get(currentIndex)));
                 currentCursorScreenPosition = event.getScreenY();
-                sequencerSteps[stepNo] = currentTransposeValue;
+                target.setValue(values.get(currentIndex));
             }
 
-            if (event.getScreenY() - currentCursorScreenPosition > 50 && currentTransposeValue > -12) {
-                currentTransposeValue--;
-                label.setText(Integer.toString(currentTransposeValue));
+            if (event.getScreenY() - currentCursorScreenPosition > 50 && currentIndex > 0) {
+                currentIndex--;
+                label.setText(valueStringRepresentations.get(values.get(currentIndex)));
                 currentCursorScreenPosition = event.getScreenY();
-                sequencerSteps[stepNo] = currentTransposeValue;
+                target.setValue(values.get(currentIndex));
             }
         });
-
     }
+
+    abstract void initValues();
 }

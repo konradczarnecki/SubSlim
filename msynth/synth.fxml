@@ -4,6 +4,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="740" maxWidth="1200" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1200" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="msynth.Controller">
@@ -201,6 +202,107 @@
       <Label fx:id="step16" alignment="CENTER" layoutX="1111.0" layoutY="431.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="0" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="30.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="playButton" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="41.0" layoutX="25.0" layoutY="550.0" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+      <ImageView fx:id="led1" fitHeight="22.0" fitWidth="22.0" layoutX="45.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led2" fitHeight="22.0" fitWidth="22.0" layoutX="118.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led3" fitHeight="22.0" fitWidth="22.0" layoutX="190.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led4" fitHeight="22.0" fitWidth="22.0" layoutX="262.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led5" fitHeight="22.0" fitWidth="22.0" layoutX="334.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led7" fitHeight="22.0" fitWidth="22.0" layoutX="482.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led8" fitHeight="22.0" fitWidth="22.0" layoutX="552.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led9" fitHeight="22.0" fitWidth="22.0" layoutX="624.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led10" fitHeight="22.0" fitWidth="22.0" layoutX="697.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led11" fitHeight="22.0" fitWidth="22.0" layoutX="770.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led12" fitHeight="22.0" fitWidth="22.0" layoutX="841.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led13" fitHeight="22.0" fitWidth="22.0" layoutX="913.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led14" fitHeight="22.0" fitWidth="22.0" layoutX="985.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led15" fitHeight="22.0" fitWidth="22.0" layoutX="1059.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led16" fitHeight="22.0" fitWidth="22.0" layoutX="1131.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="led6" fitHeight="22.0" fitWidth="22.0" layoutX="406.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@led.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="duration" alignment="CENTER" layoutX="316.0" layoutY="548.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="baseNote" alignment="CENTER" layoutX="602.0" layoutY="549.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfSteps" alignment="CENTER" layoutX="848.0" layoutY="549.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="bpm" alignment="CENTER" layoutX="1053.0" layoutY="550.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+         <font>
+            <Font size="27.0" />
          </font>
       </Label>
    </children>
