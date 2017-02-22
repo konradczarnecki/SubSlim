@@ -1,5 +1,9 @@
 package msynth.synth;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import msynth.AdjustableValue;
 
 import java.util.Arrays;
@@ -14,17 +18,16 @@ public class Sequencer {
     private static final double MILLIS_IN_MINUTE = 60000;
     public static final String[] noteRepresentations = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"};
 
-     private int[] steps;
-    //private int[] steps = {0,0,7,0,5,3,0,0,2,0,-5,-12,-7,0,-2,0};
-    //private int[] steps = {0,0,0,3,0,2,0,0,5,0,5,-12,7,12,0,3};
+    private int[] steps;
     private int currentStep;
     private AdjustableValue<Note> baseNote;
     private AdjustableValue<Integer> bpm;
     private Synth synth;
     private AdjustableValue<Boolean> isPlaying;
-    private AdjustableValue<Double> noteLengthReciprocal;
+    private AdjustableValue<Integer> noteLengthReciprocal;
     private Timer tm;
     private AdjustableValue<Integer> numberOfSteps;
+    private Label[] stepLabels;
 
     public Sequencer(Synth synth){
         steps = new int[16];
@@ -33,8 +36,9 @@ public class Sequencer {
         currentStep = 0;
         baseNote = new AdjustableValue<>(new Note("C3"));
         bpm = new AdjustableValue<>(120);
-        noteLengthReciprocal = new AdjustableValue<>(2d);
+        noteLengthReciprocal = new AdjustableValue<>(2);
         isPlaying = new AdjustableValue<>(false);
+        numberOfSteps = new AdjustableValue<>(16);
     }
 
     public void setStep(int stepNo, int value){
@@ -58,8 +62,39 @@ public class Sequencer {
 
                 synth.playNote(noteToPlay);
 
+                Task<Void> updateLight = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if(currentStep == 0) {
+
+                                    stepLabels[numberOfSteps.getValue()-1].setEffect(new Glow(1));
+                                    stepLabels[numberOfSteps.getValue()-2].setEffect(null);
+
+                                } else if (currentStep == 1){
+
+                                    stepLabels[0].setEffect(new Glow(1));
+                                    stepLabels[numberOfSteps.getValue()-1].setEffect(null);
+
+                                } else {
+
+                                    stepLabels[currentStep-1].setEffect(new Glow(1));
+                                    stepLabels[currentStep-2].setEffect(null);
+                                }
+                            }
+                        });
+                        return null;
+                    }
+                };
+
+                updateLight.run();
+
                 currentStep ++;
-                if(currentStep == 16) currentStep = 0;
+                if(currentStep == numberOfSteps.getValue()) currentStep = 0;
 
             }
         },(long)0,(long)interval);
@@ -70,6 +105,7 @@ public class Sequencer {
     public void stop(){
         tm.cancel();
         isPlaying.setValue(false);
+        currentStep = 0;
     }
 
     public AdjustableValue<Boolean> isPlaying(){ return isPlaying;}
@@ -82,6 +118,12 @@ public class Sequencer {
 
     public AdjustableValue<Note> baseNote(){ return baseNote;}
 
-    public AdjustableValue<Double> noteLengthReciprocal(){return noteLengthReciprocal;}
+    public AdjustableValue<Integer> noteLengthReciprocal(){return noteLengthReciprocal;}
+
+    public AdjustableValue<Integer> numberOfSteps(){ return numberOfSteps;}
+
+    public void setStepLabels(Label[] stepLabels){
+        this.stepLabels = stepLabels;
+    }
 
 }

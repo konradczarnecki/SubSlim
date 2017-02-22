@@ -87,6 +87,8 @@ public class Controller {
 
     @FXML ImageView out;
 
+    Label[] stepLabels;
+
     Synth synth;
 
 
@@ -104,11 +106,13 @@ public class Controller {
 
         initSteps();
 
+        stepsToArray();
+
         initLeds();
     }
 
     private void initEcho() {
-        
+
         Knob reverbDecayKnob = new Knob(echoVerb,0.3,0.9,0.5, synth.amp().echo().verbAmount());
 
         Knob delay1Knob = new Knob(echoTime1,20,500,150,null){
@@ -123,10 +127,9 @@ public class Controller {
 
                     synth.amp().echo().setDelay1(currentValue);
                 });
-
             }
-
         };
+
 
         Knob delay2Knob = new Knob(echoTime2,20,500,70,null){
 
@@ -140,15 +143,15 @@ public class Controller {
 
                     synth.amp().echo().setDelay2(currentValue);
                 });
-
             }
-
         };
+
 
         Knob echoWetKnob = new Knob(echoDryWet,0,0.8,0,synth.amp().echo().wet());
     }
 
     private void initEnvelopes() {
+
         SmartKnob decayKnob = new SmartKnob(decay,10,230, 50,  synth.amp().decay(), null);
         SmartKnob attackKnob = new SmartKnob(attack,10,230, 20,synth.amp().attack(),decayKnob);
 
@@ -159,6 +162,7 @@ public class Controller {
     }
 
     private void initFilter() {
+
         Knob cutoffKnob = new Knob(cutoff,0,12000,0,synth.filter().cutoff());
 
         Knob resonanceKnob = new Knob(resonance,0,1,0,synth.filter().resonance());
@@ -171,6 +175,7 @@ public class Controller {
     }
 
     private void initOscillators() {
+
         Wave[] osc1WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
         KnobSwitch<Wave> osc1WaveKnob = new KnobSwitch<>(osc1WaveValues,osc1Wave,synth.osc1Wave());
 
@@ -215,6 +220,7 @@ public class Controller {
     private void initSequencer(){
 
         bpm.setText("120");
+
         SequencerField<Integer> bpmField = new SequencerField<Integer>(bpm, synth.sequencer().bpm()) {
             @Override
             void initValues() {
@@ -228,24 +234,28 @@ public class Controller {
             }
         };
 
-        duration.setText("1/2");
-        SequencerField<Double> durationField = new SequencerField<Double>(duration, synth.sequencer().noteLengthReciprocal()) {
+
+        duration.setText("1/8");
+
+        SequencerField<Integer> durationField = new SequencerField<Integer>(duration, synth.sequencer().noteLengthReciprocal()) {
             @Override
             void initValues() {
 
                 for(int i = 0; i < 4; i++){
 
-                    double durationReciprocal = Math.pow(2d,i);
+                    int durationReciprocal = (int) Math.pow(2d,i);
 
                     values.add(durationReciprocal);
-                    valueStringRepresentations.put(durationReciprocal, 1 + "/" + durationReciprocal);
+                    valueStringRepresentations.put(durationReciprocal, 1 + "/" + durationReciprocal*4);
                 }
 
                 currentIndex = values.indexOf(2);
             }
         };
 
+
         baseNote.setText("C3");
+
         SequencerField<Note> baseNoteField = new SequencerField<Note>(baseNote, synth.sequencer().baseNote()) {
             @Override
             void initValues() {
@@ -265,6 +275,22 @@ public class Controller {
             }
         };
 
+        numberOfSteps.setText("16");
+
+        SequencerField<Integer> numberOfStepsField = new SequencerField<Integer>(numberOfSteps, synth.sequencer().numberOfSteps()) {
+            @Override
+            void initValues() {
+
+                for(int i = 1; i <= 16; i++){
+                    values.add(i);
+                    valueStringRepresentations.put(i,Integer.toString(i));
+                }
+
+                currentIndex = values.indexOf(16);
+            }
+        };
+
+
         playButton.setOnMouseClicked(event ->{
 
             if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
@@ -274,6 +300,30 @@ public class Controller {
 
     private void initLeds(){
 
+    }
+
+    private void stepsToArray(){
+
+        stepLabels = new Label[16];
+
+        stepLabels[0] = step1;
+        stepLabels[1] = step2;
+        stepLabels[2] = step3;
+        stepLabels[3] = step4;
+        stepLabels[4] = step5;
+        stepLabels[5] = step6;
+        stepLabels[6] = step7;
+        stepLabels[7] = step8;
+        stepLabels[8] = step9;
+        stepLabels[9] = step10;
+        stepLabels[10] = step11;
+        stepLabels[11] = step12;
+        stepLabels[12] = step13;
+        stepLabels[13] = step14;
+        stepLabels[14] = step15;
+        stepLabels[15] = step16;
+
+        synth.sequencer().setStepLabels(stepLabels);
     }
 
     public ImageView getBackground(){
