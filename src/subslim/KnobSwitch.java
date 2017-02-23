@@ -3,16 +3,23 @@ package subslim;
 
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+
 /**
  * Created by konra on 15.02.2017.
  */
 public class KnobSwitch <E> {
 
+    public static ArrayList<KnobSwitch> switches = new ArrayList<>();
+
     private double currentCursorPosition;
     private int position;
+    private ImageView knob;
 
 
     public KnobSwitch(E[] values, ImageView knob, AdjustableValue<E> target){
+
+        this.knob = knob;
 
         if (values.length % 2 == 0) throw new IllegalArgumentException();
 
@@ -47,6 +54,19 @@ public class KnobSwitch <E> {
             }
         });
 
+        switches.add(this);
+    }
 
+    public double getRotation(){
+        return knob.getRotate();
+    }
+
+    public int getPosition(){
+        return position;
+    }
+
+    public void setState(double rotation, int position){
+        knob.setRotate(rotation);
+        this.position = position;
     }
 }

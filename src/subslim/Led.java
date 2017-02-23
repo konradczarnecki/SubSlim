@@ -3,12 +3,25 @@ package subslim;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+
 /**
  * Created by konra on 22.02.2017.
  */
 public class Led {
 
+    public static ArrayList<Led> leds = new ArrayList<>();
+
+    ImageView image;
+    boolean[] activeSteps;
+    int stepNo;
+
+
     public Led(ImageView iv, int stepNo, boolean[] activeSteps){
+
+        image = iv;
+        this.activeSteps = activeSteps;
+        this.stepNo = stepNo;
 
         iv.setOnMouseClicked(event->{
 
@@ -20,5 +33,18 @@ public class Led {
                 activeSteps[stepNo] = true;
             }
         });
+
+        leds.add(this);
+    }
+
+    public boolean getActive(){
+        return activeSteps[stepNo];
+    }
+
+    public void setActive(boolean active){
+        activeSteps[stepNo] = active;
+
+        if(active) image.setImage(new Image("res/led.png"));
+        else image.setImage(new Image("res/led_off.png"));
     }
 }

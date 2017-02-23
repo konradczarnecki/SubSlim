@@ -87,9 +87,18 @@ public class Controller {
 
     @FXML ImageView out;
 
+    @FXML ImageView savePreset;
+    @FXML ImageView openPreset;
+
     Label[] stepLabels;
+    ImageView[] ledImageViews;
+
+    SequencerStepLabel[] sequencerSteps;
+    Led[] leds;
 
     Synth synth;
+
+    PresetManager presetManager;
 
 
     public void init(){
@@ -104,18 +113,18 @@ public class Controller {
 
         initSequencer();
 
-        initSteps();
+        stepsAndLedsToArray();
 
-        stepsToArray();
+        initStepsAndLeds();
 
-        initLeds();
+        initPresets();
     }
 
     private void initEcho() {
 
         Knob reverbDecayKnob = new Knob(echoVerb,0.3,1,0.5, synth.amp().echo().verbAmount());
 
-        Knob delay1Knob = new Knob(echoTime1,20,500,150,null){
+        Knob delay1Knob = new Knob(echoTime1,20,700,150,null){
 
             protected void bindKnob(){
 
@@ -131,7 +140,7 @@ public class Controller {
         };
 
 
-        Knob delay2Knob = new Knob(echoTime2,20,500,70,null){
+        Knob delay2Knob = new Knob(echoTime2,20,700,70,null){
 
             protected void bindKnob(){
 
@@ -163,7 +172,7 @@ public class Controller {
 
     private void initFilter() {
 
-        Knob cutoffKnob = new Knob(cutoff,0,12000,0,synth.filter().cutoff());
+        Knob cutoffKnob = new Knob(cutoff,0,14000,3000,synth.filter().cutoff());
 
         Knob resonanceKnob = new Knob(resonance,0,1,0,synth.filter().resonance());
 
@@ -196,24 +205,20 @@ public class Controller {
         Knob mixKnob = new Knob(mix,0,2,1,synth.mix());
     }
 
-    private void initSteps(){
+    private void initStepsAndLeds(){
 
-        SequencerStepLabel field1 = new SequencerStepLabel(step1,0,synth.sequencer().steps());
-        SequencerStepLabel field2 = new SequencerStepLabel(step2,1,synth.sequencer().steps());
-        SequencerStepLabel field3 = new SequencerStepLabel(step3,2,synth.sequencer().steps());
-        SequencerStepLabel field4 = new SequencerStepLabel(step4,3,synth.sequencer().steps());
-        SequencerStepLabel field5 = new SequencerStepLabel(step5,4,synth.sequencer().steps());
-        SequencerStepLabel field6 = new SequencerStepLabel(step6,5,synth.sequencer().steps());
-        SequencerStepLabel field7 = new SequencerStepLabel(step7,6,synth.sequencer().steps());
-        SequencerStepLabel field8 = new SequencerStepLabel(step8,7,synth.sequencer().steps());
-        SequencerStepLabel field9 = new SequencerStepLabel(step9,8,synth.sequencer().steps());
-        SequencerStepLabel field10 = new SequencerStepLabel(step10,9,synth.sequencer().steps());
-        SequencerStepLabel field11 = new SequencerStepLabel(step11,10,synth.sequencer().steps());
-        SequencerStepLabel field12 = new SequencerStepLabel(step12,11,synth.sequencer().steps());
-        SequencerStepLabel field13 = new SequencerStepLabel(step13,12,synth.sequencer().steps());
-        SequencerStepLabel field14 = new SequencerStepLabel(step14,13,synth.sequencer().steps());
-        SequencerStepLabel field15 = new SequencerStepLabel(step15,14,synth.sequencer().steps());
-        SequencerStepLabel field16 = new SequencerStepLabel(step16,15,synth.sequencer().steps());
+        sequencerSteps = new SequencerStepLabel[16];
+        leds = new Led[16];
+
+        for(int i = 0; i < 16; i++){
+
+            sequencerSteps[i] = new SequencerStepLabel(stepLabels[i],i,synth.sequencer().steps());
+        }
+
+        for(int i = 0; i < 16; i++){
+
+            leds[i] = new Led(ledImageViews[i], i, synth.sequencer().activeSteps());
+        }
 
     }
 
@@ -298,28 +303,7 @@ public class Controller {
         });
     }
 
-    private void initLeds(){
-
-        Led led1Field = new Led(led1, 0, synth.sequencer().activeSteps());
-        Led led2Field = new Led(led2, 1, synth.sequencer().activeSteps());
-        Led led3Field = new Led(led3, 2, synth.sequencer().activeSteps());
-        Led led4Field = new Led(led4, 3, synth.sequencer().activeSteps());
-        Led led5Field = new Led(led5, 4, synth.sequencer().activeSteps());
-        Led led6Field = new Led(led6, 5, synth.sequencer().activeSteps());
-        Led led7Field = new Led(led7, 6, synth.sequencer().activeSteps());
-        Led led8Field = new Led(led8, 7, synth.sequencer().activeSteps());
-        Led led9Field = new Led(led9, 8, synth.sequencer().activeSteps());
-        Led led10Field = new Led(led10, 9, synth.sequencer().activeSteps());
-        Led led11Field = new Led(led11, 10, synth.sequencer().activeSteps());
-        Led led12Field = new Led(led12, 11, synth.sequencer().activeSteps());
-        Led led13Field = new Led(led13, 12, synth.sequencer().activeSteps());
-        Led led14Field = new Led(led14, 13, synth.sequencer().activeSteps());
-        Led led15Field = new Led(led15, 14, synth.sequencer().activeSteps());
-        Led led16Field = new Led(led16, 15, synth.sequencer().activeSteps());
-
-    }
-
-    private void stepsToArray(){
+    private void stepsAndLedsToArray(){
 
         stepLabels = new Label[16];
 
@@ -341,6 +325,39 @@ public class Controller {
         stepLabels[15] = step16;
 
         synth.sequencer().setStepLabels(stepLabels);
+
+        ledImageViews = new ImageView[16];
+
+        ledImageViews[0] = led1;
+        ledImageViews[1] = led2;
+        ledImageViews[2] = led3;
+        ledImageViews[3] = led4;
+        ledImageViews[4] = led5;
+        ledImageViews[5] = led6;
+        ledImageViews[6] = led7;
+        ledImageViews[7] = led8;
+        ledImageViews[8] = led9;
+        ledImageViews[9] = led10;
+        ledImageViews[10] = led11;
+        ledImageViews[11] = led12;
+        ledImageViews[12] = led13;
+        ledImageViews[13] = led14;
+        ledImageViews[14] = led15;
+        ledImageViews[15] = led16;
+    }
+
+    private void initPresets(){
+
+        savePreset.setOnMouseClicked(event->{
+
+            presetManager.savePreset();
+        });
+
+        openPreset.setOnMouseClicked(event->{
+
+            presetManager.loadPreset();
+        });
+
     }
 
     public ImageView getBackground(){
@@ -350,5 +367,7 @@ public class Controller {
     public void setSynth(Synth synth){
         this.synth = synth;
     }
+
+    public void setPresetManager(PresetManager manager){presetManager = manager;}
 
 }

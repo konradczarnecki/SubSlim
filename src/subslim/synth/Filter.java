@@ -24,7 +24,7 @@ public class Filter implements Module {
 
 
         y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
-        cutoff = new AdjustableValue<>(5000d);
+        cutoff = new AdjustableValue<>(3000d);
         resonance = new AdjustableValue<>(0d);
         envelopeAmount = new AdjustableValue<>(0d);
         reminder = 0;

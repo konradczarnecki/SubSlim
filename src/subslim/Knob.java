@@ -2,10 +2,14 @@ package subslim;
 
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+
 /**
  * Created by konra on 15.02.2017.
  */
 public class Knob {
+
+    public static ArrayList<Knob> knobs = new ArrayList<>();
 
     protected double maxValue;
     protected double minValue;
@@ -24,6 +28,8 @@ public class Knob {
         currentValue = def;
         this.target = target;
         this.knobImage = knobImage;
+
+        knobs.add(this);
 
         setMovement();
         bindKnob();
@@ -60,6 +66,14 @@ public class Knob {
 
             currentCursorScreenPosition = event.getScreenY();
         });
+    }
+
+    public double getRotation(){
+        return knobImage.getRotate();
+    }
+
+    public void setRotation(double rotation){
+        knobImage.setRotate(rotation);
     }
 
 

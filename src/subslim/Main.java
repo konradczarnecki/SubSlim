@@ -27,7 +27,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("synth.fxml"));
 
         AnchorPane root = loader.load();
-        primaryStage.setTitle("Synth v 0.1");
+        primaryStage.setTitle("SubSlim");
         primaryStage.setScene(new Scene(root, 1200, 620));
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -52,7 +52,9 @@ public class Main extends Application {
         });
 
         Synth synth = new Synth();
+        PresetManager presetManager = new PresetManager(primaryStage);
         controller.setSynth(synth);
+        controller.setPresetManager(presetManager);
         controller.init();
     }
 
