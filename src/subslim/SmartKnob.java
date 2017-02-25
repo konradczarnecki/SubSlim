@@ -20,7 +20,7 @@ public class SmartKnob extends Knob {
 
             knobImage.rotateProperty().addListener((observable, oldValue, newValue) -> {
 
-                slave.setMax(this.maxValue+70-currentValue);
+                slave.setMax(this.maxValue+901  -currentValue);
             });
         }
     }

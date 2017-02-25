@@ -20,7 +20,7 @@ public class Knob {
     protected AdjustableValue<Double> target;
     ImageView knobImage;
 
-    public Knob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target){
+    private Knob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target){
 
         maxValue = max;
         minValue = min;
@@ -28,8 +28,6 @@ public class Knob {
         currentValue = def;
         this.target = target;
         this.knobImage = knobImage;
-
-        knobs.add(this);
 
         setMovement();
         bindKnob();
@@ -75,6 +73,16 @@ public class Knob {
     public void setRotation(double rotation){
         knobImage.setRotate(rotation);
     }
+
+    public static void createAndBind(ImageView image, double min, double max, double def, AdjustableValue<Double> target){
+
+        Knob knob = new Knob(image, min, max, def, target);
+
+        knobs.add(knob);
+
+    }
+
+    public static void createAndBindDelay
 
 
 }
