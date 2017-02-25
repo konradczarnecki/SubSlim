@@ -15,13 +15,14 @@ import java.util.TimerTask;
  */
 public class Sequencer {
 
-    private static final double MILLIS_IN_MINUTE = 60000;
+    public static final double MILLIS_IN_MINUTE = 60000;
     public static final String[] noteRepresentations = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"};
 
     private int[] steps;
     private int currentStep;
     private Label[] stepLabels;
     private boolean[] activeSteps;
+    private Integer repeatNo;
 
     private AdjustableValue<Integer> numberOfSteps;
     private AdjustableValue<Note> baseNote;
@@ -50,9 +51,11 @@ public class Sequencer {
         Arrays.fill(activeSteps,true);
     }
 
-    public void play(){
+    public void play(Integer repeats){
 
         double interval = MILLIS_IN_MINUTE/(noteLengthReciprocal.getValue() * bpm.getValue());
+
+        repeatNo = 0;
 
         isPlaying.setValue(true);
 
@@ -67,6 +70,7 @@ public class Sequencer {
                 Note noteToPlay = baseNote.getValue().transpose(change);
 
                 if(activeSteps[currentStep]) synth.playNote(noteToPlay);
+
 
                 Task<Void> updateLight = new Task<Void>() {
                     @Override
@@ -98,6 +102,15 @@ public class Sequencer {
                 };
 
                 updateLight.run();
+
+                if(repeats != null){
+
+                    if(repeatNo == repeats){
+                        tm.cancel();
+                    }
+
+                    repeatNo++;
+                }
 
                 currentStep ++;
                 if(currentStep == numberOfSteps.getValue()) currentStep = 0;

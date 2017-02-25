@@ -10,11 +10,11 @@ import java.util.ArrayList;
  */
 public class Led {
 
-    public static ArrayList<Led> leds = new ArrayList<>();
+    public final static ArrayList<Led> leds = new ArrayList<>();
 
-    ImageView image;
-    boolean[] activeSteps;
-    int stepNo;
+    private ImageView image;
+    private boolean[] activeSteps;
+    private int stepNo;
 
 
     public Led(ImageView iv, int stepNo, boolean[] activeSteps){

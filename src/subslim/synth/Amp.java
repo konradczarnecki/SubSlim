@@ -2,9 +2,14 @@ package subslim.synth;
 
 import subslim.AdjustableValue;
 import subslim.synth.effect.Echo;
+import wavfile.WavFile;
+import wavfile.WavFileException;
 
 import javax.sound.sampled.*;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+
+
 
 
 /**
@@ -12,15 +17,22 @@ import java.nio.ByteBuffer;
  */
 public class Amp implements Module {
 
+    public enum WriteTarget{OUT, WAVE}
+
+    WavFile file;
+    long numberOfFrames;
+    long frameCounter;
+
     SourceDataLine line;
     Envelope env;
     Echo echo;
+    WriteTarget target;
 
     AdjustableValue<Double> attack, decay, outputLevel;
 
     public Amp()  {
 
-        AudioFormat format = new AudioFormat(Synth.SAMPLE_RATE, Synth.BIT_DEPTH, 1, true, true);
+        AudioFormat format = new AudioFormat(Synth.SAMPLE_RATE, Synth.BIT_DEPTH, 1, true, false);
 
         try {
 
@@ -33,8 +45,10 @@ public class Amp implements Module {
 
         line.start();
 
-        attack = new AdjustableValue<>(20d);
-        decay = new AdjustableValue<>(150d);
+        target = WriteTarget.OUT;
+
+        attack = new AdjustableValue<>(40d);
+        decay = new AdjustableValue<>(180d);
         outputLevel = new AdjustableValue<>(1d);
 
         echo = new Echo();
@@ -45,7 +59,12 @@ public class Amp implements Module {
 
         applyEnvelope(buffer);
         buffer = echo.processBuffer(buffer);
-        amplifyAndWrite(buffer);
+
+        if(target == WriteTarget.OUT) {
+            byte[] outBuffer = toBytes(buffer);
+            write(outBuffer);
+        }
+        else writeToWav(buffer);
     }
 
     public void startEnvelope() {
@@ -64,7 +83,7 @@ public class Amp implements Module {
     }
 
 
-    private void amplifyAndWrite(double[] buffer){
+    private byte[] toBytes(double[] buffer){
 
 
         byte[] outputBuffer = new byte[2*Synth.BUFFER_SIZE];
@@ -78,18 +97,24 @@ public class Amp implements Module {
 
             byte[] sampleBytes = sample.array();
 
-
-
-            outputBuffer[2*i] = sampleBytes[0];
-            outputBuffer[2*i+1] = sampleBytes[1];
+            outputBuffer[2*i] = sampleBytes[1];
+            outputBuffer[2*i+1] = sampleBytes[0];
         }
 
-        line.write(outputBuffer, 0, 2*Synth.BUFFER_SIZE);
+        return outputBuffer;
     }
 
-    public void setOutput(Module module){
+    private void write(byte[] buffer){
+
+        line.write(buffer, 0, 2*Synth.BUFFER_SIZE);
+    }
+
+    private void writeToWav(double[] buffer){
+
 
     }
+
+    public void setOutput(Module module){}
 
     public AdjustableValue<Double> attack(){
         return attack;
@@ -104,6 +129,7 @@ public class Amp implements Module {
     }
 
     public AdjustableValue<Double> outputLevel(){ return outputLevel;}
+
 
 
 

@@ -21,7 +21,7 @@ public class Lfo {
     }
     public double nextFactor(){
 
-        double factor = (Math.sin(2*Math.PI*(frequency.getValue()/(double) Synth.SAMPLE_RATE)*counter)+1)/2;
+        double factor = 0.1 + 0.9*((Math.sin(2*Math.PI*(frequency.getValue()/(double) Synth.SAMPLE_RATE)*counter)+1)/2);
         factor = Math.pow(factor,depth.getValue());
         counter++;
 

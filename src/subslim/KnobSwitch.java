@@ -15,11 +15,15 @@ public class KnobSwitch <E> {
     private double currentCursorPosition;
     private int position;
     private ImageView knob;
+    private AdjustableValue<E> target;
+    private E[] values;
 
 
     public KnobSwitch(E[] values, ImageView knob, AdjustableValue<E> target){
 
         this.knob = knob;
+        this.target = target;
+        this.values = values;
 
         if (values.length % 2 == 0) throw new IllegalArgumentException();
 
@@ -68,5 +72,6 @@ public class KnobSwitch <E> {
     public void setState(double rotation, int position){
         knob.setRotate(rotation);
         this.position = position;
+        target.setValue(values[position]);
     }
 }

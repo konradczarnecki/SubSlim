@@ -6,6 +6,8 @@ package subslim.synth;
 public class Envelope {
 
     private double[] factors;
+    private double attackShape = 0.6;
+    private double decayShape = 1.5;
 
     int counter;
 
@@ -23,11 +25,11 @@ public class Envelope {
 
 
         for(int i = 0; i < attackInSamples; i++){
-            factors[i] = i * attackIncrement;
+            factors[i] = Math.pow((i * attackIncrement), attackShape);
         }
 
         for(int i = attackInSamples; i < attackInSamples + decayInSamples; i++){
-            factors[i] = 1 - (i - attackInSamples) * decayIncrement;
+            factors[i] = Math.pow((1 - (i - attackInSamples) * decayIncrement), decayShape);
         }
 
     }
@@ -38,6 +40,11 @@ public class Envelope {
             return factors[counter++];
         else return 0;
 
+    }
+
+    public void setShape(double attackFactor, double decayFactor){
+        attackShape = attackFactor;
+        decayShape = decayFactor;
     }
 
 }

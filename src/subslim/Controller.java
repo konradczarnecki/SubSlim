@@ -4,9 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import subslim.synth.Note;
+import subslim.synth.Sequencer;
 import subslim.synth.Synth;
 import subslim.synth.waves.*;
+import wavfile.*;
+
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -89,6 +95,7 @@ public class Controller {
 
     @FXML ImageView savePreset;
     @FXML ImageView openPreset;
+    @FXML ImageView exportWave;
 
     Label[] stepLabels;
     ImageView[] ledImageViews;
@@ -118,6 +125,7 @@ public class Controller {
         initStepsAndLeds();
 
         initPresets();
+
     }
 
     private void initEcho() {
@@ -138,7 +146,6 @@ public class Controller {
                 });
             }
         };
-
 
         Knob delay2Knob = new Knob(echoTime2,20,700,70,null){
 
@@ -161,24 +168,28 @@ public class Controller {
 
     private void initEnvelopes() {
 
-        SmartKnob decayKnob = new SmartKnob(decay,10,230, 50,  synth.amp().decay(), null);
-        SmartKnob attackKnob = new SmartKnob(attack,10,230, 20,synth.amp().attack(),decayKnob);
+        SmartKnob decayKnob = new SmartKnob(decay,10,230, 180,  synth.amp().decay(), null);
+        SmartKnob attackKnob = new SmartKnob(attack,30,180, 40,synth.amp().attack(),decayKnob);
 
-        SmartKnob filterDecayKnob = new SmartKnob(filterDecay, 10,230,50,synth.filter().decay(),null);
-        SmartKnob filterAttackKnob = new SmartKnob(filterAttack, 10, 230, 20, synth.filter().attack(), filterDecayKnob);
+        SmartKnob filterDecayKnob = new SmartKnob(filterDecay, 10,230,200,synth.filter().decay(),null);
+        SmartKnob filterAttackKnob = new SmartKnob(filterAttack, 30, 180, 40, synth.filter().attack(), filterDecayKnob);
+
+
+
+
 
         Knob outKnob = new Knob(out, 0,1,1,synth.amp().outputLevel());
     }
 
     private void initFilter() {
 
-        Knob cutoffKnob = new Knob(cutoff,0,14000,3000,synth.filter().cutoff());
+        Knob cutoffKnob = new Knob(cutoff,100,14000,3000,synth.filter().cutoff());
 
         Knob resonanceKnob = new Knob(resonance,0,1,0,synth.filter().resonance());
 
         Knob filterEnvKnob = new Knob(filterEnv,0,1,0,synth.filter().envAmount());
 
-        Knob lfo1FrequencyKnob = new Knob(lfo1Rate,0.1,6,1,synth.filter().lfoFrequency());
+        Knob lfo1FrequencyKnob = new Knob(lfo1Rate,0.05,4,1,synth.filter().lfoFrequency());
 
         Knob lfo1DepthKnob = new Knob(lfo1Depth, 0,1,0,synth.filter().lfoDepth());
     }
@@ -299,7 +310,7 @@ public class Controller {
         playButton.setOnMouseClicked(event ->{
 
             if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
-            else synth.sequencer().play();
+            else synth.sequencer().play(null);
         });
     }
 
@@ -359,6 +370,7 @@ public class Controller {
         });
 
     }
+
 
     public ImageView getBackground(){
         return back;

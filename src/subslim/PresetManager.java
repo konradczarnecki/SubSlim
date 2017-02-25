@@ -97,8 +97,9 @@ public class PresetManager {
                 e.printStackTrace();
             }
         }
+    }
 
-
-
+    public Stage getParentWindow(){
+        return parent;
     }
 }
