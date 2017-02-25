@@ -1,14 +1,13 @@
 package subslim.synth;
 
-
 import java.util.ArrayList;
 
 
 public class ChannelMixer implements Module {
 
-    Module out;
-    ArrayList<double[]> buffers;
-    int numberOfChannels;
+    private Module out;
+    private ArrayList<double[]> buffers;
+    private int numberOfChannels;
 
     public ChannelMixer(int numberOfChannels){
 

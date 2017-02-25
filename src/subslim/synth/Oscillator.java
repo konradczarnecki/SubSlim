@@ -1,6 +1,6 @@
 package subslim.synth;
 
-import subslim.synth.waves.*;
+import subslim.synth.wave.*;
 
 /**
  * Created by konra on 06.02.2017.

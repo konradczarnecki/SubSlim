@@ -22,18 +22,18 @@ public class AllPassFilter {
 
     }
 
-    public double[] processBuffer(double[] buffer,double coefficient){
+    public double[] processBuffer(double[] buffer,double feedbackCoefficient){
 
         double[] outBuffer = new double[Synth.BUFFER_SIZE];
 
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){
 
             double fromDelay = delayBuffer.removeLast();
-            double toDelay = (buffer[i] + coefficient*fromDelay);
+            double toDelay = (buffer[i] + feedbackCoefficient*fromDelay);
 
             delayBuffer.addFirst(toDelay);
 
-            double out = fromDelay - coefficient*toDelay;
+            double out = fromDelay - feedbackCoefficient*toDelay;
 
             outBuffer[i] = out;
         }

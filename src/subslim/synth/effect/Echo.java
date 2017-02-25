@@ -8,22 +8,21 @@ import subslim.synth.Synth;
  */
 public class Echo {
 
+    private static final double[] REVERB_DELAY_TIMES = {7,23,59,67,71};
+
     private Reverb verb;
     private Delay delay1, delay2;
     private AdjustableValue<Double> wet;
     private AdjustableValue<Double> verbAmount;
-
-
-    private double[] coeffs = {7,23,59,67,71};
 
     public Echo(){
 
         wet = new AdjustableValue<>(0d);
         verbAmount = new AdjustableValue<>(0d);
 
-        verb = new Reverb(coeffs, verbAmount);
-        delay1 = new Delay(150,new AdjustableValue<>(0.4));
-        delay2 = new Delay(75,new AdjustableValue<>(0.4));
+        verb = new Reverb(REVERB_DELAY_TIMES, verbAmount);
+        delay1 = new Delay(150,wet);
+        delay2 = new Delay(75,wet);
 
     }
 

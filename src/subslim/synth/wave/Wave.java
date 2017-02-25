@@ -1,4 +1,4 @@
-package subslim.synth.waves;
+package subslim.synth.wave;
 
 /**
  * Created by konra on 08.02.2017.

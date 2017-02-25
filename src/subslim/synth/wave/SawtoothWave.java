@@ -1,4 +1,4 @@
-package subslim.synth.waves;
+package subslim.synth.wave;
 
 import subslim.synth.Synth;
 

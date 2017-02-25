@@ -9,26 +9,19 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-
-
-
 /**
  * Created by konra on 06.02.2017.
  */
 public class Amp implements Module {
 
-    public enum WriteTarget{OUT, WAVE}
+    public static final double ATTACK_DEFAULT = 40;
+    public static final double DECAY_DEFAULT = 180;
 
-    WavFile file;
-    long numberOfFrames;
-    long frameCounter;
+    private SourceDataLine line;
+    private Envelope env;
+    private Echo echo;
 
-    SourceDataLine line;
-    Envelope env;
-    Echo echo;
-    WriteTarget target;
-
-    AdjustableValue<Double> attack, decay, outputLevel;
+    private AdjustableValue<Double> attack, decay, outputLevel;
 
     public Amp()  {
 
@@ -45,10 +38,8 @@ public class Amp implements Module {
 
         line.start();
 
-        target = WriteTarget.OUT;
-
-        attack = new AdjustableValue<>(40d);
-        decay = new AdjustableValue<>(180d);
+        attack = new AdjustableValue<>(ATTACK_DEFAULT);
+        decay = new AdjustableValue<>(DECAY_DEFAULT);
         outputLevel = new AdjustableValue<>(1d);
 
         echo = new Echo();
@@ -60,11 +51,9 @@ public class Amp implements Module {
         applyEnvelope(buffer);
         buffer = echo.processBuffer(buffer);
 
-        if(target == WriteTarget.OUT) {
-            byte[] outBuffer = toBytes(buffer);
-            write(outBuffer);
-        }
-        else writeToWav(buffer);
+        byte[] outBuffer = toBytes(buffer);
+        write(outBuffer);
+
     }
 
     public void startEnvelope() {
@@ -109,10 +98,6 @@ public class Amp implements Module {
         line.write(buffer, 0, 2*Synth.BUFFER_SIZE);
     }
 
-    private void writeToWav(double[] buffer){
-
-
-    }
 
     public void setOutput(Module module){}
 

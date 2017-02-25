@@ -7,6 +7,9 @@ import subslim.AdjustableValue;
  */
 public class Filter implements Module {
 
+    public static final double ATTACK_DEFAULT = 40;
+    public static final double DECAY_DEFAULT = 180;
+
     private Module out;
 
     private AdjustableValue<Double> resonance;
@@ -15,8 +18,6 @@ public class Filter implements Module {
     private AdjustableValue<FilterType> type;
     private Envelope env;
     private Lfo lfo;
-
-
 
     private AdjustableValue<Double> attack, decay;
 
@@ -27,10 +28,10 @@ public class Filter implements Module {
         cutoff = new AdjustableValue<>(3000d);
         resonance = new AdjustableValue<>(0d);
         envelopeAmount = new AdjustableValue<>(0d);
-        attack = new AdjustableValue<>(20d);
-        decay = new AdjustableValue<>(50d);
+        attack = new AdjustableValue<>(ATTACK_DEFAULT);
+        decay = new AdjustableValue<>(DECAY_DEFAULT);
         lfo = new Lfo(1,0);
-        type = new AdjustableValue<>(new MoogFilter(resonance,cutoff,envelopeAmount,env,lfo));
+        type = new AdjustableValue<>(new MoogFilter());
     }
 
 
@@ -50,13 +51,10 @@ public class Filter implements Module {
 
     public void startEnvelope(){
 
+        type.getValue().setFields(resonance,cutoff,envelopeAmount,env,lfo);
         env = new Envelope(attack.getValue(),decay.getValue());
         env.setShape(0.8,0.8);
         type.getValue().setEnvelope(env);
-    }
-
-    public void setType(FilterType type){
-        this.type.setValue(type);
     }
 
 

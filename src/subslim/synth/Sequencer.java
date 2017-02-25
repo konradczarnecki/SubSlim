@@ -125,6 +125,7 @@ public class Sequencer {
         tm.cancel();
         isPlaying.setValue(false);
         currentStep = 0;
+        synth.stop();
     }
 
     public AdjustableValue<Boolean> isPlaying(){ return isPlaying;}
@@ -142,7 +143,6 @@ public class Sequencer {
     public AdjustableValue<Integer> numberOfSteps(){ return numberOfSteps;}
 
     public boolean[] activeSteps(){ return activeSteps;}
-
     public void setStepLabels(Label[] stepLabels){
         this.stepLabels = stepLabels;
     }

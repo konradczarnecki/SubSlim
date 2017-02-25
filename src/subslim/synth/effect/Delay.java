@@ -10,13 +10,13 @@ import java.util.LinkedList;
  */
 public class Delay {
 
-    AdjustableValue<Double> wet;
+    private AdjustableValue<Double> wet;
     private LinkedList<Double> delayBuffer;
 
     public Delay(double delay, AdjustableValue<Double> wet){
 
 
-        int delayBufferSize = (int) (((delay/1000d)*(double) Synth.SAMPLE_RATE));
+        int delayBufferSize = (int) (((delay/1000d)*(double)Synth.SAMPLE_RATE));
 
         delayBuffer = new LinkedList<>();
 
@@ -35,8 +35,8 @@ public class Delay {
         double[] outBuffer = new double[Synth.BUFFER_SIZE];
 
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){
-            outBuffer[i] = ((1-wet.getValue())*buffer[i] + wet.getValue()*delayBuffer.removeLast());
 
+            outBuffer[i] = ((1-wet.getValue())*buffer[i] + wet.getValue()*delayBuffer.removeLast());
 
             delayBuffer.addFirst(buffer[i]);
         }

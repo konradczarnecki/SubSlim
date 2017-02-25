@@ -1,6 +1,7 @@
 package subslim;
 
 import javafx.scene.image.ImageView;
+import subslim.synth.Synth;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Knob {
     protected AdjustableValue<Double> target;
     ImageView knobImage;
 
-    private Knob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target){
+    protected Knob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target){
 
         maxValue = max;
         minValue = min;
@@ -74,15 +75,85 @@ public class Knob {
         knobImage.setRotate(rotation);
     }
 
-    public static void createAndBind(ImageView image, double min, double max, double def, AdjustableValue<Double> target){
+    public static Knob createAndBind(ImageView image, double min, double max, double def,
+                                     AdjustableValue<Double> target){
 
         Knob knob = new Knob(image, min, max, def, target);
 
         knobs.add(knob);
 
+        return knob;
     }
 
-    public static void createAndBindDelay
+    public static void createAndBindDelay1(ImageView image, double min, double max, double def, Synth synth){
 
+        Knob knob = new Knob(image,min,max,def,null){
 
+            protected void bindKnob(){
+
+                knobImage.setOnMouseReleased(event->{
+
+                    angle = knobImage.getRotate();
+
+                    currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
+
+                    synth.amp();
+
+                    synth.amp().echo().setDelay1(currentValue);
+                });
+            }
+        };
+
+        knobs.add(knob);
+    }
+
+    public static void createAndBindDelay2(ImageView image, double min, double max, double def, Synth synth){
+
+        Knob knob = new Knob(image,min,max,def,null){
+
+            protected void bindKnob(){
+
+                knobImage.setOnMouseReleased(event->{
+
+                    angle = knobImage.getRotate();
+
+                    currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
+
+                    synth.amp().echo().setDelay2(currentValue);
+                });
+            }
+        };
+
+        knobs.add(knob);
+    }
+
+    public static void createAndBindSmartKnob(ImageView image, double min, double max, double def,
+                                              AdjustableValue<Double> target, Knob slave){
+
+        Knob knob = new Knob(image,min,max,def,target){
+
+            protected void bindKnob(){
+
+                super.bindKnob();
+
+                if(slave != null){
+
+                    knobImage.rotateProperty().addListener((observable, oldValue, newValue) -> {
+
+                        slave.setMax(this.maxValue+90-currentValue);
+                    });
+                }
+            }
+
+        };
+        knobs.add(knob);
+    }
+
+    public void setMax(double max){
+
+        this.maxValue = max;
+    }
 }
+
+
+

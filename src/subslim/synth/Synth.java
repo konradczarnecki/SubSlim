@@ -1,7 +1,7 @@
 package subslim.synth;
 
 import subslim.AdjustableValue;
-import subslim.synth.waves.*;
+import subslim.synth.wave.*;
 
 
 /**
@@ -87,6 +87,11 @@ public class Synth {
 
         osc1.start(frequency*chord);
         osc2.start(frequency*detune.getValue());
+    }
+
+    public void stop(){
+        osc1.stop();
+        osc2.stop();
     }
 
     public AdjustableValue<Wave> osc1Wave(){

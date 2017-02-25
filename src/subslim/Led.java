@@ -17,24 +17,27 @@ public class Led {
     private int stepNo;
 
 
-    public Led(ImageView iv, int stepNo, boolean[] activeSteps){
+    private Led(ImageView image, int stepNo, boolean[] activeSteps){
 
-        image = iv;
+        this.image = image;
         this.activeSteps = activeSteps;
         this.stepNo = stepNo;
 
-        iv.setOnMouseClicked(event->{
+        bindToggle();
+    }
+
+    private void bindToggle(){
+
+        image.setOnMouseClicked(event->{
 
             if(activeSteps[stepNo] == true){
-                iv.setImage(new Image("res/led_off.png"));
+                image.setImage(new Image("res/led_off.png"));
                 activeSteps[stepNo] = false;
             } else {
-                iv.setImage(new Image("res/led.png"));
+                image.setImage(new Image("res/led.png"));
                 activeSteps[stepNo] = true;
             }
         });
-
-        leds.add(this);
     }
 
     public boolean getActive(){
@@ -46,5 +49,12 @@ public class Led {
 
         if(active) image.setImage(new Image("res/led.png"));
         else image.setImage(new Image("res/led_off.png"));
+    }
+
+    public static void createAndBind(ImageView iv, int stepNo, boolean[] activeSteps){
+
+        Led led = new Led(iv, stepNo, activeSteps);
+
+        leds.add(led);
     }
 }

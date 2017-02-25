@@ -4,15 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.FileChooser;
-import subslim.synth.Note;
-import subslim.synth.Sequencer;
-import subslim.synth.Synth;
-import subslim.synth.waves.*;
-import wavfile.*;
+import subslim.synth.*;
+import subslim.synth.wave.*;
 
-import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -95,17 +89,16 @@ public class Controller {
 
     @FXML ImageView savePreset;
     @FXML ImageView openPreset;
-    @FXML ImageView exportWave;
 
-    Label[] stepLabels;
-    ImageView[] ledImageViews;
 
-    SequencerStepLabel[] sequencerSteps;
-    Led[] leds;
+    private Label[] stepLabels;
+    private ImageView[] ledImageViews;
 
-    Synth synth;
 
-    PresetManager presetManager;
+
+    private Synth synth;
+
+    private PresetManager presetManager;
 
 
     public void init(){
@@ -124,111 +117,81 @@ public class Controller {
 
         initStepsAndLeds();
 
-        initPresets();
+        initPresetManager();
 
     }
 
     private void initEcho() {
 
-        Knob reverbDecayKnob = new Knob(echoVerb,0.3,1,0.5, synth.amp().echo().verbAmount());
+        Knob.createAndBind(echoVerb,0.3,1,0.5, synth.amp().echo().verbAmount());
 
-        Knob delay1Knob = new Knob(echoTime1,20,700,150,null){
+        Knob.createAndBindDelay1(echoTime1,20,250,150,synth);
 
-            protected void bindKnob(){
+        Knob.createAndBindDelay2(echoTime2,20,250,70,synth);
 
-                knobImage.setOnMouseReleased(event->{
-
-                    angle = knobImage.getRotate();
-
-                    currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
-
-                    synth.amp().echo().setDelay1(currentValue);
-                });
-            }
-        };
-
-        Knob delay2Knob = new Knob(echoTime2,20,700,70,null){
-
-            protected void bindKnob(){
-
-                knobImage.setOnMouseReleased(event->{
-
-                    angle = knobImage.getRotate();
-
-                    currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
-
-                    synth.amp().echo().setDelay2(currentValue);
-                });
-            }
-        };
-
-
-        Knob echoWetKnob = new Knob(echoDryWet,0,0.8,0,synth.amp().echo().wet());
+        Knob.createAndBind(echoDryWet,0,0.8,0,synth.amp().echo().wet());
     }
 
     private void initEnvelopes() {
 
-        SmartKnob decayKnob = new SmartKnob(decay,10,230, 180,  synth.amp().decay(), null);
-        SmartKnob attackKnob = new SmartKnob(attack,30,180, 40,synth.amp().attack(),decayKnob);
+        Knob decayKnob = Knob.createAndBind(decay,10,230, Amp.DECAY_DEFAULT,  synth.amp().decay());
+        Knob.createAndBindSmartKnob(attack,30,180, Amp.ATTACK_DEFAULT,synth.amp().attack(),decayKnob);
 
-        SmartKnob filterDecayKnob = new SmartKnob(filterDecay, 10,230,200,synth.filter().decay(),null);
-        SmartKnob filterAttackKnob = new SmartKnob(filterAttack, 30, 180, 40, synth.filter().attack(), filterDecayKnob);
+        Knob filterDecayKnob = Knob.createAndBind(filterDecay, 10,230,Filter.DECAY_DEFAULT,synth.filter().decay());
 
+        Knob.createAndBindSmartKnob(filterAttack, 30, 180, Filter.ATTACK_DEFAULT, synth.filter().attack(), filterDecayKnob);
 
-
-
-
-        Knob outKnob = new Knob(out, 0,1,1,synth.amp().outputLevel());
+        Knob.createAndBind(out, 0,1,1,synth.amp().outputLevel());
     }
 
     private void initFilter() {
 
-        Knob cutoffKnob = new Knob(cutoff,100,14000,3000,synth.filter().cutoff());
+        Knob.createAndBind(cutoff,100,14000,3000,synth.filter().cutoff());
 
-        Knob resonanceKnob = new Knob(resonance,0,1,0,synth.filter().resonance());
+        Knob.createAndBind(resonance,0,1,0,synth.filter().resonance());
 
-        Knob filterEnvKnob = new Knob(filterEnv,0,1,0,synth.filter().envAmount());
+        Knob.createAndBind(filterEnv,0,1,0,synth.filter().envAmount());
 
-        Knob lfo1FrequencyKnob = new Knob(lfo1Rate,0.05,4,1,synth.filter().lfoFrequency());
+        Knob.createAndBind(lfo1Rate,0.05,4,1,synth.filter().lfoFrequency());
 
-        Knob lfo1DepthKnob = new Knob(lfo1Depth, 0,1,0,synth.filter().lfoDepth());
+        Knob.createAndBind(lfo1Depth, 0,1,0,synth.filter().lfoDepth());
+
+        FilterType[] types = {new MoogFilter(),new MoogFilter(), new MoogFilter()};
+        KnobSwitch.createAndBindFilter(types, filterType, synth.filter().type(), synth);
     }
 
     private void initOscillators() {
 
         Wave[] osc1WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
-        KnobSwitch<Wave> osc1WaveKnob = new KnobSwitch<>(osc1WaveValues,osc1Wave,synth.osc1Wave());
+        KnobSwitch.createAndBind(osc1WaveValues,osc1Wave,synth.osc1Wave());
 
         Integer[] osc1OctaveValues = {-2,-1,0,1,2};
-        KnobSwitch<Integer> osc1OctaveKnob = new KnobSwitch<>(osc1OctaveValues,osc1Octave, synth.osc1Octave());
+        KnobSwitch.createAndBind(osc1OctaveValues,osc1Octave, synth.osc1Octave());
 
         Double[] osc1ChordValues = {5d,0d,7d};
-        KnobSwitch<Double> osc1ChordKnob = new KnobSwitch<>(osc1ChordValues,osc1Chord, synth.chordTranspose());
+        KnobSwitch.createAndBind(osc1ChordValues,osc1Chord, synth.chordTranspose());
 
         Wave[] osc2WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
-        KnobSwitch<Wave> osc2WaveKnob = new KnobSwitch<>(osc2WaveValues,osc2Wave,synth.osc2Wave());
+        KnobSwitch.createAndBind(osc2WaveValues,osc2Wave,synth.osc2Wave());
 
         Integer[] osc2OctaveValues = {-2,-1,0,1,2};
-        KnobSwitch<Integer> osc2OctaveKnob = new KnobSwitch<>(osc2OctaveValues,osc2Octave, synth.osc2Octave());
+        KnobSwitch.createAndBind(osc2OctaveValues,osc2Octave, synth.osc2Octave());
 
-        Knob detuneKnob = new Knob(osc2Detune,0.95,1.05,1,synth.detune());
+        Knob.createAndBind(osc2Detune,0.95,1.05,1,synth.detune());
 
-        Knob mixKnob = new Knob(mix,0,2,1,synth.mix());
+        Knob.createAndBind(mix,0,2,1,synth.mix());
     }
 
     private void initStepsAndLeds(){
 
-        sequencerSteps = new SequencerStepLabel[16];
-        leds = new Led[16];
-
         for(int i = 0; i < 16; i++){
 
-            sequencerSteps[i] = new SequencerStepLabel(stepLabels[i],i,synth.sequencer().steps());
+            SequencerStepLabel.createAndBind(stepLabels[i],i,synth.sequencer().steps());
         }
 
         for(int i = 0; i < 16; i++){
 
-            leds[i] = new Led(ledImageViews[i], i, synth.sequencer().activeSteps());
+            Led.createAndBind(ledImageViews[i], i, synth.sequencer().activeSteps());
         }
 
     }
@@ -236,76 +199,16 @@ public class Controller {
     private void initSequencer(){
 
         bpm.setText("120");
-
-        SequencerField<Integer> bpmField = new SequencerField<Integer>(bpm, synth.sequencer().bpm()) {
-            @Override
-            void initValues() {
-
-                for(int i = 60; i <= 180; i++){
-                    values.add(i);
-                    valueStringRepresentations.put(i,Integer.toString(i));
-                }
-
-                currentIndex = values.indexOf(120);
-            }
-        };
-
+        SequencerField.createAndBindBpm(bpm, synth.sequencer().bpm());
 
         duration.setText("1/8");
-
-        SequencerField<Integer> durationField = new SequencerField<Integer>(duration, synth.sequencer().noteLengthReciprocal()) {
-            @Override
-            void initValues() {
-
-                for(int i = 0; i < 4; i++){
-
-                    int durationReciprocal = (int) Math.pow(2d,i);
-
-                    values.add(durationReciprocal);
-                    valueStringRepresentations.put(durationReciprocal, 1 + "/" + durationReciprocal*4);
-                }
-
-                currentIndex = values.indexOf(2);
-            }
-        };
-
+        SequencerField.createAndBindDuration(duration, synth.sequencer().noteLengthReciprocal());
 
         baseNote.setText("C3");
-
-        SequencerField<Note> baseNoteField = new SequencerField<Note>(baseNote, synth.sequencer().baseNote()) {
-            @Override
-            void initValues() {
-
-
-                for(int octave = 2; octave <= 4; octave++){
-
-                    for(int noteHeight = 0; noteHeight < 12; noteHeight++){
-
-                        Note note = new Note(noteHeight,octave);
-                        values.add(note);
-                        valueStringRepresentations.put(note, synth.sequencer().noteRepresentations[noteHeight] + octave);
-                    }
-                }
-
-                currentIndex = values.indexOf(new Note("C3"));
-            }
-        };
+        SequencerField.createAndBindBaseNote(baseNote, synth.sequencer().baseNote());
 
         numberOfSteps.setText("16");
-
-        SequencerField<Integer> numberOfStepsField = new SequencerField<Integer>(numberOfSteps, synth.sequencer().numberOfSteps()) {
-            @Override
-            void initValues() {
-
-                for(int i = 1; i <= 16; i++){
-                    values.add(i);
-                    valueStringRepresentations.put(i,Integer.toString(i));
-                }
-
-                currentIndex = values.indexOf(16);
-            }
-        };
-
+        SequencerField.createAndBindStepsNo(numberOfSteps, synth.sequencer().numberOfSteps());
 
         playButton.setOnMouseClicked(event ->{
 
@@ -357,17 +260,11 @@ public class Controller {
         ledImageViews[15] = led16;
     }
 
-    private void initPresets(){
+    private void initPresetManager(){
 
-        savePreset.setOnMouseClicked(event->{
+        savePreset.setOnMouseClicked(event-> presetManager.savePreset());
 
-            presetManager.savePreset();
-        });
-
-        openPreset.setOnMouseClicked(event->{
-
-            presetManager.loadPreset();
-        });
+        openPreset.setOnMouseClicked(event-> presetManager.loadPreset());
 
     }
 

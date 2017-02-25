@@ -8,44 +8,42 @@ import subslim.synth.Synth;
  */
 public class Reverb {
 
-    private AllPassFilter f1, f2, f3, f4, f5;
-    private AdjustableValue<Double> feedbackCoeff;
+    private static final double FEEDBACK_COEFF = 0.6;
+    private static final double[] VARIATION_FACTORS = {0.99, 1.03, 0.89, 0,97, 1};
+
+    private AllPassFilter[] filters;
+
     private AdjustableValue<Double> wet;
 
-    public Reverb(double[] coefficients, AdjustableValue<Double> wet){
+    public Reverb(double[] allPassFilterDelays, AdjustableValue<Double> wet){
 
-        if(coefficients.length != 5) throw new IllegalArgumentException();
+        if(allPassFilterDelays.length != 5) throw new IllegalArgumentException();
 
-        feedbackCoeff = new AdjustableValue<>(0.5);
+        filters = new AllPassFilter[5];
+
+        for(int i = 0; i < 5; i++){
+            filters[i] = new AllPassFilter(allPassFilterDelays[i]);
+        }
+
         this.wet = wet;
 
-        f1 = new AllPassFilter(coefficients[0]);
-        f2 = new AllPassFilter(coefficients[1]);
-        f3 = new AllPassFilter(coefficients[2]);
-        f4 = new AllPassFilter(coefficients[3]);
-        f5 = new AllPassFilter(coefficients[4]);
     }
 
     public double[] processBuffer(double[] buffer){
 
         double[] outBuffer;
 
-        outBuffer = f1.processBuffer(buffer, feedbackCoeff.getValue());
-        outBuffer = f2.processBuffer(outBuffer, feedbackCoeff.getValue()*0.91);
-        outBuffer = f3.processBuffer(outBuffer, feedbackCoeff.getValue()*1.01);
-        outBuffer = f4.processBuffer(outBuffer, feedbackCoeff.getValue()*0.87);
-        outBuffer = f5.processBuffer(outBuffer, feedbackCoeff.getValue());
+        outBuffer = filters[0].processBuffer(buffer,FEEDBACK_COEFF*VARIATION_FACTORS[0]);
 
-
+        for(int i = 1; i < 5; i++){
+            outBuffer = filters[i].processBuffer(outBuffer,FEEDBACK_COEFF*VARIATION_FACTORS[i]);
+        }
+        
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){
             outBuffer[i] = (1-wet.getValue())*buffer[i] + wet.getValue()*outBuffer[i];
         }
 
         return outBuffer;
-    }
-
-    public AdjustableValue<Double> feedbackCoeff(){
-        return feedbackCoeff;
     }
 
 }

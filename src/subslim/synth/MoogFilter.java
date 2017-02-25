@@ -10,11 +10,6 @@ public class MoogFilter extends FilterType {
     private double y1 = 0,  y2 = 0, y3 = 0, y4 = 0, oldx = 0, oldy1 = 0, oldy2 = 0, oldy3 = 0;
     private double reminder = 0;
 
-    public MoogFilter(AdjustableValue<Double> resonance, AdjustableValue<Double> cutoff,
-                      AdjustableValue<Double> envelopeAmount, Envelope env, Lfo lfo){
-
-        super(resonance, cutoff, envelopeAmount, env, lfo);
-    }
 
     public double[] processBuffer(double[] buffer){
 

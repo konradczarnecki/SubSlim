@@ -5,7 +5,10 @@ package subslim.synth;
  */
 public class Envelope {
 
-    private double[] factors;
+    private static final double DEFAULT_ATTACK_SHAPE = 0.6;
+    private static final double DEFAULT_DECAY_SHAPE = 1.5;
+
+    private double[] outputFactors;
     private double attackShape = 0.6;
     private double decayShape = 1.5;
 
@@ -18,26 +21,26 @@ public class Envelope {
         int attackInSamples = (int)  ((attack/1000)* (double) Synth.SAMPLE_RATE);
         int decayInSamples = (int) ((decay/1000)* (double) Synth.SAMPLE_RATE);
 
-        factors = new double[attackInSamples + decayInSamples];
+        outputFactors = new double[attackInSamples + decayInSamples];
 
         double attackIncrement = 1d / attackInSamples;
-        double decayIncrement = (1d) / decayInSamples;
+        double decayIncrement = 1d / decayInSamples;
 
 
         for(int i = 0; i < attackInSamples; i++){
-            factors[i] = Math.pow((i * attackIncrement), attackShape);
+            outputFactors[i] = Math.pow((i * attackIncrement), attackShape);
         }
 
         for(int i = attackInSamples; i < attackInSamples + decayInSamples; i++){
-            factors[i] = Math.pow((1 - (i - attackInSamples) * decayIncrement), decayShape);
+            outputFactors[i] = Math.pow((1 - (i - attackInSamples) * decayIncrement), decayShape);
         }
 
     }
 
     public double nextFactor(){
 
-        if(counter < factors.length)
-            return factors[counter++];
+        if(counter < outputFactors.length)
+            return outputFactors[counter++];
         else return 0;
 
     }

@@ -11,11 +11,11 @@ public class SequencerStepLabel {
 
     public static ArrayList<SequencerStepLabel> steps = new ArrayList<>();
 
-    double currentCursorScreenPosition;
-    int currentTransposeValue;
-    int stepNo;
-    Label label;
-    int[] sequencerSteps;
+    private double currentCursorScreenPosition;
+    private int currentTransposeValue;
+    private int stepNo;
+    private Label label;
+    private int[] sequencerSteps;
 
 
     public SequencerStepLabel(Label label, int stepNo, int[] sequencerSteps) {
@@ -23,6 +23,11 @@ public class SequencerStepLabel {
         this.stepNo = stepNo;
         this.label = label;
         this.sequencerSteps = sequencerSteps;
+
+        bindStep();
+    }
+
+    private void bindStep(){
 
         label.setOnMousePressed(event -> {
             currentCursorScreenPosition = event.getScreenY();
@@ -44,9 +49,6 @@ public class SequencerStepLabel {
                 sequencerSteps[stepNo] = currentTransposeValue;
             }
         });
-
-        steps.add(this);
-
     }
 
     public void setTranspose(int transpose){
@@ -57,6 +59,13 @@ public class SequencerStepLabel {
 
     public int currentTranspose(){
         return currentTransposeValue;
+    }
+
+    public static void createAndBind(Label label, int stepNo, int[] sequencerSteps){
+
+        SequencerStepLabel ssl = new SequencerStepLabel(label, stepNo,sequencerSteps);
+
+        steps.add(ssl);
     }
 
 }

@@ -1,6 +1,8 @@
 package subslim;
 
 import javafx.scene.control.Label;
+import subslim.synth.Note;
+import subslim.synth.Sequencer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,22 +14,20 @@ import java.util.Map;
  */
 public abstract class SequencerField <E> {
 
+    public static final ArrayList<SequencerField> sequencerFields = new ArrayList<>();
+
     protected Map<E, String> valueStringRepresentations;
     protected List<E> values;
     protected int currentIndex;
     protected double currentCursorScreenPosition;
 
 
-    public SequencerField(Label label, AdjustableValue<E> target){
+    private SequencerField(Label label, AdjustableValue<E> target){
 
         values = new ArrayList<>();
         valueStringRepresentations = new HashMap<>();
 
-        initValues();
-
-        label.setOnMousePressed(event -> {
-            currentCursorScreenPosition = event.getScreenY();
-        });
+        label.setOnMousePressed(event -> currentCursorScreenPosition = event.getScreenY());
 
         label.setOnMouseDragged(event -> {
 
@@ -47,5 +47,98 @@ public abstract class SequencerField <E> {
         });
     }
 
+
+    public static void createAndBindBpm(Label label, AdjustableValue<Integer> target) {
+
+        SequencerField<Integer> sf = new SequencerField<Integer>(label, target) {
+            @Override
+            void initValues() {
+
+                for(int i = 60; i <= 180; i++){
+                    values.add(i);
+                    valueStringRepresentations.put(i,Integer.toString(i));
+                }
+
+                currentIndex = values.indexOf(120);
+            }
+        };
+
+        sf.initValues();
+
+        sequencerFields.add(sf);
+    }
+
+    public static void createAndBindDuration(Label label, AdjustableValue<Integer> target) {
+
+        SequencerField<Integer> sf = new SequencerField<Integer>(label, target) {
+            @Override
+            void initValues() {
+
+                for(int i = 0; i < 4; i++){
+
+                    int durationReciprocal = (int) Math.pow(2d,i);
+
+                    values.add(durationReciprocal);
+                    valueStringRepresentations.put(durationReciprocal, 1 + "/" + durationReciprocal*4);
+                }
+
+                currentIndex = values.indexOf(2);
+            }
+        };
+
+        sf.initValues();
+
+        sequencerFields.add(sf);
+    }
+
+    public static void createAndBindBaseNote(Label label, AdjustableValue<Note> target) {
+
+        SequencerField<Note> sf = new SequencerField<Note>(label, target) {
+            @Override
+            void initValues() {
+
+
+                for(int octave = 2; octave <= 4; octave++){
+
+                    for(int noteHeight = 0; noteHeight < 12; noteHeight++){
+
+                        Note note = new Note(noteHeight,octave);
+                        values.add(note);
+                        valueStringRepresentations.put(note, Sequencer.noteRepresentations[noteHeight] + octave);
+                    }
+                }
+
+                currentIndex = values.indexOf(new Note("C3"));
+            }
+        };
+
+        sf.initValues();
+
+        sequencerFields.add(sf);
+    }
+
+    public static void createAndBindStepsNo(Label label, AdjustableValue<Integer> target) {
+
+        SequencerField<Integer> sf = new SequencerField<Integer>(label, target) {
+            @Override
+            void initValues() {
+
+
+                for(int i = 1; i <= 16; i++){
+                    values.add(i);
+                    valueStringRepresentations.put(i,Integer.toString(i));
+                }
+
+                currentIndex = values.indexOf(16);
+            }
+        };
+
+        sf.initValues();
+
+        sequencerFields.add(sf);
+    }
+
+
     abstract void initValues();
+
 }
