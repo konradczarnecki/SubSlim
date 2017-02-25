@@ -5,21 +5,18 @@ package subslim.synth;
  */
 public class Envelope {
 
-    private static final double DEFAULT_ATTACK_SHAPE = 0.6;
-    private static final double DEFAULT_DECAY_SHAPE = 1.5;
-
     private double[] outputFactors;
     private double attackShape = 0.6;
     private double decayShape = 1.5;
 
-    int counter;
+    private int counter;
 
     public Envelope(double attack, double decay){
 
         counter = 0;
 
-        int attackInSamples = (int)  ((attack/1000)* (double) Synth.SAMPLE_RATE);
-        int decayInSamples = (int) ((decay/1000)* (double) Synth.SAMPLE_RATE);
+        int attackInSamples = (int)  ((attack/1000)* Synth.SAMPLE_RATE);
+        int decayInSamples = (int) ((decay/1000)* Synth.SAMPLE_RATE);
 
         outputFactors = new double[attackInSamples + decayInSamples];
 

@@ -1,6 +1,7 @@
 package subslim.synth;
 
 import subslim.AdjustableValue;
+import subslim.synth.filter.Filter;
 import subslim.synth.wave.*;
 
 

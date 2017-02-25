@@ -2,6 +2,7 @@ package subslim;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import subslim.ui.*;
 
 import java.io.*;
 
@@ -10,16 +11,18 @@ import java.io.*;
  */
 public class PresetManager {
 
-    Stage parent;
+    private Stage parent;
+    private FileChooser fc = new FileChooser();
 
-    public PresetManager(Stage parentWindowForFileChooser){
+    public PresetManager(Stage parentWindowForFileChooser)
+    {
         parent = parentWindowForFileChooser;
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("SubSlim preset file", "*.sbs"));
+
     }
 
     public void savePreset(){
 
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("SubSlim preset file", "*.sbs"));
         File savedPreset = fc.showSaveDialog(parent);
         DataOutputStream outStream = null;
 
@@ -50,6 +53,7 @@ public class PresetManager {
                 }
 
 
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -60,8 +64,6 @@ public class PresetManager {
 
     public void loadPreset(){
 
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("SubSlim preset file", "*.sbs"));
         File openedPreset = fc.showOpenDialog(parent);
         DataInputStream inStream = null;
 
@@ -93,13 +95,11 @@ public class PresetManager {
                     d.setActive(inStream.readBoolean());
                 }
 
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public Stage getParentWindow(){
-        return parent;
     }
 }

@@ -15,7 +15,5 @@ public class AdjustableValue <E> {
         this.value = value;
     }
 
-    public E getValue(){
-        return value;
-    }
+    public E getValue(){ return value; }
 }

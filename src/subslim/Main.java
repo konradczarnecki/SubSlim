@@ -15,9 +15,6 @@ import subslim.synth.Synth;
 
 public class Main extends Application {
 
-    Controller controller;
-    Synth synth;
-
     double offsetX = 0;
     double offsetY = 0;
 
@@ -35,7 +32,7 @@ public class Main extends Application {
 
         root.setBackground(new Background(new BackgroundFill(Color.valueOf("rgb(51,51,51)"),null,null)));
 
-        controller = loader.getController();
+        Controller controller = loader.getController();
 
         ImageView background = controller.getBackground();
 

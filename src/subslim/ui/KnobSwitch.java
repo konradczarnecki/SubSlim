@@ -1,7 +1,8 @@
-package subslim;
+package subslim.ui;
 
 
 import javafx.scene.image.ImageView;
+import subslim.AdjustableValue;
 import subslim.synth.Synth;
 
 import java.util.ArrayList;

@@ -8,21 +8,19 @@ import subslim.synth.Synth;
  */
 public class Reverb {
 
-    private static final double FEEDBACK_COEFF = 0.6;
-    private static final double[] VARIATION_FACTORS = {0.99, 1.03, 0.89, 0,97, 1};
+    private static final double FEEDBACK_COEFF = 0.3;
+    private static final double[] FILTERS_DELAY_TIMES = {11,21,58,79,85,111,157};
 
     private AllPassFilter[] filters;
 
     private AdjustableValue<Double> wet;
 
-    public Reverb(double[] allPassFilterDelays, AdjustableValue<Double> wet){
+    public Reverb(AdjustableValue<Double> wet){
 
-        if(allPassFilterDelays.length != 5) throw new IllegalArgumentException();
+        filters = new AllPassFilter[7];
 
-        filters = new AllPassFilter[5];
-
-        for(int i = 0; i < 5; i++){
-            filters[i] = new AllPassFilter(allPassFilterDelays[i]);
+        for(int i = 0; i < 7; i++){
+            filters[i] = new AllPassFilter(FILTERS_DELAY_TIMES[i]);
         }
 
         this.wet = wet;
@@ -33,10 +31,10 @@ public class Reverb {
 
         double[] outBuffer;
 
-        outBuffer = filters[0].processBuffer(buffer,FEEDBACK_COEFF*VARIATION_FACTORS[0]);
+        outBuffer = filters[0].processBuffer(buffer,FEEDBACK_COEFF);
 
-        for(int i = 1; i < 5; i++){
-            outBuffer = filters[i].processBuffer(outBuffer,FEEDBACK_COEFF*VARIATION_FACTORS[i]);
+        for(int i = 1; i < 7; i++){
+            outBuffer = filters[i].processBuffer(outBuffer,FEEDBACK_COEFF);
         }
         
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){

@@ -1,6 +1,9 @@
-package subslim.synth;
+package subslim.synth.filter;
 
 import subslim.AdjustableValue;
+import subslim.synth.Envelope;
+import subslim.synth.Lfo;
+import subslim.synth.Module;
 
 /**
  * Created by konra on 09.02.2017.
@@ -9,6 +12,10 @@ public class Filter implements Module {
 
     public static final double ATTACK_DEFAULT = 40;
     public static final double DECAY_DEFAULT = 180;
+    public static final double CUTOFF_DEFAULT = 3000;
+    public static final double RESONANCE_DEFAULT = 0;
+    public static final double ENV_AMOUNT_DEFAULT = 0;
+
 
     private Module out;
 
@@ -24,13 +31,12 @@ public class Filter implements Module {
 
     public Filter() {
 
-
-        cutoff = new AdjustableValue<>(3000d);
-        resonance = new AdjustableValue<>(0d);
-        envelopeAmount = new AdjustableValue<>(0d);
+        cutoff = new AdjustableValue<>(CUTOFF_DEFAULT);
+        resonance = new AdjustableValue<>(RESONANCE_DEFAULT);
+        envelopeAmount = new AdjustableValue<>(ENV_AMOUNT_DEFAULT);
         attack = new AdjustableValue<>(ATTACK_DEFAULT);
         decay = new AdjustableValue<>(DECAY_DEFAULT);
-        lfo = new Lfo(1,0);
+        lfo = new Lfo();
         type = new AdjustableValue<>(new MoogFilter());
     }
 

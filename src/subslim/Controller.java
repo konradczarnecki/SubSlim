@@ -5,8 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import subslim.synth.*;
+import subslim.synth.filter.Filter;
+import subslim.synth.filter.FilterType;
+import subslim.synth.filter.MoogFilter;
 import subslim.synth.wave.*;
-
+import subslim.ui.*;
 
 
 /**
@@ -121,45 +124,6 @@ public class Controller {
 
     }
 
-    private void initEcho() {
-
-        Knob.createAndBind(echoVerb,0.3,1,0.5, synth.amp().echo().verbAmount());
-
-        Knob.createAndBindDelay1(echoTime1,20,250,150,synth);
-
-        Knob.createAndBindDelay2(echoTime2,20,250,70,synth);
-
-        Knob.createAndBind(echoDryWet,0,0.8,0,synth.amp().echo().wet());
-    }
-
-    private void initEnvelopes() {
-
-        Knob decayKnob = Knob.createAndBind(decay,10,230, Amp.DECAY_DEFAULT,  synth.amp().decay());
-        Knob.createAndBindSmartKnob(attack,30,180, Amp.ATTACK_DEFAULT,synth.amp().attack(),decayKnob);
-
-        Knob filterDecayKnob = Knob.createAndBind(filterDecay, 10,230,Filter.DECAY_DEFAULT,synth.filter().decay());
-
-        Knob.createAndBindSmartKnob(filterAttack, 30, 180, Filter.ATTACK_DEFAULT, synth.filter().attack(), filterDecayKnob);
-
-        Knob.createAndBind(out, 0,1,1,synth.amp().outputLevel());
-    }
-
-    private void initFilter() {
-
-        Knob.createAndBind(cutoff,100,14000,3000,synth.filter().cutoff());
-
-        Knob.createAndBind(resonance,0,1,0,synth.filter().resonance());
-
-        Knob.createAndBind(filterEnv,0,1,0,synth.filter().envAmount());
-
-        Knob.createAndBind(lfo1Rate,0.05,4,1,synth.filter().lfoFrequency());
-
-        Knob.createAndBind(lfo1Depth, 0,1,0,synth.filter().lfoDepth());
-
-        FilterType[] types = {new MoogFilter(),new MoogFilter(), new MoogFilter()};
-        KnobSwitch.createAndBindFilter(types, filterType, synth.filter().type(), synth);
-    }
-
     private void initOscillators() {
 
         Wave[] osc1WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
@@ -182,19 +146,44 @@ public class Controller {
         Knob.createAndBind(mix,0,2,1,synth.mix());
     }
 
-    private void initStepsAndLeds(){
+    private void initFilter() {
 
-        for(int i = 0; i < 16; i++){
+        Knob.createAndBind(cutoff,100,14000,Filter.CUTOFF_DEFAULT,synth.filter().cutoff());
 
-            SequencerStepLabel.createAndBind(stepLabels[i],i,synth.sequencer().steps());
-        }
+        Knob.createAndBind(resonance,0,1,Filter.RESONANCE_DEFAULT,synth.filter().resonance());
 
-        for(int i = 0; i < 16; i++){
+        Knob.createAndBind(filterEnv,0,1,Filter.ENV_AMOUNT_DEFAULT,synth.filter().envAmount());
 
-            Led.createAndBind(ledImageViews[i], i, synth.sequencer().activeSteps());
-        }
+        Knob.createAndBind(lfo1Rate,0.05,4, Lfo.RATE_DEFAULT,synth.filter().lfoFrequency());
 
+        Knob.createAndBind(lfo1Depth, 0,1,Lfo.DEPTH_DEFAULT,synth.filter().lfoDepth());
+
+        FilterType[] types = {new MoogFilter(),new MoogFilter(), new MoogFilter()};
+        KnobSwitch.createAndBindFilter(types, filterType, synth.filter().type(), synth);
     }
+
+    private void initEnvelopes() {
+
+        Knob decayKnob = Knob.createAndBind(decay,10,230, Amp.DECAY_DEFAULT,  synth.amp().decay());
+        Knob.createAndBindSmartKnob(attack,30,180, Amp.ATTACK_DEFAULT,synth.amp().attack(),decayKnob);
+
+        Knob filterDecayKnob = Knob.createAndBind(filterDecay, 10,230, Filter.DECAY_DEFAULT,synth.filter().decay());
+        Knob.createAndBindSmartKnob(filterAttack, 30, 180, Filter.ATTACK_DEFAULT, synth.filter().attack(), filterDecayKnob);
+
+        Knob.createAndBind(out, 0,1,1,synth.amp().outputLevel());
+    }
+
+    private void initEcho() {
+
+        Knob.createAndBind(echoVerb,0.3,1,0.5, synth.amp().echo().verbAmount());
+
+        Knob.createAndBindDelay1(echoTime1,20,250,150,synth);
+
+        Knob.createAndBindDelay2(echoTime2,20,250,70,synth);
+
+        Knob.createAndBind(echoDryWet,0,0.8,0,synth.amp().echo().wet());
+    }
+
 
     private void initSequencer(){
 
@@ -216,6 +205,7 @@ public class Controller {
             else synth.sequencer().play(null);
         });
     }
+
 
     private void stepsAndLedsToArray(){
 
@@ -258,6 +248,20 @@ public class Controller {
         ledImageViews[13] = led14;
         ledImageViews[14] = led15;
         ledImageViews[15] = led16;
+    }
+
+    private void initStepsAndLeds(){
+
+        for(int i = 0; i < 16; i++){
+
+            SequencerStepLabel.createAndBind(stepLabels[i],i,synth.sequencer().steps());
+        }
+
+        for(int i = 0; i < 16; i++){
+
+            Led.createAndBind(ledImageViews[i], i, synth.sequencer().activeSteps());
+        }
+
     }
 
     private void initPresetManager(){

@@ -1,4 +1,4 @@
-package subslim;
+package subslim.ui;
 
 import javafx.scene.control.Label;
 

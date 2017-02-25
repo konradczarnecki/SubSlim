@@ -2,11 +2,8 @@ package subslim.synth;
 
 import subslim.AdjustableValue;
 import subslim.synth.effect.Echo;
-import wavfile.WavFile;
-import wavfile.WavFileException;
 
 import javax.sound.sampled.*;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -65,10 +62,10 @@ public class Amp implements Module {
     private void applyEnvelope(double[] buffer){
 
 
-            for(int i = 0; i < Synth.BUFFER_SIZE; i++){
+        for(int i = 0; i < Synth.BUFFER_SIZE; i++){
 
-                    buffer[i] *= env.nextFactor();
-            }
+            buffer[i] *= env.nextFactor();
+        }
     }
 
 

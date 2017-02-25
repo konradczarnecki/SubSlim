@@ -1,6 +1,7 @@
-package subslim;
+package subslim.ui;
 
 import javafx.scene.control.Label;
+import subslim.AdjustableValue;
 import subslim.synth.Note;
 import subslim.synth.Sequencer;
 

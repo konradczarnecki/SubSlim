@@ -1,6 +1,8 @@
-package subslim.synth;
+package subslim.synth.filter;
 
 import subslim.AdjustableValue;
+import subslim.synth.Envelope;
+import subslim.synth.Lfo;
 
 /**
  * Created by konra on 25.02.2017.
