@@ -11,7 +11,7 @@
    <children>
       <ImageView fx:id="back" fitHeight="740" fitWidth="1200" pickOnBounds="true" preserveRatio="true" smooth="true" x="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../res/synth_new2.png" />
+            <Image url="@../res/synth_new.png" />
          </image>
       </ImageView>
       <ImageView fx:id="osc1Wave" fitHeight="62.0" fitWidth="62.0" layoutX="29.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
@@ -285,17 +285,17 @@
             <Image url="@../res/led.png" />
          </image>
       </ImageView>
-      <Label fx:id="duration" alignment="CENTER" layoutX="316.0" layoutY="548.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+      <Label fx:id="duration" alignment="CENTER" layoutX="310.0" layoutY="549.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
          <font>
             <Font size="27.0" />
          </font>
       </Label>
-      <Label fx:id="baseNote" alignment="CENTER" layoutX="602.0" layoutY="549.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+      <Label fx:id="baseNote" alignment="CENTER" layoutX="585.0" layoutY="550.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
          <font>
             <Font size="27.0" />
          </font>
       </Label>
-      <Label fx:id="numberOfSteps" alignment="CENTER" layoutX="848.0" layoutY="549.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
+      <Label fx:id="numberOfSteps" alignment="CENTER" layoutX="857.0" layoutY="549.0" prefHeight="41.0" prefWidth="121.0" textAlignment="CENTER" textFill="#ff0b0b">
          <font>
             <Font size="27.0" />
          </font>
@@ -305,15 +305,18 @@
             <Font size="27.0" />
          </font>
       </Label>
-      <ImageView fx:id="savePreset" fitHeight="20.0" fitWidth="20.0" layoutX="728.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="savePreset" fitHeight="20.0" fitWidth="20.0" layoutX="1120.0" layoutY="59.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../res/led.png" />
+            <Image url="@../res/save_icon.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="openPreset" fitHeight="20.0" fitWidth="20.0" layoutX="760.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="openPreset" fitHeight="19.0" fitWidth="30.0" layoutX="1157.0" layoutY="60.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../res/led.png" />
+            <Image url="@../res/open_icon.png" />
          </image>
       </ImageView>
+      <Rectangle fx:id="closeButton" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="22.0" layoutX="1160.0" layoutY="14.0" stroke="TRANSPARENT" strokeType="INSIDE" width="22.0" />
+      <Rectangle fx:id="minimizeButton" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="22.0" layoutX="1129.0" layoutY="14.0" stroke="TRANSPARENT" strokeType="INSIDE" width="22.0" />
+      <Label fx:id="noFilterType" layoutX="461.0" layoutY="232.0" prefHeight="60.0" prefWidth="121.0" text="Just one type of filter for now :(" textFill="#bfbdbd" wrapText="true" />
    </children>
 </AnchorPane>

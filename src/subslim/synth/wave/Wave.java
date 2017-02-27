@@ -5,7 +5,7 @@ package subslim.synth.wave;
  */
 public abstract class Wave {
 
-    double frequency;
+    protected double frequency;
 
     public abstract double getSample(int sampleNo);
 

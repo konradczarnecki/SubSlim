@@ -24,35 +24,38 @@ public class PresetManager {
     public void savePreset(){
 
         File savedPreset = fc.showSaveDialog(parent);
-        DataOutputStream outStream = null;
+
 
         if(savedPreset != null) {
             try {
 
-                outStream = new DataOutputStream(new FileOutputStream(savedPreset));
+                DataOutputStream outStream = new DataOutputStream(new FileOutputStream(savedPreset));
 
                 for(Knob k: Knob.knobs){
 
                     outStream.writeDouble(k.getRotation());
                 }
 
-                for(KnobSwitch s: KnobSwitch.switches){
+                for(KnobSwitch ks: KnobSwitch.switches){
 
-                    outStream.writeDouble(s.getRotation());
-                    outStream.writeInt(s.getPosition());
+                    outStream.writeDouble(ks.getRotation());
+                    outStream.writeInt(ks.getPosition());
                 }
 
-                for(SequencerStepLabel e: SequencerStepLabel.steps){
+                for(SequencerStepLabel ssl: SequencerStepLabel.steps){
 
-                    outStream.writeInt(e.currentTranspose());
+                    outStream.writeInt(ssl.currentTranspose());
                 }
 
-                for(Led d: Led.leds){
+                for(Led led: Led.leds){
 
-                    outStream.writeBoolean(d.getActive());
+                    outStream.writeBoolean(led.getActive());
                 }
 
+                for(SequencerField sf: SequencerField.sequencerFields){
 
+                    outStream.writeInt(sf.currentIndex());
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -65,12 +68,11 @@ public class PresetManager {
     public void loadPreset(){
 
         File openedPreset = fc.showOpenDialog(parent);
-        DataInputStream inStream = null;
 
         if(openedPreset != null) {
             try {
 
-                inStream = new DataInputStream(new FileInputStream(openedPreset));
+                DataInputStream inStream = new DataInputStream(new FileInputStream(openedPreset));
 
                 for(Knob k: Knob.knobs){
 
@@ -78,24 +80,27 @@ public class PresetManager {
                     k.setRotation(value);
                 }
 
-                for(KnobSwitch s: KnobSwitch.switches){
+                for(KnobSwitch ks: KnobSwitch.switches){
 
                     double rotation = inStream.readDouble();
                     int position = inStream.readInt();
-                    s.setState(rotation,position);
+                    ks.setState(rotation,position);
                 }
 
-                for(SequencerStepLabel e: SequencerStepLabel.steps){
+                for(SequencerStepLabel ssl: SequencerStepLabel.steps){
 
-                    e.setTranspose(inStream.readInt());
+                    ssl.setTranspose(inStream.readInt());
                 }
 
-                for(Led d: Led.leds){
+                for(Led led: Led.leds){
 
-                    d.setActive(inStream.readBoolean());
+                    led.setActive(inStream.readBoolean());
                 }
 
+                for(SequencerField sf: SequencerField.sequencerFields){
 
+                    sf.setValue(inStream.readInt());
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

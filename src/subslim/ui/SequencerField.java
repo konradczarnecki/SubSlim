@@ -21,12 +21,17 @@ public abstract class SequencerField <E> {
     protected List<E> values;
     protected int currentIndex;
     protected double currentCursorScreenPosition;
+    protected AdjustableValue<E> target;
+    protected Label label;
 
 
     private SequencerField(Label label, AdjustableValue<E> target){
 
         values = new ArrayList<>();
         valueStringRepresentations = new HashMap<>();
+
+        this.target = target;
+        this.label = label;
 
         label.setOnMousePressed(event -> currentCursorScreenPosition = event.getScreenY());
 
@@ -137,6 +142,19 @@ public abstract class SequencerField <E> {
         sf.initValues();
 
         sequencerFields.add(sf);
+    }
+
+    public void setValue(int currentIndex){
+
+        this.currentIndex = currentIndex;
+
+        target.setValue(values.get(currentIndex));
+
+        label.setText(valueStringRepresentations.get(values.get(currentIndex)));
+    }
+
+    public int currentIndex(){
+        return currentIndex;
     }
 
 

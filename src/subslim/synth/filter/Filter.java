@@ -56,9 +56,9 @@ public class Filter implements Module {
 
 
     public void startEnvelope(){
-
-        type.getValue().setFields(resonance,cutoff,envelopeAmount,env,lfo);
+        
         env = new Envelope(attack.getValue(),decay.getValue());
+        type.getValue().setFields(resonance,cutoff,envelopeAmount,env,lfo);
         env.setShape(0.8,0.8);
         type.getValue().setEnvelope(env);
     }

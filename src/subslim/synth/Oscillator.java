@@ -7,11 +7,11 @@ import subslim.synth.wave.*;
  */
 public class Oscillator implements Module {
 
-    Wave wave;
-    boolean hold;
-    Module out;
-    int octave;
-    double mix;
+    private Wave wave;
+    private boolean hold;
+    private Module out;
+    private int octave;
+    private double mix;
 
     public Oscillator(Wave wave){
 

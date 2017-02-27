@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Knob {
 
-    public static ArrayList<Knob> knobs = new ArrayList<>();
+    public static final ArrayList<Knob> knobs = new ArrayList<>();
 
     protected double maxValue;
     protected double minValue;
@@ -20,7 +20,7 @@ public class Knob {
     protected double angle;
     protected double currentCursorScreenPosition;
     protected AdjustableValue<Double> target;
-    ImageView knobImage;
+    protected ImageView knobImage;
 
     protected Knob(ImageView knobImage, double min, double max, double def, AdjustableValue<Double> target){
 

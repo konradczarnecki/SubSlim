@@ -51,7 +51,7 @@ public class Sequencer {
         Arrays.fill(activeSteps,true);
     }
 
-    public void play(Integer repeats){
+    public void play(){
 
         double interval = MILLIS_IN_MINUTE/(noteLengthReciprocal.getValue() * bpm.getValue());
 
@@ -103,15 +103,6 @@ public class Sequencer {
 
                 updateLight.run();
 
-                if(repeats != null){
-
-                    if(repeatNo == repeats){
-                        tm.cancel();
-                    }
-
-                    repeatNo++;
-                }
-
                 currentStep ++;
                 if(currentStep == numberOfSteps.getValue()) currentStep = 0;
 
@@ -132,10 +123,6 @@ public class Sequencer {
 
     public AdjustableValue<Integer> bpm(){ return bpm;}
 
-    public int[] steps(){
-        return steps;
-    }
-
     public AdjustableValue<Note> baseNote(){ return baseNote;}
 
     public AdjustableValue<Integer> noteLengthReciprocal(){return noteLengthReciprocal;}
@@ -143,8 +130,13 @@ public class Sequencer {
     public AdjustableValue<Integer> numberOfSteps(){ return numberOfSteps;}
 
     public boolean[] activeSteps(){ return activeSteps;}
+
     public void setStepLabels(Label[] stepLabels){
         this.stepLabels = stepLabels;
+    }
+
+    public int[] steps(){
+        return steps;
     }
 
 }

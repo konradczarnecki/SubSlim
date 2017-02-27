@@ -1,15 +1,21 @@
 package subslim;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import subslim.synth.*;
 import subslim.synth.filter.Filter;
 import subslim.synth.filter.FilterType;
 import subslim.synth.filter.MoogFilter;
 import subslim.synth.wave.*;
 import subslim.ui.*;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -93,15 +99,19 @@ public class Controller {
     @FXML ImageView savePreset;
     @FXML ImageView openPreset;
 
+    @FXML Rectangle closeButton;
+    @FXML Rectangle minimizeButton;
+
+    @FXML Label noFilterType;
 
     private Label[] stepLabels;
     private ImageView[] ledImageViews;
 
-
-
     private Synth synth;
 
     private PresetManager presetManager;
+
+    private Stage stage;
 
 
     public void init(){
@@ -121,6 +131,8 @@ public class Controller {
         initStepsAndLeds();
 
         initPresetManager();
+
+        initCloseAndMinimize();
 
     }
 
@@ -158,8 +170,10 @@ public class Controller {
 
         Knob.createAndBind(lfo1Depth, 0,1,Lfo.DEPTH_DEFAULT,synth.filter().lfoDepth());
 
-        FilterType[] types = {new MoogFilter(),new MoogFilter(), new MoogFilter()};
-        KnobSwitch.createAndBindFilter(types, filterType, synth.filter().type(), synth);
+//        FilterType[] types = {new MoogFilter(), new MoogFilter(), new MoogFilter()};
+//        KnobSwitch.createAndBind(types, filterType, synth.filter().type());
+
+        initNoFilterLabel();
     }
 
     private void initEnvelopes() {
@@ -202,7 +216,7 @@ public class Controller {
         playButton.setOnMouseClicked(event ->{
 
             if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
-            else synth.sequencer().play(null);
+            else synth.sequencer().play();
         });
     }
 
@@ -266,10 +280,57 @@ public class Controller {
 
     private void initPresetManager(){
 
+        presetManager = new PresetManager(stage);
+
         savePreset.setOnMouseClicked(event-> presetManager.savePreset());
 
         openPreset.setOnMouseClicked(event-> presetManager.loadPreset());
 
+    }
+
+    private void initCloseAndMinimize(){
+
+        closeButton.setOnMouseClicked(event->{
+            stage.close();
+        });
+
+        minimizeButton.setOnMouseClicked(event->{
+            stage.setIconified(true);
+        });
+    }
+
+    private void initNoFilterLabel(){
+
+        noFilterType.setVisible(false);
+
+        filterType.setOnMouseDragged(event->{
+
+            noFilterType.setVisible(true);
+
+            Task<Void> hideLabel = new Task<Void>(){
+
+                protected Void call(){
+
+                    Platform.runLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            new Timer().schedule(new TimerTask() {
+
+                                @Override
+                                public void run() {
+
+                                    noFilterType.setVisible(false);
+                                }
+                            },3000);
+                        }
+                    });
+                    return null;
+                }
+            };
+            hideLabel.run();
+        });
     }
 
 
@@ -281,6 +342,6 @@ public class Controller {
         this.synth = synth;
     }
 
-    public void setPresetManager(PresetManager manager){presetManager = manager;}
+    public void setStage(Stage stage){this.stage = stage;}
 
 }

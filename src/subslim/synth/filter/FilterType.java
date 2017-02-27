@@ -15,10 +15,11 @@ public abstract class FilterType {
     protected Envelope env;
     protected Lfo lfo;
 
+    public abstract double[] processBuffer(double[] buffer);
+
     public void setEnvelope(Envelope env){
         this.env = env;
     }
-    public abstract double[] processBuffer(double[] buffer);
 
     public void setFields(AdjustableValue<Double> resonance, AdjustableValue<Double> cutoff,
                           AdjustableValue<Double> envelopeAmount, Envelope env, Lfo lfo){

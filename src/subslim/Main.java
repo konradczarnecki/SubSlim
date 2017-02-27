@@ -49,9 +49,8 @@ public class Main extends Application {
         });
 
         Synth synth = new Synth();
-        PresetManager presetManager = new PresetManager(primaryStage);
         controller.setSynth(synth);
-        controller.setPresetManager(presetManager);
+        controller.setStage(primaryStage);
         controller.init();
     }
 

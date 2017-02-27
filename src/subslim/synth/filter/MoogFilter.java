@@ -5,6 +5,9 @@ import subslim.synth.Synth;
 /**
  * Created by konra on 25.02.2017.
  */
+
+//algorithm source: http://www.musicdsp.org/archive.php?classid=3#128
+
 public class MoogFilter extends FilterType {
 
     private double y1 = 0,  y2 = 0, y3 = 0, y4 = 0, oldx = 0, oldy1 = 0, oldy2 = 0, oldy3 = 0;

@@ -61,7 +61,6 @@ public class Amp implements Module {
 
     private void applyEnvelope(double[] buffer){
 
-
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){
 
             buffer[i] *= env.nextFactor();

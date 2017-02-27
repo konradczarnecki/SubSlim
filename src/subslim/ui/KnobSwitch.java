@@ -33,6 +33,7 @@ public class KnobSwitch <E> {
     }
 
     private void bind(){
+
         double[] positionsAngles = new double[values.length];
 
         double positionsOnSide = (values.length - 1)/2;
@@ -74,6 +75,7 @@ public class KnobSwitch <E> {
     }
 
     public void setState(double rotation, int position){
+
         image.setRotate(rotation);
         this.position = position;
         target.setValue(values[position]);
@@ -86,13 +88,6 @@ public class KnobSwitch <E> {
         switches.add(knobSwitch);
     }
 
-    public static <R> void createAndBindFilter(R[] values, ImageView knob, AdjustableValue<R> target, Synth synth){
-
-
-        KnobSwitch<R> knobSwitch = new KnobSwitch<>(values,knob,target);
-
-        switches.add(knobSwitch);
-    }
 
 
 }

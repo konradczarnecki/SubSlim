@@ -44,10 +44,10 @@ public class Synth {
         osc2Octave = new AdjustableValue<>(0);
         mix = new AdjustableValue<>(1d);
 
-        setWiring();
+        setRouting();
     }
 
-    private void setWiring(){
+    private void setRouting(){
 
         osc1.setOutput(mixer);
         osc2.setOutput(mixer);
