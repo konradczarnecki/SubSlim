@@ -18,10 +18,10 @@ public class KnobSwitch <E> {
     private int position;
     private AdjustableValue<E> target;
     private E[] values;
-    protected ImageView image;
+    private ImageView image;
 
 
-    public KnobSwitch(E[] values, ImageView image, AdjustableValue<E> target){
+    private KnobSwitch(E[] values, ImageView image, AdjustableValue<E> target){
 
         this.target = target;
         this.values = values;
@@ -81,11 +81,13 @@ public class KnobSwitch <E> {
         target.setValue(values[position]);
     }
 
-    public static <R> void createAndBind(R[] values, ImageView knob, AdjustableValue<R> target){
+    public static <R> KnobSwitch createAndBind(R[] values, ImageView knob, AdjustableValue<R> target){
 
-        KnobSwitch<R> knobSwitch = new KnobSwitch<R>(values,knob,target);
+        KnobSwitch<R> knobSwitch = new KnobSwitch<>(values,knob,target);
 
         switches.add(knobSwitch);
+
+        return knobSwitch;
     }
 
 

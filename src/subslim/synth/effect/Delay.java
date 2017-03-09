@@ -15,7 +15,6 @@ public class Delay {
 
     public Delay(double delay, AdjustableValue<Double> wet){
 
-
         int delayBufferSize = (int) (((delay/1000d)*(double)Synth.SAMPLE_RATE));
 
         delayBuffer = new LinkedList<>();
@@ -25,12 +24,10 @@ public class Delay {
         }
 
         this.wet = wet;
-
     }
 
 
     public double[] processBuffer(double[] buffer){
-
 
         double[] outBuffer = new double[Synth.BUFFER_SIZE];
 

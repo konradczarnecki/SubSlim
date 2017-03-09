@@ -1,7 +1,5 @@
 package subslim;
 
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import subslim.ui.*;
 
 import java.io.*;
@@ -11,20 +9,7 @@ import java.io.*;
  */
 public class PresetManager {
 
-    private Stage parent;
-    private FileChooser fc = new FileChooser();
-
-    public PresetManager(Stage parentWindowForFileChooser)
-    {
-        parent = parentWindowForFileChooser;
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("SubSlim preset file", "*.sbs"));
-
-    }
-
-    public void savePreset(){
-
-        File savedPreset = fc.showSaveDialog(parent);
-
+    public void savePreset(File savedPreset){
 
         if(savedPreset != null) {
             try {
@@ -42,9 +27,9 @@ public class PresetManager {
                     outStream.writeInt(ks.getPosition());
                 }
 
-                for(SequencerStepLabel ssl: SequencerStepLabel.steps){
+                for(SequencerStepLabel sslab: SequencerStepLabel.steps){
 
-                    outStream.writeInt(ssl.currentTranspose());
+                    outStream.writeInt(sslab.currentTranspose());
                 }
 
                 for(Led led: Led.leds){
@@ -57,6 +42,8 @@ public class PresetManager {
                     outStream.writeInt(sf.currentIndex());
                 }
 
+                outStream.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -65,14 +52,12 @@ public class PresetManager {
 
     }
 
-    public void loadPreset(){
+    public void loadPreset(InputStream stream){
 
-        File openedPreset = fc.showOpenDialog(parent);
-
-        if(openedPreset != null) {
+        if(stream != null) {
             try {
 
-                DataInputStream inStream = new DataInputStream(new FileInputStream(openedPreset));
+                DataInputStream inStream = new DataInputStream(stream);
 
                 for(Knob k: Knob.knobs){
 
@@ -102,7 +87,23 @@ public class PresetManager {
                     sf.setValue(inStream.readInt());
                 }
 
+                inStream.close();
+
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void loadPreset(File savedPreset){
+
+        if(savedPreset != null) {
+
+            try {
+                FileInputStream stream = new FileInputStream(savedPreset);
+                loadPreset(stream);
+
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }

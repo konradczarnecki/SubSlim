@@ -15,14 +15,12 @@ import java.util.TimerTask;
  */
 public class Sequencer {
 
-    public static final double MILLIS_IN_MINUTE = 60000;
-    public static final String[] noteRepresentations = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"};
+    private static final double MILLIS_IN_MINUTE = 60000;
 
     private int[] steps;
     private int currentStep;
     private Label[] stepLabels;
     private boolean[] activeSteps;
-    private Integer repeatNo;
 
     private AdjustableValue<Integer> numberOfSteps;
     private AdjustableValue<Note> baseNote;
@@ -54,8 +52,6 @@ public class Sequencer {
     public void play(){
 
         double interval = MILLIS_IN_MINUTE/(noteLengthReciprocal.getValue() * bpm.getValue());
-
-        repeatNo = 0;
 
         isPlaying.setValue(true);
 
@@ -108,7 +104,6 @@ public class Sequencer {
 
             }
         },(long)0,(long)interval);
-
 
     }
 

@@ -25,7 +25,6 @@ public class MoogFilter extends FilterType {
 
             double cutoff = this.cutoff.getValue();
 
-
             cutoff = cutoff * (1 - envelopeAmount.getValue()) + Math.pow(envelopeAmount.getValue(),0.5d) * cutoff * env.nextFactor();
             cutoff = cutoff * lfo.nextFactor();
 

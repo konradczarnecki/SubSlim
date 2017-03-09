@@ -33,6 +33,12 @@ public abstract class SequencerField <E> {
         this.target = target;
         this.label = label;
 
+        bindMovement();
+
+    }
+
+    private void bindMovement(){
+
         label.setOnMousePressed(event -> currentCursorScreenPosition = event.getScreenY());
 
         label.setOnMouseDragged(event -> {
@@ -53,8 +59,7 @@ public abstract class SequencerField <E> {
         });
     }
 
-
-    public static void createAndBindBpm(Label label, AdjustableValue<Integer> target) {
+    public static SequencerField createAndBindBpm(Label label, AdjustableValue<Integer> target) {
 
         SequencerField<Integer> sf = new SequencerField<Integer>(label, target) {
             @Override
@@ -72,9 +77,11 @@ public abstract class SequencerField <E> {
         sf.initValues();
 
         sequencerFields.add(sf);
+
+        return sf;
     }
 
-    public static void createAndBindDuration(Label label, AdjustableValue<Integer> target) {
+    public static SequencerField createAndBindDuration(Label label, AdjustableValue<Integer> target) {
 
         SequencerField<Integer> sf = new SequencerField<Integer>(label, target) {
             @Override
@@ -95,9 +102,11 @@ public abstract class SequencerField <E> {
         sf.initValues();
 
         sequencerFields.add(sf);
+
+        return sf;
     }
 
-    public static void createAndBindBaseNote(Label label, AdjustableValue<Note> target) {
+    public static SequencerField createAndBindBaseNote(Label label, AdjustableValue<Note> target) {
 
         SequencerField<Note> sf = new SequencerField<Note>(label, target) {
             @Override
@@ -110,7 +119,7 @@ public abstract class SequencerField <E> {
 
                         Note note = new Note(noteHeight,octave);
                         values.add(note);
-                        valueStringRepresentations.put(note, Sequencer.noteRepresentations[noteHeight] + octave);
+                        valueStringRepresentations.put(note, Note.representations[noteHeight] + octave);
                     }
                 }
 
@@ -121,9 +130,11 @@ public abstract class SequencerField <E> {
         sf.initValues();
 
         sequencerFields.add(sf);
+
+        return sf;
     }
 
-    public static void createAndBindStepsNo(Label label, AdjustableValue<Integer> target) {
+    public static SequencerField createAndBindStepsNo(Label label, AdjustableValue<Integer> target) {
 
         SequencerField<Integer> sf = new SequencerField<Integer>(label, target) {
             @Override
@@ -142,6 +153,8 @@ public abstract class SequencerField <E> {
         sf.initValues();
 
         sequencerFields.add(sf);
+
+        return sf;
     }
 
     public void setValue(int currentIndex){
@@ -157,7 +170,5 @@ public abstract class SequencerField <E> {
         return currentIndex;
     }
 
-
     abstract void initValues();
-
 }

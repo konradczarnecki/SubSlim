@@ -46,7 +46,7 @@ public class Knob {
         });
     }
 
-    protected void setMovement(){
+    private void setMovement(){
 
         knobImage.setRotate(300*((defaultValue-minValue)/(maxValue-minValue))-150);
 
@@ -68,14 +68,6 @@ public class Knob {
         });
     }
 
-    public double getRotation(){
-        return knobImage.getRotate();
-    }
-
-    public void setRotation(double rotation){
-        knobImage.setRotate(rotation);
-    }
-
     public static Knob createAndBind(ImageView image, double min, double max, double def,
                                      AdjustableValue<Double> target){
 
@@ -86,7 +78,7 @@ public class Knob {
         return knob;
     }
 
-    public static void createAndBindDelay1(ImageView image, double min, double max, double def, Synth synth){
+    public static Knob createAndBindDelay1(ImageView image, double min, double max, double def, Synth synth){
 
         Knob knob = new Knob(image,min,max,def,null){
 
@@ -98,7 +90,6 @@ public class Knob {
 
                     currentValue = minValue + ((angle + 150)/300)*(maxValue - minValue);
 
-                    synth.amp();
 
                     synth.amp().echo().setDelay1(currentValue);
                 });
@@ -106,9 +97,11 @@ public class Knob {
         };
 
         knobs.add(knob);
+
+        return knob;
     }
 
-    public static void createAndBindDelay2(ImageView image, double min, double max, double def, Synth synth){
+    public static Knob createAndBindDelay2(ImageView image, double min, double max, double def, Synth synth){
 
         Knob knob = new Knob(image,min,max,def,null){
 
@@ -126,9 +119,11 @@ public class Knob {
         };
 
         knobs.add(knob);
+
+        return knob;
     }
 
-    public static void createAndBindSmartKnob(ImageView image, double min, double max, double def,
+    public static Knob createAndBindSmartKnob(ImageView image, double min, double max, double def,
                                               AdjustableValue<Double> target, Knob slave){
 
         Knob knob = new Knob(image,min,max,def,target){
@@ -147,12 +142,20 @@ public class Knob {
             }
 
         };
+
         knobs.add(knob);
+
+        return knob;
     }
 
-    public void setMax(double max){
+    private void setMax(double max){ this.maxValue = max;}
 
-        this.maxValue = max;
+    public double getRotation(){
+        return knobImage.getRotate();
+    }
+
+    public void setRotation(double rotation){
+        knobImage.setRotate(rotation);
     }
 }
 

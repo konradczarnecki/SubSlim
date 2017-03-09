@@ -14,9 +14,9 @@ public class AllPassFilter {
 
     public AllPassFilter(double delay){
 
-        delayBuffer = new LinkedList();
+        delayBuffer = new LinkedList<>();
 
-        for(int i = 0; i < (delay/1000d)* (double) Synth.SAMPLE_RATE; i++){
+        for(int i = 0; i < (delay/1000d) * (double) Synth.SAMPLE_RATE; i++){
             delayBuffer.addFirst(0d);
         }
 

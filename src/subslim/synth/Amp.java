@@ -45,7 +45,7 @@ public class Amp implements Module {
 
     public void sendBuffer(double[] buffer){
 
-        applyEnvelope(buffer);
+        buffer = applyEnvelope(buffer);
         buffer = echo.processBuffer(buffer);
 
         byte[] outBuffer = toBytes(buffer);
@@ -59,17 +59,20 @@ public class Amp implements Module {
     }
 
 
-    private void applyEnvelope(double[] buffer){
+    private double[] applyEnvelope(double[] buffer){
+
+        double[] outBuffer = new double[Synth.BUFFER_SIZE];
 
         for(int i = 0; i < Synth.BUFFER_SIZE; i++){
 
-            buffer[i] *= env.nextFactor();
+            outBuffer[i] = buffer[i] * env.nextFactor();
         }
+
+        return outBuffer;
     }
 
 
     private byte[] toBytes(double[] buffer){
-
 
         byte[] outputBuffer = new byte[2*Synth.BUFFER_SIZE];
         short shortValue;
@@ -94,7 +97,6 @@ public class Amp implements Module {
         line.write(buffer, 0, 2*Synth.BUFFER_SIZE);
     }
 
-
     public void setOutput(Module module){}
 
     public AdjustableValue<Double> attack(){
@@ -110,8 +112,5 @@ public class Amp implements Module {
     }
 
     public AdjustableValue<Double> outputLevel(){ return outputLevel;}
-
-
-
 
 }

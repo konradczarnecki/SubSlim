@@ -9,7 +9,7 @@ import subslim.synth.Synth;
 public class Reverb {
 
     private static final double FEEDBACK_COEFF = 0.5;
-    private static final double[] FILTERS_DELAY_TIMES = {7,11,37,47,59,68,89};
+    private static final double[] FILTERS_DELAY_TIMES = {11,17,37,53,69,74,89};
 
     private AllPassFilter[] filters;
 

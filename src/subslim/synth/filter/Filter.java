@@ -16,7 +16,6 @@ public class Filter implements Module {
     public static final double RESONANCE_DEFAULT = 0;
     public static final double ENV_AMOUNT_DEFAULT = 0;
 
-
     private Module out;
 
     private AdjustableValue<Double> resonance;
@@ -27,7 +26,6 @@ public class Filter implements Module {
     private Lfo lfo;
 
     private AdjustableValue<Double> attack, decay;
-
 
     public Filter() {
 
@@ -48,19 +46,13 @@ public class Filter implements Module {
         bufferOut(buffer);
     }
 
-    @Override
-    public void setOutput(Module module) {
-        out = module;
-    }
-
-
 
     public void startEnvelope(){
         
         env = new Envelope(attack.getValue(),decay.getValue());
-        type.getValue().setFields(resonance,cutoff,envelopeAmount,env,lfo);
         env.setShape(0.8,0.8);
-        type.getValue().setEnvelope(env);
+
+        type.getValue().setFields(resonance,cutoff,envelopeAmount,env,lfo);
     }
 
 
@@ -70,6 +62,10 @@ public class Filter implements Module {
         out.sendBuffer(buffer);
     }
 
+    @Override
+    public void setOutput(Module module) {
+        out = module;
+    }
 
     public AdjustableValue<Double> attack(){
         return attack;

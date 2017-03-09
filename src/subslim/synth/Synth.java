@@ -53,7 +53,6 @@ public class Synth {
         osc2.setOutput(mixer);
         mixer.setOutput(filter);
         filter.setOutput(amp);
-
     }
 
 
@@ -74,8 +73,8 @@ public class Synth {
         amp.startEnvelope();
         filter.startEnvelope();
 
-        osc1 = new Oscillator(Wave.getWave(osc1Wave.getValue()));
-        osc2 = new Oscillator(Wave.getWave(osc2Wave.getValue()));
+        osc1 = new Oscillator(osc1Wave.getValue());
+        osc2 = new Oscillator(osc2Wave.getValue());
 
         osc1.setOctave(osc1Octave.getValue());
         osc2.setOctave(osc2Octave.getValue());

@@ -7,6 +7,9 @@ import subslim.synth.wave.*;
  */
 public class Oscillator implements Module {
 
+    public static final Integer[] availableOctaves = {-2,-1,0,1,2};
+    public static final Double[] availableChords = {5d,0d,7d};
+
     private Wave wave;
     private boolean hold;
     private Module out;

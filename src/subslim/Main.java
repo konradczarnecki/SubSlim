@@ -50,7 +50,7 @@ public class Main extends Application {
 
         Synth synth = new Synth();
         controller.setSynth(synth);
-        controller.setStage(primaryStage);
+        controller.setPrimaryStage(primaryStage);
         controller.init();
     }
 

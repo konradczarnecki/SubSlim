@@ -8,7 +8,10 @@ import subslim.synth.Synth;
  */
 public class Echo {
 
-
+    public static final double WET_DEFAULT = 0;
+    public static final double VERB_DEFAULT = 0.2;
+    public static final double DELAY1_TIME_DEFAULT = 150;
+    public static final double DELAY2_TIME_DEFAULT = 75;
 
     private Reverb verb;
     private Delay delay1, delay2;
@@ -17,13 +20,12 @@ public class Echo {
 
     public Echo(){
 
-        wet = new AdjustableValue<>(0d);
-        verbAmount = new AdjustableValue<>(0d);
+        wet = new AdjustableValue<>(WET_DEFAULT);
+        verbAmount = new AdjustableValue<>(VERB_DEFAULT);
 
         verb = new Reverb(verbAmount);
-        delay1 = new Delay(150,wet);
-        delay2 = new Delay(75,wet);
-
+        delay1 = new Delay(DELAY1_TIME_DEFAULT,wet);
+        delay2 = new Delay(DELAY2_TIME_DEFAULT,wet);
     }
 
     public double[] processBuffer(double[] buffer){

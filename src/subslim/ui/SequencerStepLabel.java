@@ -18,7 +18,7 @@ public class SequencerStepLabel {
     private int[] sequencerSteps;
 
 
-    public SequencerStepLabel(Label label, int stepNo, int[] sequencerSteps) {
+    private SequencerStepLabel(Label label, int stepNo, int[] sequencerSteps) {
 
         this.stepNo = stepNo;
         this.label = label;
@@ -61,11 +61,13 @@ public class SequencerStepLabel {
         return currentTransposeValue;
     }
 
-    public static void createAndBind(Label label, int stepNo, int[] sequencerSteps){
+    public static SequencerStepLabel createAndBind(Label label, int stepNo, int[] sequencerSteps){
 
         SequencerStepLabel ssl = new SequencerStepLabel(label, stepNo,sequencerSteps);
 
         steps.add(ssl);
+
+        return ssl;
     }
 
 }

@@ -4,16 +4,18 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import subslim.synth.*;
+import subslim.synth.effect.Echo;
 import subslim.synth.filter.Filter;
-import subslim.synth.filter.FilterType;
-import subslim.synth.filter.MoogFilter;
 import subslim.synth.wave.*;
 import subslim.ui.*;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -98,6 +100,7 @@ public class Controller {
 
     @FXML ImageView savePreset;
     @FXML ImageView openPreset;
+    @FXML ImageView reset;
 
     @FXML Rectangle closeButton;
     @FXML Rectangle minimizeButton;
@@ -109,9 +112,7 @@ public class Controller {
 
     private Synth synth;
 
-    private PresetManager presetManager;
-
-    private Stage stage;
+    private Stage primaryStage;
 
 
     public void init(){
@@ -130,30 +131,24 @@ public class Controller {
 
         initStepsAndLeds();
 
-        initPresetManager();
-
-        initCloseAndMinimize();
+        initIconsAndPresetManager();
 
     }
 
     private void initOscillators() {
 
-        Wave[] osc1WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
-        KnobSwitch.createAndBind(osc1WaveValues,osc1Wave,synth.osc1Wave());
 
-        Integer[] osc1OctaveValues = {-2,-1,0,1,2};
-        KnobSwitch.createAndBind(osc1OctaveValues,osc1Octave, synth.osc1Octave());
+        KnobSwitch.createAndBind(Wave.getWaves(),osc1Wave,synth.osc1Wave());
 
-        Double[] osc1ChordValues = {5d,0d,7d};
-        KnobSwitch.createAndBind(osc1ChordValues,osc1Chord, synth.chordTranspose());
+        KnobSwitch.createAndBind(Oscillator.availableOctaves,osc1Octave, synth.osc1Octave());
 
-        Wave[] osc2WaveValues = {new SineWave(),new SawtoothWave(), new SquareWave()};
-        KnobSwitch.createAndBind(osc2WaveValues,osc2Wave,synth.osc2Wave());
+        KnobSwitch.createAndBind(Oscillator.availableChords,osc1Chord, synth.chordTranspose());
 
-        Integer[] osc2OctaveValues = {-2,-1,0,1,2};
-        KnobSwitch.createAndBind(osc2OctaveValues,osc2Octave, synth.osc2Octave());
+        KnobSwitch.createAndBind(Wave.getWaves(),osc2Wave,synth.osc2Wave());
 
-        Knob.createAndBind(osc2Detune,0.95,1.05,1,synth.detune());
+        KnobSwitch.createAndBind(Oscillator.availableOctaves,osc2Octave, synth.osc2Octave());
+
+        Knob.createAndBind(osc2Detune,0.98,1.02,1,synth.detune());
 
         Knob.createAndBind(mix,0,2,1,synth.mix());
     }
@@ -189,15 +184,14 @@ public class Controller {
 
     private void initEcho() {
 
-        Knob.createAndBind(echoVerb,0.3,1,0.5, synth.amp().echo().verbAmount());
+        Knob.createAndBind(echoVerb,0.2,1, Echo.VERB_DEFAULT, synth.amp().echo().verbAmount());
 
-        Knob.createAndBindDelay1(echoTime1,20,250,150,synth);
+        Knob.createAndBindDelay1(echoTime1,20,250,Echo.DELAY1_TIME_DEFAULT,synth);
 
-        Knob.createAndBindDelay2(echoTime2,20,250,70,synth);
+        Knob.createAndBindDelay2(echoTime2,20,250,Echo.DELAY2_TIME_DEFAULT,synth);
 
-        Knob.createAndBind(echoDryWet,0,0.8,0,synth.amp().echo().wet());
+        Knob.createAndBind(echoDryWet,0,0.8,Echo.WET_DEFAULT,synth.amp().echo().wet());
     }
-
 
     private void initSequencer(){
 
@@ -268,7 +262,7 @@ public class Controller {
 
         for(int i = 0; i < 16; i++){
 
-            SequencerStepLabel.createAndBind(stepLabels[i],i,synth.sequencer().steps());
+            SequencerStepLabel.createAndBind(stepLabels[i], i, synth.sequencer().steps());
         }
 
         for(int i = 0; i < 16; i++){
@@ -278,25 +272,53 @@ public class Controller {
 
     }
 
-    private void initPresetManager(){
+    private void initIconsAndPresetManager(){
 
-        presetManager = new PresetManager(stage);
+        PresetManager presetManager = new PresetManager();
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("SubSlim preset file", "*.sbs"));
 
-        savePreset.setOnMouseClicked(event-> presetManager.savePreset());
+        savePreset.setOnMouseClicked(event->{
 
-        openPreset.setOnMouseClicked(event-> presetManager.loadPreset());
+            File presetToSave = fc.showSaveDialog(primaryStage);
+            presetManager.savePreset(presetToSave);
+            if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
+        });
 
-    }
+        openPreset.setOnMouseClicked(event->{
 
-    private void initCloseAndMinimize(){
+            File presetToLoad = fc.showOpenDialog(primaryStage);
+            presetManager.loadPreset(presetToLoad);
+            if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
+        });
+
+        reset.setOnMouseClicked(event->{
+
+            presetManager.loadPreset(getClass().getClassLoader().getResourceAsStream("presets/default.sbs"));
+            if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
+        });
 
         closeButton.setOnMouseClicked(event->{
-            stage.close();
+            System.exit(0);
         });
 
         minimizeButton.setOnMouseClicked(event->{
-            stage.setIconified(true);
+            primaryStage.setIconified(true);
         });
+
+        Tooltip saveTip = new Tooltip("Save preset");
+        Tooltip openTip = new Tooltip("Load preset");
+        Tooltip resetTip = new Tooltip("Reset to defaults");
+
+        Tooltip.install(savePreset,saveTip);
+        Tooltip.install(openPreset, openTip);
+        Tooltip.install(reset, resetTip);
+
+
+        int presetNo = (int) Math.ceil(Math.random()*5);
+        String presetName = "n" + presetNo + ".sbs";
+
+        presetManager.loadPreset(getClass().getClassLoader().getResourceAsStream("presets/" + presetName));
     }
 
     private void initNoFilterLabel(){
@@ -307,29 +329,16 @@ public class Controller {
 
             noFilterType.setVisible(true);
 
-            Task<Void> hideLabel = new Task<Void>(){
+            new Timer().schedule(new TimerTask() {
 
-                protected Void call(){
+                @Override
+                public void run() {
 
-                    Platform.runLater(new Runnable() {
+                    noFilterType.setVisible(false);
 
-                        @Override
-                        public void run() {
-
-                            new Timer().schedule(new TimerTask() {
-
-                                @Override
-                                public void run() {
-
-                                    noFilterType.setVisible(false);
-                                }
-                            },3000);
-                        }
-                    });
-                    return null;
                 }
-            };
-            hideLabel.run();
+            },3000);
+
         });
     }
 
@@ -342,6 +351,6 @@ public class Controller {
         this.synth = synth;
     }
 
-    public void setStage(Stage stage){this.stage = stage;}
+    public void setPrimaryStage(Stage primaryStage){this.primaryStage = primaryStage;}
 
 }

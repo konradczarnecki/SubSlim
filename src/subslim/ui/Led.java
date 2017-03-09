@@ -31,10 +31,13 @@ public class Led {
         image.setOnMouseClicked(event->{
 
             if(activeSteps[stepNo] == true){
-                image.setImage(new Image("res/led_off.png"));
+
+                image.setImage(new Image(getClass().getClassLoader().getResourceAsStream("res/led_off.png")));
                 activeSteps[stepNo] = false;
+
             } else {
-                image.setImage(new Image("res/led.png"));
+
+                image.setImage(new Image(getClass().getClassLoader().getResourceAsStream("res/led.png")));
                 activeSteps[stepNo] = true;
             }
         });

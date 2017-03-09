@@ -16,6 +16,8 @@ public class SquareWave extends Wave {
             fourierExpansion += (4 / Math.PI) * (Math.sin(2 * Math.PI * (2*k - 1) * (frequency / Synth.SAMPLE_RATE) * sampleNo)) / (2*k -1);
         }
 
+        fourierExpansion *= 0.4;
+
         return fourierExpansion;
     }
 }

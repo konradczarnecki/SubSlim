@@ -17,12 +17,9 @@ public abstract class FilterType {
 
     public abstract double[] processBuffer(double[] buffer);
 
-    public void setEnvelope(Envelope env){
-        this.env = env;
-    }
-
     public void setFields(AdjustableValue<Double> resonance, AdjustableValue<Double> cutoff,
                           AdjustableValue<Double> envelopeAmount, Envelope env, Lfo lfo){
+
         this.resonance = resonance;
         this.cutoff = cutoff;
         this.envelopeAmount = envelopeAmount;

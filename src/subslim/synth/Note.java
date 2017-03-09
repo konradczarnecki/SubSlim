@@ -5,6 +5,8 @@ package subslim.synth;
  */
 public class Note {
 
+    public static final String[] representations = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"};
+
     private int noteHeight; // C - 0, C# - 1, D - 2... H - 11
     private int octave;
 
@@ -16,7 +18,7 @@ public class Note {
 
     public Note(String noteCode){
 
-        String notesOrder = "CcDdEFfGgAaH"; //Uppercase - whole tone, Lowercase - half tone eg. A - A, A# - a, D# - d, Gb - f
+        String notesOrder = "CcDdEFfGgAaH"; // A - A, A# - a, D# - d, F - F...
 
         noteHeight = notesOrder.indexOf(noteCode.substring(0,1));
         octave = Integer.parseInt(noteCode.substring(1,2));
@@ -62,7 +64,5 @@ public class Note {
 
         if(this.noteHeight == otherNote.noteHeight && this.octave == otherNote.octave) return true;
         else return false;
-
     }
-
 }

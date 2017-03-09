@@ -305,12 +305,12 @@
             <Font size="27.0" />
          </font>
       </Label>
-      <ImageView fx:id="savePreset" fitHeight="20.0" fitWidth="20.0" layoutX="1120.0" layoutY="59.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="savePreset" fitHeight="20.0" fitWidth="20.0" layoutX="1119.0" layoutY="60.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../res/save_icon.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="openPreset" fitHeight="19.0" fitWidth="30.0" layoutX="1157.0" layoutY="60.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="openPreset" fitHeight="19.0" fitWidth="30.0" layoutX="1155.0" layoutY="61.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../res/open_icon.png" />
          </image>
@@ -318,5 +318,10 @@
       <Rectangle fx:id="closeButton" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="22.0" layoutX="1160.0" layoutY="14.0" stroke="TRANSPARENT" strokeType="INSIDE" width="22.0" />
       <Rectangle fx:id="minimizeButton" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="22.0" layoutX="1129.0" layoutY="14.0" stroke="TRANSPARENT" strokeType="INSIDE" width="22.0" />
       <Label fx:id="noFilterType" layoutX="461.0" layoutY="232.0" prefHeight="60.0" prefWidth="121.0" text="Just one type of filter for now :(" textFill="#bfbdbd" wrapText="true" />
+      <ImageView fx:id="reset" fitHeight="20.0" fitWidth="20.0" layoutX="1089.0" layoutY="60.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/reset.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

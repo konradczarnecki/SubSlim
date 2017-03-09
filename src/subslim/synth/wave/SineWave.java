@@ -8,6 +8,7 @@ import subslim.synth.Synth;
 public class SineWave extends Wave {
 
     public double getSample(int sampleNo){
+
         return Math.sin(2* Math.PI * sampleNo * (frequency / Synth.SAMPLE_RATE));
     }
 }
