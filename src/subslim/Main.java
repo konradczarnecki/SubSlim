@@ -3,6 +3,7 @@ package subslim;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -28,6 +29,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1200, 620));
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.getIcons().add(new Image("res/icon.jpg"));
         primaryStage.show();
 
         root.setBackground(new Background(new BackgroundFill(Color.valueOf("rgb(51,51,51)"),null,null)));

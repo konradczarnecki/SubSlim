@@ -16,5 +16,5 @@ public class AdjustableValue <E> {
     }
 
     public E getValue(){ return value; }
-    
+
 }

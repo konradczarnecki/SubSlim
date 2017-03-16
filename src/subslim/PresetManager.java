@@ -9,7 +9,7 @@ import java.io.*;
  */
 public class PresetManager {
 
-    public void savePreset(File savedPreset){
+    public  static void savePreset(File savedPreset){
 
         if(savedPreset != null) {
             try {
@@ -52,7 +52,7 @@ public class PresetManager {
 
     }
 
-    public void loadPreset(InputStream stream){
+    public static void loadPreset(InputStream stream){
 
         if(stream != null) {
             try {
@@ -95,7 +95,7 @@ public class PresetManager {
         }
     }
 
-    public void loadPreset(File savedPreset){
+    public static void loadPreset(File savedPreset){
 
         if(savedPreset != null) {
 

@@ -274,27 +274,27 @@ public class Controller {
 
     private void initIconsAndPresetManager(){
 
-        PresetManager presetManager = new PresetManager();
+
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("SubSlim preset file", "*.sbs"));
 
         savePreset.setOnMouseClicked(event->{
 
             File presetToSave = fc.showSaveDialog(primaryStage);
-            presetManager.savePreset(presetToSave);
+            PresetManager.savePreset(presetToSave);
             if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
         });
 
         openPreset.setOnMouseClicked(event->{
 
             File presetToLoad = fc.showOpenDialog(primaryStage);
-            presetManager.loadPreset(presetToLoad);
+            PresetManager.loadPreset(presetToLoad);
             if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
         });
 
         reset.setOnMouseClicked(event->{
 
-            presetManager.loadPreset(getClass().getClassLoader().getResourceAsStream("presets/default.sbs"));
+            PresetManager.loadPreset(getClass().getClassLoader().getResourceAsStream("presets/default.sbs"));
             if(synth.sequencer().isPlaying().getValue()) synth.sequencer().stop();
         });
 
@@ -315,10 +315,10 @@ public class Controller {
         Tooltip.install(reset, resetTip);
 
 
-        int presetNo = (int) Math.ceil(Math.random()*5);
-        String presetName = "n" + presetNo + ".sbs";
+        int presetNo = (int) Math.ceil(Math.random()*7);
+        String presetName = "p" + presetNo + ".sbs";
 
-        presetManager.loadPreset(getClass().getClassLoader().getResourceAsStream("presets/" + presetName));
+        PresetManager.loadPreset(getClass().getClassLoader().getResourceAsStream("presets/" + presetName));
     }
 
     private void initNoFilterLabel(){
